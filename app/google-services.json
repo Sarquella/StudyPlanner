@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "296677934967",
+    "firebase_url": "https://studyplanner-2ef4d.firebaseio.com",
+    "project_id": "studyplanner-2ef4d",
+    "storage_bucket": "studyplanner-2ef4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296677934967:android:7c728ec1a136788e",
+        "android_client_info": {
+          "package_name": "dev.sarquella.studyplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "296677934967-m7vf3uq2sof02k530429osj0vsipstn1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvcgLtRcOh1yJ7SvcC3k92zles5vWawNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "296677934967-m7vf3uq2sof02k530429osj0vsipstn1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

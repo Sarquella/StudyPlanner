@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- SPACES -->
+    <dimen name="space_xxs_negative">-4dp</dimen>
+    <dimen name="space_xxs">4dp</dimen>
+    <dimen name="space_xs">8dp</dimen>
+    <dimen name="space_s">16dp</dimen>
+    <dimen name="space_m">24dp</dimen>
+    <dimen name="space_l">48dp</dimen>
+
+    <!-- SIZES -->
+    <dimen name="size_row_height">56dp</dimen>
+
+</resources>

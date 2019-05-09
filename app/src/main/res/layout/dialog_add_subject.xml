@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+                name="viewModel"
+                type="dev.sarquella.studyplanner.ui.app.subjects.AddSubjectViewModel"/>
+
+    </data>
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:id="@+id/dialog_add_subject"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/space_m"
+            android:layout_marginEnd="@dimen/space_m"
+            android:layout_gravity="center"
+            app:cardCornerRadius="@dimen/space_s"
+            android:layout_height="wrap_content"
+            app:cardElevation="@dimen/space_xxs"
+            app:layout_behavior="com.google.android.material.transformation.FabTransformationSheetBehavior"
+            tools:showIn="@layout/fragment_subjects">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/space_m"
+                android:paddingEnd="@dimen/space_m"
+                android:paddingStart="@dimen/space_m"
+                android:paddingBottom="@dimen/space_s"
+                android:clipToPadding="false">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="New subject"
+                    style="@style/TextTitle"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_s"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:hint="Subject">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:afterTextChanged="@{(e) -> viewModel.onNameChanged(e.toString())}"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RadioGroup
+                    android:id="@+id/rgColorSelector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_m"
+                    android:orientation="horizontal"
+                    android:checkedButton="@id/rbBlue">
+
+                <RadioButton
+                        android:id="@+id/rbBlue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleX="1.5"
+                        android:scaleY="1.5"
+                        android:buttonTint="@color/blue"/>
+
+                <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                <RadioButton
+                        android:id="@+id/rbGreen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleX="1.5"
+                        android:scaleY="1.5"
+                        android:buttonTint="@color/green"/>
+
+                <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                <RadioButton
+                        android:id="@+id/rbYellow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleX="1.5"
+                        android:scaleY="1.5"
+                        android:buttonTint="@color/yellow"/>
+
+                <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                <RadioButton
+                        android:id="@+id/rbRed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleX="1.5"
+                        android:scaleY="1.5"
+                        android:buttonTint="@color/red"/>
+
+                <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                <RadioButton
+                        android:id="@+id/rbPurple"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleX="1.5"
+                        android:scaleY="1.5"
+                        android:buttonTint="@color/purple"/>
+
+                <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                <RadioButton
+                        android:id="@+id/rbBrown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleX="1.5"
+                        android:scaleY="1.5"
+                        android:buttonTint="@color/brown"/>
+
+            </RadioGroup>
+
+            <LinearLayout android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="end"
+                          android:layout_marginTop="@dimen/space_m">
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btCancel"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space_s"
+                        android:text="Cancel"
+                        android:onClick="@{() -> viewModel.cancel()}"/>
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btAddSubject"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add"
+                        android:enabled="@{viewModel.isAddButtonEnabled}"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+</layout>

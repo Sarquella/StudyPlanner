@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+                name="subjectsViewModel"
+                type="dev.sarquella.studyplanner.ui.app.subjects.SubjectsViewModel"/>
+
+        <variable
+                name="addSubjectViewModel"
+                type="dev.sarquella.studyplanner.ui.app.subjects.AddSubjectViewModel"/>
+
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/fragment_subjects"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
+
+        <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@android:color/white">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:titleEnabled="true"
+                    app:expandedTitleGravity="center_vertical"
+                    app:title="@string/Subjects"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <androidx.appcompat.widget.Toolbar
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize">
+
+                </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <include layout="@layout/dialog_add_subject"
+                 app:viewModel="@{addSubjectViewModel}"
+                 android:visibility="invisible"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="@dimen/space_s"
+                android:layout_marginEnd="@dimen/space_s"
+                android:src="@drawable/ic_plus"
+                android:tint="@android:color/white"
+                android:onClick="@{() -> subjectsViewModel.showAddSubjectDialog()}"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:listitem="@layout/viewholder_subject"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

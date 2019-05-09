@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/calendar_fragment"
+          android:icon="@drawable/ic_nav_calendar"
+          android:title="@string/Calendar"/>
+
+    <item android:id="@+id/subjects_fragment"
+          android:icon="@drawable/ic_nav_school"
+          android:title="@string/Subjects"/>
+
+    <item android:id="@+id/profile_fragment"
+          android:icon="@drawable/ic_nav_person"
+          android:title="@string/Profile"/>
+
+</menu>

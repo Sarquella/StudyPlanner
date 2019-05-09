@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+
+        <variable
+                name="viewModel"
+                type="dev.sarquella.studyplanner.ui.sign.abstractions.SignViewModel"/>
+
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.app.AppFragment"
+            android:paddingEnd="@dimen/space_l"
+            android:paddingStart="@dimen/space_l"
+            android:paddingTop="@dimen/space_m"
+            android:paddingBottom="@dimen/space_m"
+            android:clipToPadding="false"
+            android:background="@drawable/gradient_vertical_blue_green">
+
+        <com.google.android.material.card.MaterialCardView
+                android:id="@+id/signContentCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:clipToPadding="false"
+                    android:padding="@dimen/space_m">
+
+                <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/Sign_Up"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        style="@style/TextTitle"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_s"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:hint="@string/Email">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:afterTextChanged="@{(e) -> viewModel.onEmailChanged(e.toString())}"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xxs"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:hint="@string/Password">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:inputType="textVisiblePassword"
+                            android:afterTextChanged="@{(e) -> viewModel.onPasswordChanged(e.toString())}"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xs">
+
+                    <ProgressBar
+                            android:id="@+id/progressBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:visibility="invisible"
+                            android:indeterminate="true"/>
+
+                    <LinearLayout
+                            android:id="@+id/buttonsContainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                        <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btSign"
+                                style="@style/Widget.MaterialComponents.Button"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:text="@string/Sign_Up"
+                                android:enabled="@{viewModel.isButtonEnabled}"
+                                android:onClick="@{() -> viewModel.sign(etEmail.getText().toString(), etPassword.getText().toString())}"/>
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginTop="@dimen/space_xs">
+
+                            <TextView
+                                    android:id="@+id/tvNavToNext"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="2"
+                                    tools:text="@string/already_have_an_account"/>
+
+                            <Button
+                                    android:id="@+id/btNavToNext"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    tools:text="@string/Sign_In"
+                                    android:textAlignment="textStart"
+                                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                                    android:onClick="@{()->viewModel.navToNext()}"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+                android:id="@+id/errorCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/signContentCard"
+                android:layout_marginTop="@dimen/space_s"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                android:visibility="invisible"
+                tools:visibility="visible">
+
+            <TextView
+                    android:id="@+id/tvError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/space_m"
+                    android:gravity="center"
+                    android:textColor="@android:color/holo_red_light"
+                    android:text="This is an error message"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
