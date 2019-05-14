@@ -2,8 +2,10 @@ package dev.sarquella.studyplanner.helpers
 
 import android.graphics.Color
 import android.view.View
+import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.matcher.BoundedMatcher
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.google.android.material.card.MaterialCardView
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -35,3 +37,5 @@ fun hasBackgroundColor(color: String?): Matcher<View> =
             item?.cardBackgroundColor?.defaultColor == Color.parseColor(color)
 
     }
+
+fun withRecyclerView(id: Int) = RecyclerViewMatcher(id)

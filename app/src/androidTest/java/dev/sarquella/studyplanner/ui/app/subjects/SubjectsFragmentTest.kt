@@ -25,6 +25,7 @@ import dev.sarquella.studyplanner.data.Subject
 import dev.sarquella.studyplanner.helpers.RecyclerOptions
 import dev.sarquella.studyplanner.helpers.hasBackgroundColor
 import dev.sarquella.studyplanner.helpers.withAdapter
+import dev.sarquella.studyplanner.helpers.withRecyclerView
 import dev.sarquella.studyplanner.rules.DataBindingTestRule
 import dev.sarquella.studyplanner.rules.FragmentTestRule
 import io.mockk.*
@@ -128,10 +129,31 @@ class SubjectsFragmentTest {
     }
 
     @Test
-    fun whenListIsProvided_thenShowsCorrespondingItem() {
+    fun whenListWithSingleItemIsProvided_thenShowsCorrespondingItem() {
         every { viewModel.subjectsList.build(any()) } returns recyclerOptions.withItems(mutableListOf(SUBJECT))
 
-        onView(withId(R.id.tvName)).check(matches(withText(SUBJECT.name)))
-        onView(withId(R.id.colorIndicator)).check(matches(hasBackgroundColor(SUBJECT.color)))
+        onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.tvName))
+            .check(matches(withText(SUBJECT.name)))
+
+        onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.colorIndicator))
+            .check(matches(hasBackgroundColor(SUBJECT.color)))
+    }
+
+    @Test
+    fun whenListWithMultipleItemsIsProvided_thenShowsCorrespondingItems() {
+        val subject1 =  Subject("Subject1", "#FFFFFF")
+        val subject2 =  Subject("Subject2", "#000000")
+        every { viewModel.subjectsList.build(any()) } returns
+                recyclerOptions.withItems(mutableListOf(subject1, subject2))
+
+        onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.tvName))
+            .check(matches(withText(subject1.name)))
+        onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.colorIndicator))
+            .check(matches(hasBackgroundColor(subject1.color)))
+
+        onView(withRecyclerView(R.id.recyclerView).atPositionOnView(1, R.id.tvName))
+            .check(matches(withText(subject2.name)))
+        onView(withRecyclerView(R.id.recyclerView).atPositionOnView(1, R.id.colorIndicator))
+            .check(matches(hasBackgroundColor(subject2.color)))
     }
 }
