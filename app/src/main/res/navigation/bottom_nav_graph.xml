@@ -8,17 +8,29 @@
             android:id="@+id/calendar_fragment"
             android:name="dev.sarquella.studyplanner.ui.app.calendar.CalendarFragment"
             android:label="fragment_calendar"
-            tools:layout="@layout/fragment_calendar">
-    </fragment>
+            tools:layout="@layout/fragment_calendar"/>
+
     <fragment
             android:id="@+id/subjects_fragment"
             android:name="dev.sarquella.studyplanner.ui.app.subjects.SubjectsFragment"
             android:label="fragment_subjects"
-            tools:layout="@layout/fragment_subjects"/>
+            tools:layout="@layout/fragment_subjects">
+
+        <action android:id="@+id/action_nav_to_subject_detail"
+                app:destination="@id/subject_detail_fragment"/>
+
+    </fragment>
+
     <fragment
             android:id="@+id/profile_fragment"
             android:name="dev.sarquella.studyplanner.ui.app.profile.ProfileFragment"
             android:label="fragment_profile"
             tools:layout="@layout/fragment_profile"/>
+
+    <fragment
+            android:id="@+id/subject_detail_fragment"
+            android:name="dev.sarquella.studyplanner.ui.app.subjects.SubjectDetailFragment"
+            android:label="fragment_subject_detaul"
+            tools:layout="@layout/fragment_subject_detail"/>
 
 </navigation>

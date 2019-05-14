@@ -106,6 +106,7 @@ dependencies {
     def android_test_ext_version = "1.1.0"
     def lifecycle_version = "2.0.0"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
     androidTestImplementation "androidx.test:core:$android_test_core_version"
     androidTestImplementation "androidx.test:runner:$android_test_junit_version"
     androidTestImplementation "androidx.test:rules:$android_test_junit_version"

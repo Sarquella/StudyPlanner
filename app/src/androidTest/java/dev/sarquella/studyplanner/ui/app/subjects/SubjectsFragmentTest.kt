@@ -5,11 +5,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.firebase.ui.firestore.ClassSnapshotParser
@@ -86,13 +88,14 @@ class SubjectsFragmentTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    private val navController: NavController = mockk(relaxUnitFun = true)
     private val fragment: SubjectsFragment = SubjectsFragment()
 
 
     @Before
     fun beforeEach() {
         mockViewModel()
-        fragmentTestRule.setFragment(fragment)
+        fragmentTestRule.setFragment(fragment, navController)
     }
 
     private val showAddSubjectDialog = MutableLiveData<Boolean>()
@@ -155,5 +158,15 @@ class SubjectsFragmentTest {
             .check(matches(withText(subject2.name)))
         onView(withRecyclerView(R.id.recyclerView).atPositionOnView(1, R.id.colorIndicator))
             .check(matches(hasBackgroundColor(subject2.color)))
+    }
+
+    @Test
+    fun whenListItemSelected_thenNavigatesToDetail() {
+        every { viewModel.subjectsList.build(any()) } returns recyclerOptions.withItems(mutableListOf(SUBJECT))
+
+        onView(withId(R.id.recyclerView))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<SubjectViewHolder>(0, click()))
+
+        verify { navController.navigate(R.id.action_nav_to_subject_detail) }
     }
 }
