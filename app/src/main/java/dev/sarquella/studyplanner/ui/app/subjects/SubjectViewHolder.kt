@@ -21,7 +21,7 @@ class SubjectViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         itemView.colorIndicator.setCardBackgroundColor(Color.parseColor(subject.color))
 
         itemView.setOnClickListener {
-            itemView.findNavController().navigate(R.id.action_nav_to_subject_detail)
+            itemView.findNavController().navigate(SubjectsFragmentDirections.actionNavToSubjectDetail(subject.id))
         }
     }
 

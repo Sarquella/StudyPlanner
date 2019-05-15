@@ -1,4 +1,4 @@
-package dev.sarquella.studyplanner.ui.app.subjects
+package dev.sarquella.studyplanner.ui.app.subjects.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,15 +17,4 @@ class SubjectDetailFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_subject_detail, container, false)
-
-    companion object {
-
-        private const val SUBJECT_ID = "subjectId"
-
-        fun newInstance(subjectId: String) = SubjectDetailFragment().apply {
-            arguments = Bundle().apply {
-                putString(SUBJECT_ID, subjectId)
-            }
-        }
-    }
 }

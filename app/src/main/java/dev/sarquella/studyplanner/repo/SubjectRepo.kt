@@ -3,6 +3,8 @@ package dev.sarquella.studyplanner.repo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.firebase.ui.firestore.SnapshotParser
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import dev.sarquella.studyplanner.data.ListBuilder
 import dev.sarquella.studyplanner.data.Subject
@@ -39,7 +41,13 @@ class SubjectRepo(private val db: DatabaseManager) {
     fun getSubjects(): ListBuilder<Subject> =
         ListBuilder(
             db.collection(SubjectRepo.COLLECTION).orderBy("creationDate", Query.Direction.DESCENDING),
-            Subject::class.java
+            SnapshotParser { snapshot ->
+                Subject(
+                    snapshot.getString("name"),
+                    snapshot.getString("color"),
+                    snapshot.reference.toString()
+                )
+            }
         )
 
 }

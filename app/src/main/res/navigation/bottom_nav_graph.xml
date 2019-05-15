@@ -17,7 +17,13 @@
             tools:layout="@layout/fragment_subjects">
 
         <action android:id="@+id/action_nav_to_subject_detail"
-                app:destination="@id/subject_detail_fragment"/>
+                app:destination="@id/subject_detail_fragment">
+
+            <argument
+                    android:name="subjectId"
+                    app:argType="string"/>
+
+        </action>
 
     </fragment>
 
@@ -29,8 +35,15 @@
 
     <fragment
             android:id="@+id/subject_detail_fragment"
-            android:name="dev.sarquella.studyplanner.ui.app.subjects.SubjectDetailFragment"
+            android:name="dev.sarquella.studyplanner.ui.app.subjects.detail.SubjectDetailFragment"
             android:label="fragment_subject_detaul"
-            tools:layout="@layout/fragment_subject_detail"/>
+            tools:layout="@layout/fragment_subject_detail">
+
+        <argument
+                android:name="subjectId"
+                app:argType="string"
+                android:defaultValue=" "/>
+
+    </fragment>
 
 </navigation>

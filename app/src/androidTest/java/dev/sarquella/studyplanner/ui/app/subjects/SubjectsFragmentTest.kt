@@ -167,6 +167,6 @@ class SubjectsFragmentTest {
         onView(withId(R.id.recyclerView))
             .perform(RecyclerViewActions.actionOnItemAtPosition<SubjectViewHolder>(0, click()))
 
-        verify { navController.navigate(R.id.action_nav_to_subject_detail) }
+        verify { navController.navigate(SubjectsFragmentDirections.actionNavToSubjectDetail(SUBJECT.id)) }
     }
 }

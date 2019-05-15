@@ -2,6 +2,7 @@ package dev.sarquella.studyplanner.data
 
 import androidx.lifecycle.LifecycleOwner
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.firebase.ui.firestore.SnapshotParser
 import com.google.firebase.firestore.Query
 
 
@@ -10,11 +11,11 @@ import com.google.firebase.firestore.Query
  * adria@sarquella.dev
  */
 
-data class ListBuilder<T>(val query: Query, private val itemType: Class<T>) {
+data class ListBuilder<T>(val query: Query, private val snapshotParser: SnapshotParser<T>) {
 
     fun build(owner: LifecycleOwner): FirestoreRecyclerOptions<T> =
         FirestoreRecyclerOptions.Builder<T>()
-            .setQuery(query, itemType)
+            .setQuery(query, snapshotParser)
             .setLifecycleOwner(owner)
             .build()
 }
