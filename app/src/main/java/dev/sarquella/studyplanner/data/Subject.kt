@@ -1,5 +1,7 @@
 package dev.sarquella.studyplanner.data
 
+import com.firebase.ui.firestore.SnapshotParser
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
@@ -13,9 +15,20 @@ import java.util.*
 data class Subject(
     val name: String? = "",
     val color: String? = "#FFFFFF",
-    @Exclude
+    @get:Exclude
     val id: String = ""
 ) {
     @ServerTimestamp
     var creationDate: Date? = null
+
+    companion object {
+        fun parser() = SnapshotParser { snapshot -> fromSnapshot(snapshot) }
+
+        private fun fromSnapshot(snapshot: DocumentSnapshot) =
+            Subject(
+                snapshot.getString("name"),
+                snapshot.getString("color"),
+                snapshot.reference.id
+            )
+    }
 }

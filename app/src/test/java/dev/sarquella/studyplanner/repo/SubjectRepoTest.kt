@@ -1,12 +1,15 @@
 package dev.sarquella.studyplanner.repo
 
+import com.firebase.ui.firestore.SnapshotParser
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import dev.sarquella.studyplanner.SUBJECT
 import dev.sarquella.studyplanner.data.ListBuilder
+import dev.sarquella.studyplanner.data.Resource
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
 import dev.sarquella.studyplanner.managers.DatabaseManager
 import dev.sarquella.studyplanner.data.Response
@@ -26,13 +29,13 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(InstantTaskExecutorExtension::class)
 class SubjectRepoTest {
 
-    private val dbManager: DatabaseManager = mockk()
-    private val subjectRepo = SubjectRepo(dbManager)
+    private val userRepo: UserRepo = mockk()
+    private val subjectRepo = SubjectRepo(userRepo)
 
-    private val collection: CollectionReference = mockk()
+    private val userRef: DocumentReference = mockk(relaxed = true)
 
     init {
-        every { dbManager.collection(SubjectRepo.COLLECTION) } returns collection
+        every { userRepo.getCurrentUserReference() } returns userRef
     }
 
     @Nested
@@ -51,18 +54,15 @@ class SubjectRepoTest {
         private val onCompleteListener = slot<OnCompleteListener<DocumentReference>>()
 
         init {
-            every { collection.add(any()) } returns docTask
+            every { userRef.collection(SubjectRepo.COLLECTION).add(any()) } returns docTask
             every { docTask.addOnCompleteListener(capture(onCompleteListener)) } returns docTask
         }
 
         @Test
-        fun `when called then dbManager#db#collection#add is called`() {
+        fun `when called then userRef#collection#add is called`() {
             subjectRepo.add(SUBJECT)
 
-            verifySequence {
-                dbManager.collection(SubjectRepo.COLLECTION)
-                collection.add(SUBJECT)
-            }
+            verify { userRef.collection(SubjectRepo.COLLECTION).add(SUBJECT) }
         }
 
         @Test
@@ -73,7 +73,7 @@ class SubjectRepoTest {
         }
 
         @Test
-        fun `if add succeed then response state is succeed`() {
+        fun `when succeed then response state is succeed`() {
             every { docTask.isSuccessful } returns true
             val response = subjectRepo.add(SUBJECT)
             onCompleteListener.captured.onComplete(docTask)
@@ -82,7 +82,7 @@ class SubjectRepoTest {
         }
 
         @Test
-        fun `if add failed then response state is failed with error message`() {
+        fun `when failed then response state is failed with error message`() {
             val errorMessage = "Error message"
             every { docTask.isSuccessful } returns false
             every { docTask.exception } returns Exception(errorMessage)
@@ -99,12 +99,72 @@ class SubjectRepoTest {
     }
 
     @Nested
+    inner class GetSubject {
+
+        private val subjectId = SUBJECT.id
+
+        private val docTask: Task<DocumentSnapshot> = mockk()
+        private val onCompleteListener = slot<OnCompleteListener<DocumentSnapshot>>()
+
+        init {
+            every { userRef.collection(SubjectRepo.COLLECTION).document(subjectId).get() } returns docTask
+            every { docTask.addOnCompleteListener(capture(onCompleteListener)) } returns docTask
+        }
+
+        @Test
+        fun `when called then userRef#collection#document#get is called`() {
+            subjectRepo.getSubject(subjectId)
+
+            verify { userRef.collection(SubjectRepo.COLLECTION).document(subjectId).get() }
+        }
+
+        @Test
+        fun `initial response state is progress`() {
+            val response = subjectRepo.getSubject(subjectId)
+
+            assertThat(response.value)
+                .isEqualTo(Resource<Subject>(null, Response(Response.ResponseState.PROGRESS)))
+        }
+
+        @Test
+        fun `when succeed then response state is succeed and resource contains item`() {
+            every { docTask.isSuccessful } returns true
+            every { docTask.result?.toObject(Subject::class.java) } returns SUBJECT
+
+            val response = subjectRepo.getSubject(subjectId)
+            onCompleteListener.captured.onComplete(docTask)
+
+            assertThat(response.value).isEqualTo(Resource(SUBJECT, Response(Response.ResponseState.SUCCEED)))
+        }
+
+        @Test
+        fun `when failed then response state is failed with error message`() {
+            val errorMessage = "Error message"
+            every { docTask.isSuccessful } returns false
+            every { docTask.exception } returns Exception(errorMessage)
+
+            val response = subjectRepo.getSubject(subjectId)
+            onCompleteListener.captured.onComplete(docTask)
+
+            assertThat(response.value).isEqualTo(
+                Resource(
+                    null,
+                    Response(
+                        Response.ResponseState.FAILED,
+                        errorMessage
+                    )
+                )
+            )
+        }
+    }
+
+    @Nested
     inner class GetSubjects {
 
         private val query: Query = mockk()
 
         init {
-            every { collection.orderBy(any<String>(), any()) } returns query
+            every { userRef.collection(SubjectRepo.COLLECTION).orderBy(any<String>(), any()) } returns query
         }
 
         @Test
@@ -112,8 +172,8 @@ class SubjectRepoTest {
             val listBuilder = subjectRepo.getSubjects()
 
             val expected = ListBuilder(
-                collection.orderBy("creationDate", Query.Direction.DESCENDING),
-                Subject::class.java
+                userRef.collection(SubjectRepo.COLLECTION).orderBy("creationDate", Query.Direction.DESCENDING),
+                Subject.parser()
             )
 
             assertThat(listBuilder).isEqualTo(expected)

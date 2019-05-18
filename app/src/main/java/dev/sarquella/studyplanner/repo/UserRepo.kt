@@ -2,11 +2,13 @@ package dev.sarquella.studyplanner.repo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.DocumentReference
 import dev.sarquella.studyplanner.data.Response
 import dev.sarquella.studyplanner.helpers.extensions.failed
 import dev.sarquella.studyplanner.helpers.extensions.progress
 import dev.sarquella.studyplanner.helpers.extensions.succeed
 import dev.sarquella.studyplanner.managers.AuthManager
+import dev.sarquella.studyplanner.managers.DatabaseManager
 
 
 /*
@@ -14,9 +16,14 @@ import dev.sarquella.studyplanner.managers.AuthManager
  * adria@sarquella.dev
  */
 
-class UserRepo(private val authManager: AuthManager) {
+class UserRepo(
+    private val authManager: AuthManager,
+    private val db: DatabaseManager
+) {
 
-    fun isUserSigned() = authManager.currentUser != null
+    companion object {
+        const val COLLECTION = "users"
+    }
 
     fun signUp(email: String, password: String): LiveData<Response> {
         val response = MutableLiveData<Response>()
@@ -44,4 +51,8 @@ class UserRepo(private val authManager: AuthManager) {
         return response
     }
 
+    fun isUserSigned() = authManager.currentUser != null
+
+    fun getCurrentUserReference(): DocumentReference =
+        db.collection(UserRepo.COLLECTION).document(authManager.currentUser?.uid ?: "")
 }

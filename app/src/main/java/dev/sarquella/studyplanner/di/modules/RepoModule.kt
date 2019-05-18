@@ -15,7 +15,7 @@ import org.koin.dsl.module
 object RepoModule : KoinModule {
 
     override val module: Module = module {
-        single { UserRepo(get()) }
+        single { UserRepo(get(), get()) }
         single { SubjectRepo(get()) }
     }
 

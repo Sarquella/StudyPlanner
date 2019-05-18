@@ -21,7 +21,7 @@ import dev.sarquella.studyplanner.data.Response
  * adria@sarquella.dev
  */
 
-class SubjectRepo(private val db: DatabaseManager) {
+class SubjectRepo(private val userRepo: UserRepo) {
 
     companion object {
         const val COLLECTION = "subjects"
@@ -30,7 +30,7 @@ class SubjectRepo(private val db: DatabaseManager) {
     fun add(subject: Subject): LiveData<Response> {
         val response = MutableLiveData<Response>()
         response.progress()
-        db.collection(SubjectRepo.COLLECTION).add(subject).addOnCompleteListener { result ->
+        userRepo.getCurrentUserReference().collection(COLLECTION).add(subject).addOnCompleteListener { result ->
             if (result.isSuccessful)
                 response.succeed()
             else
@@ -42,25 +42,21 @@ class SubjectRepo(private val db: DatabaseManager) {
     fun getSubject(id: String): LiveData<Resource<Subject>> {
         val resource = MutableLiveData<Resource<Subject>>()
         resource.progress()
-        db.collection(SubjectRepo.COLLECTION).document(id).get().addOnCompleteListener { result ->
-            if (result.isSuccessful)
-                resource.succeed(result.result?.toObject(Subject::class.java))
-            else
-                resource.failed(result.exception?.message)
-        }
+        userRepo.getCurrentUserReference()
+            .collection(SubjectRepo.COLLECTION).document(id).get().addOnCompleteListener { result ->
+                if (result.isSuccessful)
+                    resource.succeed(result.result?.toObject(Subject::class.java))
+                else
+                    resource.failed(result.exception?.message)
+            }
         return resource
     }
 
     fun getSubjects(): ListBuilder<Subject> =
         ListBuilder(
-            db.collection(SubjectRepo.COLLECTION).orderBy("creationDate", Query.Direction.DESCENDING),
-            SnapshotParser { snapshot ->
-                Subject(
-                    snapshot.getString("name"),
-                    snapshot.getString("color"),
-                    snapshot.reference.id
-                )
-            }
+            userRepo.getCurrentUserReference()
+                .collection(SubjectRepo.COLLECTION).orderBy("creationDate", Query.Direction.DESCENDING),
+            Subject.parser()
         )
 
 }
