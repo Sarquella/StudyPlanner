@@ -11,5 +11,6 @@
 
     <!-- SIZES -->
     <dimen name="size_row_height">56dp</dimen>
+    <dimen name="size_expanded_app_bar_height">128dp</dimen>
 
 </resources>

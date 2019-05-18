@@ -1,38 +1,27 @@
 package dev.sarquella.studyplanner.ui.app.subjects
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
-import androidx.recyclerview.widget.RecyclerView
-import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.firebase.ui.firestore.ClassSnapshotParser
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.firebase.ui.firestore.ObservableSnapshotArray
-import com.firebase.ui.firestore.SnapshotParser
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.Query
 import dev.sarquella.studyplanner.R
 import dev.sarquella.studyplanner.SUBJECT
-import dev.sarquella.studyplanner.data.ListBuilder
 import dev.sarquella.studyplanner.data.Subject
 import dev.sarquella.studyplanner.helpers.RecyclerOptions
 import dev.sarquella.studyplanner.helpers.hasBackgroundColor
-import dev.sarquella.studyplanner.helpers.withAdapter
 import dev.sarquella.studyplanner.helpers.withRecyclerView
 import dev.sarquella.studyplanner.rules.DataBindingTestRule
 import dev.sarquella.studyplanner.rules.FragmentTestRule
-import io.mockk.*
-import org.hamcrest.Matchers.*
-import org.junit.Assert.assertEquals
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
+import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
@@ -41,9 +30,6 @@ import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
-import org.koin.android.ext.android.get
-import org.koin.core.parameter.parametersOf
-import java.lang.Thread.sleep
 
 
 /*

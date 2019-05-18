@@ -7,6 +7,7 @@ import com.firebase.ui.firestore.SnapshotParser
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import dev.sarquella.studyplanner.data.ListBuilder
+import dev.sarquella.studyplanner.data.Resource
 import dev.sarquella.studyplanner.data.Subject
 import dev.sarquella.studyplanner.helpers.extensions.failed
 import dev.sarquella.studyplanner.helpers.extensions.progress
@@ -38,6 +39,18 @@ class SubjectRepo(private val db: DatabaseManager) {
         return response
     }
 
+    fun getSubject(id: String): LiveData<Resource<Subject>> {
+        val resource = MutableLiveData<Resource<Subject>>()
+        resource.progress()
+        db.collection(SubjectRepo.COLLECTION).document(id).get().addOnCompleteListener { result ->
+            if (result.isSuccessful)
+                resource.succeed(result.result?.toObject(Subject::class.java))
+            else
+                resource.failed(result.exception?.message)
+        }
+        return resource
+    }
+
     fun getSubjects(): ListBuilder<Subject> =
         ListBuilder(
             db.collection(SubjectRepo.COLLECTION).orderBy("creationDate", Query.Direction.DESCENDING),
@@ -45,7 +58,7 @@ class SubjectRepo(private val db: DatabaseManager) {
                 Subject(
                     snapshot.getString("name"),
                     snapshot.getString("color"),
-                    snapshot.reference.toString()
+                    snapshot.reference.id
                 )
             }
         )

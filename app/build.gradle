@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
@@ -94,6 +96,7 @@ dependencies {
     def assertj_version = "3.12.2"
     def mockk_version = "1.9.2"
     def android_test_core_version = "1.1.0"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
     testImplementation "org.assertj:assertj-core:$assertj_version"
