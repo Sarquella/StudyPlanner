@@ -11,4 +11,11 @@
     <string name="Subjects">Subjects</string>
     <string name="Invalid_date">Invalid date</string>
     <string name="End_date_must_be_after_start_date">End date must be after start date</string>
+    <string name="an_error_has_occurred">An error has occurred</string>
+    <string name="New_class">New class</string>
+    <string name="New_task">New task</string>
+    <string name="Subject">Subject</string>
+    <string name="New_subject">New subject</string>
+    <string name="Add">Add</string>
+    <string name="Cancel">Cancel</string>
 </resources>

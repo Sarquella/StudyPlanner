@@ -3,6 +3,7 @@ package dev.sarquella.studyplanner.di.modules
 import dev.sarquella.studyplanner.di.modules.abstractions.KoinModule
 import dev.sarquella.studyplanner.ui.app.subjects.AddSubjectViewModel
 import dev.sarquella.studyplanner.ui.app.subjects.SubjectsViewModel
+import dev.sarquella.studyplanner.ui.app.subjects.detail.AddSubjectItemViewModel
 import dev.sarquella.studyplanner.ui.app.subjects.detail.SubjectDetailViewModel
 import dev.sarquella.studyplanner.ui.launch.LaunchViewModel
 import dev.sarquella.studyplanner.ui.sign.signIn.SignInViewModel
@@ -28,6 +29,7 @@ object ViewModelModule : KoinModule {
         viewModel { AddSubjectViewModel(get()) }
 
         viewModel { (subjectId: String) -> SubjectDetailViewModel(subjectId, get()) }
+        viewModel { AddSubjectItemViewModel() }
     }
 
 }

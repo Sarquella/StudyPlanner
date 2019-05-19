@@ -28,6 +28,11 @@ class SubjectsViewModelTest {
         private val viewModel = SubjectsViewModel(subjectRepo)
 
         @Test
+        fun `check showAddSubjectDialog is not true initially`() {
+            assertThat(viewModel.showAddSubjectDialog.value).isIn(null, false)
+        }
+
+        @Test
         fun `when called then showAddSubjectDialog is true`() {
             viewModel.showAddSubjectDialog()
 

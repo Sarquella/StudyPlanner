@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.sarquella.studyplanner.R
@@ -15,6 +17,7 @@ import dev.sarquella.studyplanner.rules.FragmentTestRule
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
@@ -40,9 +43,11 @@ class SubjectDetailFragmentTest {
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
+            val addSubjectItemViewModel: AddSubjectItemViewModel = mockk()
             loadKoinModules(
                 module {
                     viewModel { viewModel }
+                    viewModel { addSubjectItemViewModel }
                 }
             )
         }
@@ -66,14 +71,19 @@ class SubjectDetailFragmentTest {
     @Before
     fun beforeEach() {
         mockViewModel()
-        fragment.arguments = Bundle()
         fragmentTestRule.setFragment(fragment)
     }
 
     private val subjectName = MutableLiveData<String>()
+    private val showAddItemDialog = MutableLiveData<Boolean>()
 
     private fun mockViewModel() {
         every { viewModel.subjectName } returns subjectName
+        every { viewModel.showAddItemDialog } returns showAddItemDialog
+    }
+
+    private fun runOnUiThread(block: () -> Unit) {
+        fragmentTestRule.activity.runOnUiThread(block)
     }
 
     @Test
@@ -82,6 +92,27 @@ class SubjectDetailFragmentTest {
         subjectName.postValue(title)
 
         onView(withId(R.id.collapsingToolbar)).check(matches(withTitle(title)))
+    }
+
+    @Test
+    fun whenAddButtonIsClicked_thenViewModelIsNotified() {
+        onView(withId(R.id.btAdd)).perform(ViewActions.click())
+
+        verify { viewModel.showAddItemDialog() }
+    }
+
+    @Test
+    fun whenShowAddItemDialogIsTrue_thenAddItemDialogIsDisplayed() {
+        runOnUiThread { showAddItemDialog.postValue(true) }
+
+        onView(withId(R.id.dialog_add_subject_item)).check(matches(ViewMatchers.isDisplayed()))
+    }
+
+    @Test
+    fun whenShowAddItemDialogIsFalse_thenAddItemDialogIsNotDisplayed() {
+        runOnUiThread { showAddItemDialog.postValue(false) }
+
+        onView(withId(R.id.dialog_add_subject_item)).check(matches(Matchers.not(ViewMatchers.isDisplayed())))
     }
 
 }

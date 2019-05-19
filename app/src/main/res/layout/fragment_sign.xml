@@ -155,7 +155,7 @@
                     android:padding="@dimen/space_m"
                     android:gravity="center"
                     android:textColor="@android:color/holo_red_light"
-                    android:text="This is an error message"/>
+                    tools:text="@string/an_error_has_occurred"/>
 
         </com.google.android.material.card.MaterialCardView>
 

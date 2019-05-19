@@ -4,8 +4,12 @@
     <data>
 
         <variable
-                name="viewModel"
+                name="subjectDetailViewModel"
                 type="dev.sarquella.studyplanner.ui.app.subjects.detail.SubjectDetailViewModel"/>
+
+        <variable
+                name="addSubjectItemViewModel"
+                type="dev.sarquella.studyplanner.ui.app.subjects.detail.AddSubjectItemViewModel"/>
 
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -24,7 +28,7 @@
                     android:layout_height="match_parent"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed"
                     app:toolbarId="@+id/toolbar"
-                    app:title="@{viewModel.subjectName}"
+                    app:title="@{subjectDetailViewModel.subjectName}"
                     tools:title="Subject">
 
                 <androidx.appcompat.widget.Toolbar
@@ -38,6 +42,10 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <include layout="@layout/dialog_add_subject_item"
+                 app:viewModel="@{addSubjectItemViewModel}"
+                 android:visibility="invisible"/>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btAdd"
                 android:layout_width="wrap_content"
@@ -46,7 +54,8 @@
                 android:layout_marginBottom="@dimen/space_s"
                 android:layout_marginEnd="@dimen/space_s"
                 android:src="@drawable/ic_plus"
-                android:tint="@android:color/white"/>
+                android:tint="@android:color/white"
+                android:onClick="@{() -> subjectDetailViewModel.showAddItemDialog()}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

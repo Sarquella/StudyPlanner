@@ -84,7 +84,7 @@ class SignUpFragment : Fragment() {
                 else
                     View.VISIBLE
 
-            tvError.text = it.message ?: "Default error"
+            tvError.text = it.message ?: getString(R.string.an_error_has_occurred)
         })
     }
 
