@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -75,9 +76,13 @@ class AddSubjectItemDialogTest {
     }
 
     private val dismissDialog = MutableLiveData<Boolean>()
+    private val showAddNewClassDialog = MutableLiveData<Boolean>()
+    private val showAddNewTaskDialog = MutableLiveData<Boolean>()
 
     private fun mockViewModel() {
         every { viewModel.dismissDialog } returns dismissDialog
+        every { viewModel.showAddNewClassDialog } returns showAddNewClassDialog
+        every { viewModel.showAddNewTaskDialog } returns showAddNewTaskDialog
     }
 
     private fun runOnUiThread(block: () -> Unit) {
@@ -110,5 +115,33 @@ class AddSubjectItemDialogTest {
         runOnUiThread { dismissDialog.postValue(true) }
 
         onView(withId(R.id.dialog_add_subject_item)).check(matches(not(isDisplayed())))
+    }
+
+    @Test
+    fun whenShowAddNewClassDialogIsFalse_thenAddNewClassDialogIsNotShown() {
+        showAddNewClassDialog.postValue(false)
+
+        onView(withId(R.id.dialog_add_new_class)).check(doesNotExist())
+    }
+
+    @Test
+    fun whenShowAddNewClassDialogIsTrue_thenAddNewClassDialogIsShown() {
+        showAddNewClassDialog.postValue(true)
+
+        onView(withId(R.id.dialog_add_new_class)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun whenShowAddNewTaskDialogIsFalse_thenAddNewTaskDialogIsNotShown() {
+        showAddNewTaskDialog.postValue(false)
+
+        onView(withId(R.id.dialog_add_new_task)).check(doesNotExist())
+    }
+
+    @Test
+    fun whenShowAddNewTaskDialogIsTrue_thenAddNewTaskDialogIsShown() {
+        showAddNewTaskDialog.postValue(true)
+
+        onView(withId(R.id.dialog_add_new_task)).check(matches(isDisplayed()))
     }
 }

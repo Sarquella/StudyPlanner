@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import dev.sarquella.studyplanner.R
 import dev.sarquella.studyplanner.databinding.FragmentSubjectDetailBinding
+import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.AddNewClassDialog
+import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.AddNewTaskDialog
 import kotlinx.android.synthetic.main.fragment_subject_detail.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -46,6 +48,8 @@ class SubjectDetailFragment : Fragment() {
 
     private fun bindObservables() {
         bindShowOrDismissAddItemDialog()
+        bindShowAddNewClassDialog()
+        bindShowAddNewTaskDialog()
     }
 
     private fun bindShowOrDismissAddItemDialog() {
@@ -54,8 +58,22 @@ class SubjectDetailFragment : Fragment() {
         })
 
         addSubjectItemViewModel.dismissDialog.observe(this, Observer { dismiss ->
-            if(dismiss)
+            if (dismiss)
                 btAdd.isExpanded = false
+        })
+    }
+
+    private fun bindShowAddNewClassDialog() {
+        addSubjectItemViewModel.showAddNewClassDialog.observe(this, Observer { show ->
+            if (show)
+                AddNewClassDialog().show(childFragmentManager, "ADD_NEW_CLASS_DIALOG")
+        })
+    }
+
+    private fun bindShowAddNewTaskDialog() {
+        addSubjectItemViewModel.showAddNewTaskDialog.observe(this, Observer { show ->
+            if (show)
+                AddNewTaskDialog().show(childFragmentManager, "ADD_NEW_TASK_DIALOG")
         })
     }
 }
