@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import dev.sarquella.studyplanner.R
 import dev.sarquella.studyplanner.databinding.FragmentSubjectDetailBinding
 import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.AddNewClassDialogFragment
-import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.AddNewTaskDialog
+import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.AddNewTaskDialogFragment
 import kotlinx.android.synthetic.main.fragment_subject_detail.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -73,7 +73,7 @@ class SubjectDetailFragment : Fragment() {
     private fun bindShowAddNewTaskDialog() {
         addSubjectItemViewModel.showAddNewTaskDialog.observe(this, Observer { show ->
             if (show)
-                AddNewTaskDialog().show(childFragmentManager, "ADD_NEW_TASK_DIALOG")
+                AddNewTaskDialogFragment().show(childFragmentManager, "ADD_NEW_TASK_DIALOG")
         })
     }
 }

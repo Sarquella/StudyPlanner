@@ -1,17 +1,17 @@
-package dev.sarquella.studyplanner.ui.app.subjects.detail.classes
+package dev.sarquella.studyplanner.ui.app.subjects.detail.tasks
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import dev.sarquella.studyplanner.R
-import dev.sarquella.studyplanner.databinding.DialogAddNewClassBinding
-import dev.sarquella.studyplanner.helpers.extensions.afterTextChanged
 import dev.sarquella.studyplanner.ui.app.subjects.detail.abstractions.FullTransparentDialogFragment
-import kotlinx.android.synthetic.main.dialog_add_new_class.*
+import dev.sarquella.studyplanner.databinding.DialogAddNewTaskBinding
+import dev.sarquella.studyplanner.helpers.extensions.afterTextChanged
+import kotlinx.android.synthetic.main.dialog_add_new_class.etDay
+import kotlinx.android.synthetic.main.dialog_add_new_task.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -20,13 +20,13 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * adria@sarquella.dev
  */
 
-class AddNewClassDialogFragment : FullTransparentDialogFragment() {
+class AddNewTaskDialogFragment : FullTransparentDialogFragment() {
 
-    private val viewModel: AddNewClassDialogViewModel by viewModel()
+    private val viewModel: AddNewTaskDialogViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding: DialogAddNewClassBinding =
-            DataBindingUtil.inflate(inflater, R.layout.dialog_add_new_class, container, false)
+        val binding: DialogAddNewTaskBinding =
+            DataBindingUtil.inflate(inflater, R.layout.dialog_add_new_task, container, false)
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.viewModel = viewModel
         return binding.root
@@ -41,15 +41,14 @@ class AddNewClassDialogFragment : FullTransparentDialogFragment() {
 
     private fun setListeners() {
         etDay.afterTextChanged(viewModel::onDayChanged)
-        etStartTime.afterTextChanged(viewModel::onStartTimeChanged)
-        etEndTime.afterTextChanged(viewModel::onEndTimeChanged)
+        etTime.afterTextChanged(viewModel::onTimeChanged)
 
         btAdd.setOnClickListener {
             viewModel.add(
-                spClassType.selectedItem.toString(),
+                etName.text.toString(),
+                spTaskType.selectedItem.toString(),
                 etDay.text.toString(),
-                etStartTime.text.toString(),
-                etEndTime.text.toString()
+                etTime.text.toString()
             )
         }
     }
@@ -60,5 +59,4 @@ class AddNewClassDialogFragment : FullTransparentDialogFragment() {
                 this.dismiss()
         })
     }
-
 }
