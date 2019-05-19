@@ -26,10 +26,11 @@ class AddSubjectItemViewModelTest {
         }
 
         @Test
-        fun `when called then showAddNewClassDialog is true`() {
+        fun `when called then showAddNewClassDialog and dismissDialog are true`() {
             viewModel.addNewClass()
 
             assertThat(viewModel.showAddNewClassDialog.value).isTrue()
+            assertThat(viewModel.dismissDialog.value).isTrue()
         }
     }
 
@@ -42,10 +43,19 @@ class AddSubjectItemViewModelTest {
         }
 
         @Test
-        fun `when called then showAddNewTaskDialog is true`() {
+        fun `when called then showAddNewTaskDialog and dismissDialog are true`() {
             viewModel.addNewTask()
 
             assertThat(viewModel.showAddNewTaskDialog.value).isTrue()
+            assertThat(viewModel.dismissDialog.value).isTrue()
+        }
+    }
+
+    @Nested
+    inner class DismissDialog {
+        @Test
+        fun `check dismissDialog is not true initially`() {
+            assertThat(viewModel.dismissDialog.value).isIn(null, false)
         }
     }
 }

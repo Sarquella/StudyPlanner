@@ -18,12 +18,16 @@ class AddSubjectItemViewModel : ViewModel() {
     private val _showAddNewTaskDialog = MutableLiveData<Boolean>()
     val showAddNewTaskDialog: LiveData<Boolean> = _showAddNewTaskDialog
 
+    private val _dismissDialog = MutableLiveData<Boolean>()
+    val dismissDialog: LiveData<Boolean> = _dismissDialog
+
     fun addNewClass() {
         _showAddNewClassDialog.postValue(true)
+        _dismissDialog.postValue(true)
     }
 
     fun addNewTask() {
         _showAddNewTaskDialog.postValue(true)
+        _dismissDialog.postValue(true)
     }
-
 }

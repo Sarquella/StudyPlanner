@@ -45,13 +45,17 @@ class SubjectDetailFragment : Fragment() {
     }
 
     private fun bindObservables() {
-        bindShowAddItemDialog()
+        bindShowOrDismissAddItemDialog()
     }
 
-    private fun bindShowAddItemDialog() {
+    private fun bindShowOrDismissAddItemDialog() {
         subjectDetailViewModel.showAddItemDialog.observe(this, Observer { show ->
-            if(show)
-                btAdd.isExpanded = true
+            btAdd.isExpanded = show
+        })
+
+        addSubjectItemViewModel.dismissDialog.observe(this, Observer { dismiss ->
+            if(dismiss)
+                btAdd.isExpanded = false
         })
     }
 }

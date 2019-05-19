@@ -29,4 +29,8 @@ class SubjectDetailViewModel(
     fun showAddItemDialog() {
         _showAddItemDialog.postValue(true)
     }
+
+    fun dismissAddItemDialog() {
+        _showAddItemDialog.postValue(false)
+    }
 }

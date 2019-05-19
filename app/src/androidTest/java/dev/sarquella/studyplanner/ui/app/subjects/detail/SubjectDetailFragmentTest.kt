@@ -5,6 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -43,7 +44,7 @@ class SubjectDetailFragmentTest {
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
-            val addSubjectItemViewModel: AddSubjectItemViewModel = mockk()
+            val addSubjectItemViewModel: AddSubjectItemViewModel = mockk(relaxed = true)
             loadKoinModules(
                 module {
                     viewModel { viewModel }
@@ -96,7 +97,7 @@ class SubjectDetailFragmentTest {
 
     @Test
     fun whenAddButtonIsClicked_thenViewModelIsNotified() {
-        onView(withId(R.id.btAdd)).perform(ViewActions.click())
+        onView(withId(R.id.btAdd)).perform(click())
 
         verify { viewModel.showAddItemDialog() }
     }
@@ -113,6 +114,22 @@ class SubjectDetailFragmentTest {
         runOnUiThread { showAddItemDialog.postValue(false) }
 
         onView(withId(R.id.dialog_add_subject_item)).check(matches(Matchers.not(ViewMatchers.isDisplayed())))
+    }
+
+    @Test
+    fun whenShowAddItemDialogSwitchedFromTrueToFalse_thenAddItemDialogSwitchesFromDisplayedToNotDisplayed() {
+        runOnUiThread { showAddItemDialog.postValue(true) }
+        onView(withId(R.id.dialog_add_subject_item)).check(matches(ViewMatchers.isDisplayed()))
+
+        runOnUiThread { showAddItemDialog.postValue(false) }
+        onView(withId(R.id.dialog_add_subject_item)).check(matches(Matchers.not(ViewMatchers.isDisplayed())))
+    }
+
+    @Test
+    fun whenParentViewGroupIsTouched_thenViewModelIsNotifiedToDismissAddItemDialog() {
+        onView(withId(R.id.fragment_subject_detail)).perform(click())
+
+        verify { viewModel.dismissAddItemDialog() }
     }
 
 }
