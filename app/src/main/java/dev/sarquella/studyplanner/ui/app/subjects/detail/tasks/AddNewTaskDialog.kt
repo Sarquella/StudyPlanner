@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import dev.sarquella.studyplanner.R
+import dev.sarquella.studyplanner.ui.app.subjects.detail.abstractions.FullTransparentDialogFragment
 
 
 /*
@@ -13,7 +13,7 @@ import dev.sarquella.studyplanner.R
  * adria@sarquella.dev
  */
 
-class AddNewTaskDialog : DialogFragment() {
+class AddNewTaskDialog : FullTransparentDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.dialog_add_new_task, container, false)

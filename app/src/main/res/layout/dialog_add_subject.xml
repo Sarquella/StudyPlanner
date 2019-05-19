@@ -28,7 +28,8 @@
                 android:paddingEnd="@dimen/space_m"
                 android:paddingStart="@dimen/space_m"
                 android:paddingBottom="@dimen/space_s"
-                android:clipToPadding="false">
+                android:clipToPadding="false"
+                android:clipChildren="false">
 
             <TextView
                     android:layout_width="match_parent"
@@ -134,10 +135,12 @@
 
             </RadioGroup>
 
-            <LinearLayout android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_gravity="end"
-                          android:layout_marginTop="@dimen/space_m">
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="@dimen/space_m"
+                    android:clipChildren="false">
 
                 <com.google.android.material.button.MaterialButton
                         android:id="@+id/btCancel"

@@ -18,4 +18,7 @@
     <string name="New_subject">New subject</string>
     <string name="Add">Add</string>
     <string name="Cancel">Cancel</string>
+    <string name="Theory">Theory</string>
+    <string name="Practice">Practice</string>
+    <string name="Seminar">Seminar</string>
 </resources>
