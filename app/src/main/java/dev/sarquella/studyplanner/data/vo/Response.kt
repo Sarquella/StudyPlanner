@@ -1,4 +1,4 @@
-package dev.sarquella.studyplanner.data
+package dev.sarquella.studyplanner.data.vo
 
 
 /*

@@ -2,7 +2,7 @@ package dev.sarquella.studyplanner.ui.app.subjects
 
 import dev.sarquella.studyplanner.SUBJECT_COLOR
 import dev.sarquella.studyplanner.SUBJECT_NAME
-import dev.sarquella.studyplanner.data.Subject
+import dev.sarquella.studyplanner.data.entities.Subject
 import dev.sarquella.studyplanner.helpers.extensions.addObserver
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
 import dev.sarquella.studyplanner.repo.SubjectRepo

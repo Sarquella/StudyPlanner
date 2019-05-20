@@ -22,5 +22,13 @@ enum class ClassType(@StringRes val value: Int) {
                 context.getString(PRACTICE.value),
                 context.getString(SEMINAR.value)
             )
+
+        fun parse(string: String, context: Context): ClassType? {
+            values().forEach { type ->
+                if (context.getString(type.value).equals(string))
+                    return type
+            }
+            return null
+        }
     }
 }

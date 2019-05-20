@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import dev.sarquella.studyplanner.R
-import dev.sarquella.studyplanner.data.Subject
+import dev.sarquella.studyplanner.data.entities.Subject
 
 
 /*

@@ -1,7 +1,7 @@
 package dev.sarquella.studyplanner.helpers.extensions
 
 import androidx.lifecycle.MutableLiveData
-import dev.sarquella.studyplanner.data.Response
+import dev.sarquella.studyplanner.data.vo.Response
 
 
 /*

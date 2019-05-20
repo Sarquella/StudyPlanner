@@ -1,4 +1,4 @@
-package dev.sarquella.studyplanner.data
+package dev.sarquella.studyplanner.data.vo
 
 import androidx.lifecycle.LifecycleOwner
 import com.firebase.ui.firestore.FirestoreRecyclerOptions

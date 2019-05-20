@@ -3,7 +3,7 @@ package dev.sarquella.studyplanner.ui.app.subjects
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dev.sarquella.studyplanner.data.Subject
+import dev.sarquella.studyplanner.data.entities.Subject
 import dev.sarquella.studyplanner.repo.SubjectRepo
 
 

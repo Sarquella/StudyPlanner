@@ -8,7 +8,7 @@ import dev.sarquella.studyplanner.helpers.extensions.addObserver
 import dev.sarquella.studyplanner.repo.UserRepo
 import dev.sarquella.studyplanner.ui.sign.abstractions.SignViewModel
 import dev.sarquella.studyplanner.ui.sign.signIn.SignInViewModel
-import dev.sarquella.studyplanner.data.Response
+import dev.sarquella.studyplanner.data.vo.Response
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
@@ -104,7 +104,7 @@ class SignInViewModelTest {
 
         @Test
         fun `initial state is not true`() {
-            assertThat(viewModel.isButtonEnabled).isNotEqualTo(true)
+            assertThat(viewModel.isButtonEnabled.value).isIn(null, false)
         }
 
         @Test

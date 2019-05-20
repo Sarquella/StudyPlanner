@@ -2,8 +2,8 @@ package dev.sarquella.studyplanner.ui.app.subjects.detail
 
 import androidx.lifecycle.MutableLiveData
 import dev.sarquella.studyplanner.SUBJECT
-import dev.sarquella.studyplanner.data.Resource
-import dev.sarquella.studyplanner.data.Subject
+import dev.sarquella.studyplanner.data.vo.Resource
+import dev.sarquella.studyplanner.data.entities.Subject
 import dev.sarquella.studyplanner.helpers.extensions.addObserver
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
 import dev.sarquella.studyplanner.repo.SubjectRepo

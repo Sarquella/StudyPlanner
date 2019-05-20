@@ -8,7 +8,7 @@ import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
 import dev.sarquella.studyplanner.repo.UserRepo
 import dev.sarquella.studyplanner.ui.sign.abstractions.SignViewModel
 import dev.sarquella.studyplanner.ui.sign.signUp.SignUpViewModel
-import dev.sarquella.studyplanner.data.Response
+import dev.sarquella.studyplanner.data.vo.Response
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions
@@ -104,7 +104,7 @@ class SignUpViewModelTest {
 
         @Test
         fun `initial state is not true`() {
-            Assertions.assertThat(viewModel.isButtonEnabled).isNotEqualTo(true)
+            Assertions.assertThat(viewModel.isButtonEnabled.value).isIn(null, false)
         }
 
         @Test

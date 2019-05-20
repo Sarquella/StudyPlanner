@@ -1,16 +1,14 @@
 package dev.sarquella.studyplanner.repo
 
-import androidx.lifecycle.LiveData
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import dev.sarquella.studyplanner.EMAIL
 import dev.sarquella.studyplanner.PASSWORD
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
-import dev.sarquella.studyplanner.data.Response
+import dev.sarquella.studyplanner.data.vo.Response
 import dev.sarquella.studyplanner.managers.AuthManager
 import dev.sarquella.studyplanner.managers.DatabaseManager
 import io.mockk.every

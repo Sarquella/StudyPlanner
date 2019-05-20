@@ -1,8 +1,8 @@
 package dev.sarquella.studyplanner.helpers.extensions
 
 import androidx.lifecycle.MutableLiveData
-import dev.sarquella.studyplanner.data.Resource
-import dev.sarquella.studyplanner.data.Response
+import dev.sarquella.studyplanner.data.vo.Resource
+import dev.sarquella.studyplanner.data.vo.Response
 
 
 /*
@@ -11,7 +11,12 @@ import dev.sarquella.studyplanner.data.Response
  */
 
 fun <T> MutableLiveData<Resource<T>>.progress() {
-    this.postValue(Resource(null, Response(Response.ResponseState.PROGRESS)))
+    this.postValue(
+        Resource(
+            null,
+            Response(Response.ResponseState.PROGRESS)
+        )
+    )
 }
 
 fun <T> MutableLiveData<Resource<T>>.succeed(item: T?, message: String? = null) {

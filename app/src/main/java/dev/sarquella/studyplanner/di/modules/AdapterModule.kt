@@ -1,7 +1,7 @@
 package dev.sarquella.studyplanner.di.modules
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import dev.sarquella.studyplanner.data.Subject
+import dev.sarquella.studyplanner.data.entities.Subject
 import dev.sarquella.studyplanner.di.modules.abstractions.KoinModule
 import dev.sarquella.studyplanner.ui.app.subjects.SubjectListAdapter
 import org.koin.core.module.Module

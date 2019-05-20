@@ -2,18 +2,14 @@ package dev.sarquella.studyplanner.repo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.firebase.ui.firestore.SnapshotParser
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import dev.sarquella.studyplanner.data.ListBuilder
-import dev.sarquella.studyplanner.data.Resource
-import dev.sarquella.studyplanner.data.Subject
+import dev.sarquella.studyplanner.data.vo.ListBuilder
+import dev.sarquella.studyplanner.data.vo.Resource
+import dev.sarquella.studyplanner.data.entities.Subject
 import dev.sarquella.studyplanner.helpers.extensions.failed
 import dev.sarquella.studyplanner.helpers.extensions.progress
 import dev.sarquella.studyplanner.helpers.extensions.succeed
-import dev.sarquella.studyplanner.managers.DatabaseManager
-import dev.sarquella.studyplanner.data.Response
+import dev.sarquella.studyplanner.data.vo.Response
 
 
 /*
@@ -55,7 +51,7 @@ class SubjectRepo(private val userRepo: UserRepo) {
     fun getSubjects(): ListBuilder<Subject> =
         ListBuilder(
             userRepo.getCurrentUserReference()
-                .collection(SubjectRepo.COLLECTION).orderBy("creationDate", Query.Direction.DESCENDING),
+                .collection(COLLECTION).orderBy("creationDate", Query.Direction.DESCENDING),
             Subject.parser()
         )
 

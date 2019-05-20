@@ -4,8 +4,7 @@ import android.graphics.Color
 import android.view.View
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import dev.sarquella.studyplanner.R
-import dev.sarquella.studyplanner.data.Subject
+import dev.sarquella.studyplanner.data.entities.Subject
 import kotlinx.android.synthetic.main.viewholder_subject.view.*
 
 

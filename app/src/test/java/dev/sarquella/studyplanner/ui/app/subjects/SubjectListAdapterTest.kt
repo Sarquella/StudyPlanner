@@ -3,7 +3,7 @@ package dev.sarquella.studyplanner.ui.app.subjects
 import androidx.lifecycle.LifecycleOwner
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.firebase.ui.firestore.ObservableSnapshotArray
-import dev.sarquella.studyplanner.data.Subject
+import dev.sarquella.studyplanner.data.entities.Subject
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

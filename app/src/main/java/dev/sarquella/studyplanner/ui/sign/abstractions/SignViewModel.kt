@@ -2,7 +2,7 @@ package dev.sarquella.studyplanner.ui.sign.abstractions
 
 import androidx.lifecycle.*
 import dev.sarquella.studyplanner.repo.UserRepo
-import dev.sarquella.studyplanner.data.Response
+import dev.sarquella.studyplanner.data.vo.Response
 
 
 /*
@@ -48,12 +48,12 @@ abstract class SignViewModel(protected val userRepo: UserRepo) : ViewModel() {
         _navToNext.postValue(true)
     }
 
-    fun onEmailChanged(text: String) {
-        isEmailEmpty.postValue(text.isBlank() || text.isEmpty())
+    fun onEmailChanged(email: String) {
+        isEmailEmpty.postValue(email.isBlank())
     }
 
-    fun onPasswordChanged(text: String) {
-        isPasswordEmpty.postValue(text.isBlank() || text.isEmpty())
+    fun onPasswordChanged(password: String) {
+        isPasswordEmpty.postValue(password.isBlank())
     }
 
     protected fun bindResponseState(response: LiveData<Response>) {

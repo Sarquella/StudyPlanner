@@ -1,4 +1,4 @@
-package dev.sarquella.studyplanner.data
+package dev.sarquella.studyplanner.data.entities
 
 import com.firebase.ui.firestore.SnapshotParser
 import com.google.firebase.firestore.DocumentSnapshot
@@ -13,8 +13,8 @@ import java.util.*
  */
 
 data class Subject(
-    val name: String? = "",
-    val color: String? = "#FFFFFF",
+    val name: String = "",
+    val color: String = "#FFFFFF",
     @get:Exclude
     val id: String = ""
 ) {
@@ -22,12 +22,16 @@ data class Subject(
     var creationDate: Date? = null
 
     companion object {
-        fun parser() = SnapshotParser { snapshot -> fromSnapshot(snapshot) }
+        fun parser() = SnapshotParser { snapshot ->
+            fromSnapshot(
+                snapshot
+            )
+        }
 
         private fun fromSnapshot(snapshot: DocumentSnapshot) =
             Subject(
-                snapshot.getString("name"),
-                snapshot.getString("color"),
+                snapshot.getString("name") ?: "",
+                snapshot.getString("color") ?: "#FFFFFF",
                 snapshot.reference.id
             )
     }

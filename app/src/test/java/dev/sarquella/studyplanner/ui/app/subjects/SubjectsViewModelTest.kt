@@ -1,7 +1,7 @@
 package dev.sarquella.studyplanner.ui.app.subjects
 
-import dev.sarquella.studyplanner.data.ListBuilder
-import dev.sarquella.studyplanner.data.Subject
+import dev.sarquella.studyplanner.data.vo.ListBuilder
+import dev.sarquella.studyplanner.data.entities.Subject
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
 import dev.sarquella.studyplanner.repo.SubjectRepo
 import io.mockk.every

@@ -1,19 +1,16 @@
 package dev.sarquella.studyplanner.repo
 
-import com.firebase.ui.firestore.SnapshotParser
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import dev.sarquella.studyplanner.SUBJECT
-import dev.sarquella.studyplanner.data.ListBuilder
-import dev.sarquella.studyplanner.data.Resource
+import dev.sarquella.studyplanner.data.vo.ListBuilder
+import dev.sarquella.studyplanner.data.vo.Resource
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
-import dev.sarquella.studyplanner.managers.DatabaseManager
-import dev.sarquella.studyplanner.data.Response
-import dev.sarquella.studyplanner.data.Subject
+import dev.sarquella.studyplanner.data.vo.Response
+import dev.sarquella.studyplanner.data.entities.Subject
 import io.mockk.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
@@ -123,7 +120,12 @@ class SubjectRepoTest {
             val response = subjectRepo.getSubject(subjectId)
 
             assertThat(response.value)
-                .isEqualTo(Resource<Subject>(null, Response(Response.ResponseState.PROGRESS)))
+                .isEqualTo(
+                    Resource<Subject>(
+                        null,
+                        Response(Response.ResponseState.PROGRESS)
+                    )
+                )
         }
 
         @Test
@@ -134,7 +136,12 @@ class SubjectRepoTest {
             val response = subjectRepo.getSubject(subjectId)
             onCompleteListener.captured.onComplete(docTask)
 
-            assertThat(response.value).isEqualTo(Resource(SUBJECT, Response(Response.ResponseState.SUCCEED)))
+            assertThat(response.value).isEqualTo(
+                Resource(
+                    SUBJECT,
+                    Response(Response.ResponseState.SUCCEED)
+                )
+            )
         }
 
         @Test

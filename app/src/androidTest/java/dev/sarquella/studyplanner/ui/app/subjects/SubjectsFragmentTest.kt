@@ -12,7 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import dev.sarquella.studyplanner.R
 import dev.sarquella.studyplanner.SUBJECT
-import dev.sarquella.studyplanner.data.Subject
+import dev.sarquella.studyplanner.data.entities.Subject
 import dev.sarquella.studyplanner.helpers.RecyclerOptions
 import dev.sarquella.studyplanner.helpers.hasBackgroundColor
 import dev.sarquella.studyplanner.helpers.withRecyclerView
@@ -48,8 +48,7 @@ class SubjectsFragmentTest {
         @JvmStatic
         fun beforeClass() {
             val addSubjectsViewModel: AddSubjectViewModel = mockk(relaxed = true)
-            every { addSubjectsViewModel.isAddButtonEnabled } returns
-                    MutableLiveData<Boolean>().apply { postValue(false) }
+            every { addSubjectsViewModel.isAddButtonEnabled.value } returns false
 
             loadKoinModules(
                 module {
@@ -130,8 +129,8 @@ class SubjectsFragmentTest {
 
     @Test
     fun whenListWithMultipleItemsIsProvided_thenShowsCorrespondingItems() {
-        val subject1 =  Subject("Subject1", "#FFFFFF")
-        val subject2 =  Subject("Subject2", "#000000")
+        val subject1 = Subject("Subject1", "#FFFFFF")
+        val subject2 = Subject("Subject2", "#000000")
         every { viewModel.subjectsList.build(any()) } returns
                 recyclerOptions.withItems(mutableListOf(subject1, subject2))
 

@@ -1,6 +1,7 @@
 package dev.sarquella.studyplanner.di.modules
 
 import dev.sarquella.studyplanner.di.modules.abstractions.KoinModule
+import dev.sarquella.studyplanner.repo.ClassRepo
 import dev.sarquella.studyplanner.repo.SubjectRepo
 import dev.sarquella.studyplanner.repo.UserRepo
 import org.koin.core.module.Module
@@ -17,6 +18,7 @@ object RepoModule : KoinModule {
     override val module: Module = module {
         single { UserRepo(get(), get()) }
         single { SubjectRepo(get()) }
+        single { ClassRepo() }
     }
 
 }

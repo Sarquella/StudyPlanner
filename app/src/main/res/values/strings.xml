@@ -9,8 +9,6 @@
     <string name="Calendar">Calendar</string>
     <string name="Profile">Profile</string>
     <string name="Subjects">Subjects</string>
-    <string name="Invalid_date">Invalid date</string>
-    <string name="End_date_must_be_after_start_date">End date must be after start date</string>
     <string name="an_error_has_occurred">An error has occurred</string>
     <string name="New_class">New class</string>
     <string name="New_task">New task</string>
@@ -22,4 +20,9 @@
     <string name="Practice">Practice</string>
     <string name="Seminar">Seminar</string>
     <string name="Exam">Exam</string>
+    <string name="Invalid_date">Invalid date</string>
+    <string name="Invalid_class_type">Invalid class type</string>
+    <string name="Invalid_start_date">Invalid start date</string>
+    <string name="Invalid_end_date">Invalid end date</string>
+    <string name="End_time_must_be_later_than_start_time">End time must be later than start time</string>
 </resources>
