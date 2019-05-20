@@ -84,6 +84,7 @@ class AddNewTaskDialogViewModel(
             }
 
         taskRepo.add(Task(name, taskType, deliveryDate))
+        cancel()
     }
 
 }

@@ -160,6 +160,7 @@ class AddNewClassDialogViewModelTest {
 
             assertThat(viewModel.errorMessage.value).isEqualTo(INVALID_CLASS_TYPE)
             verify(inverse = true) { classRepo.add(any()) }
+            assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
         @Test
@@ -169,6 +170,7 @@ class AddNewClassDialogViewModelTest {
 
             assertThat(viewModel.errorMessage.value).isEqualTo(INVALID_START_DATE_ERROR)
             verify(inverse = true) { classRepo.add(any()) }
+            assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
         @Test
@@ -178,6 +180,7 @@ class AddNewClassDialogViewModelTest {
 
             assertThat(viewModel.errorMessage.value).isEqualTo(INVALID_START_DATE_ERROR)
             verify(inverse = true) { classRepo.add(any()) }
+            assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
         @Test
@@ -187,6 +190,7 @@ class AddNewClassDialogViewModelTest {
 
             assertThat(viewModel.errorMessage.value).isEqualTo(INVALID_END_DATE_ERROR)
             verify(inverse = true) { classRepo.add(any()) }
+            assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
         @Test
@@ -196,10 +200,11 @@ class AddNewClassDialogViewModelTest {
 
             assertThat(viewModel.errorMessage.value).isEqualTo(END_TIME_MUST_BE_LATER_THAN_START_TIME_ERROR)
             verify(inverse = true) { classRepo.add(any()) }
+            assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
         @Test
-        fun `when add is called with correct fields then repo#add is called`() {
+        fun `when add is called with correct fields then repo#add is called and dialog dismissed`() {
 
             viewModel.add(THEORY, DAY, START_TIME, END_TIME)
 
@@ -210,6 +215,7 @@ class AddNewClassDialogViewModelTest {
             )
 
             verify { classRepo.add(expectedClass) }
+            assertThat(viewModel.dismiss.value).isTrue()
         }
 
     }

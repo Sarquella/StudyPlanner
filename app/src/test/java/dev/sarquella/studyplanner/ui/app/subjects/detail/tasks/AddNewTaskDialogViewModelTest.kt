@@ -155,6 +155,7 @@ class AddNewTaskDialogViewModelTest {
 
             assertThat(viewModel.errorMessage.value).isEqualTo(INVALID_TASK_TYPE)
             verify(inverse = true) { taskRepo.add(any()) }
+            assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
         @Test
@@ -164,6 +165,7 @@ class AddNewTaskDialogViewModelTest {
 
             assertThat(viewModel.errorMessage.value).isEqualTo(INVALID_DATE_ERROR)
             verify(inverse = true) { taskRepo.add(any()) }
+            assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
         @Test
@@ -173,10 +175,11 @@ class AddNewTaskDialogViewModelTest {
 
             assertThat(viewModel.errorMessage.value).isEqualTo(INVALID_DATE_ERROR)
             verify(inverse = true) { taskRepo.add(any()) }
+            assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
         @Test
-        fun `when add is called with correct fields then repo#add is called`() {
+        fun `when add is called with correct fields then repo#add is called and dialog dismissed`() {
 
             viewModel.add(TASK_NAME, PRACTICE, DAY, START_TIME)
 
@@ -187,6 +190,7 @@ class AddNewTaskDialogViewModelTest {
             )
 
             verify { taskRepo.add(expectedTask) }
+            assertThat(viewModel.dismiss.value).isTrue()
         }
     }
 }

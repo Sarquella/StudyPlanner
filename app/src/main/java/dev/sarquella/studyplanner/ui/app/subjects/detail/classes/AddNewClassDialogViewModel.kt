@@ -94,7 +94,7 @@ class AddNewClassDialogViewModel(
         }
 
         classRepo.add(Class(classType, startDate, endDate))
-
+        cancel()
     }
 
 }
