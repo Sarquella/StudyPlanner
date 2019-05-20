@@ -35,7 +35,7 @@ object ViewModelModule : KoinModule {
         viewModel { AddSubjectItemViewModel() }
 
         viewModel { AddNewClassDialogViewModel(androidApplication(), get()) }
-        viewModel { AddNewTaskDialogViewModel(androidApplication()) }
+        viewModel { AddNewTaskDialogViewModel(androidApplication(), get()) }
     }
 
 }

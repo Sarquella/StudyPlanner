@@ -22,5 +22,13 @@ enum class TaskType(@StringRes val value: Int) {
                 context.getString(SEMINAR.value),
                 context.getString(EXAM.value)
             )
+
+        fun parse(string: String, context: Context): TaskType? {
+            values().forEach { type ->
+                if (context.getString(type.value) == string)
+                    return type
+            }
+            return null
+        }
     }
 }

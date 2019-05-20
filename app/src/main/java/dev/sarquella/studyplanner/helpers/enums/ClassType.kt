@@ -25,7 +25,7 @@ enum class ClassType(@StringRes val value: Int) {
 
         fun parse(string: String, context: Context): ClassType? {
             values().forEach { type ->
-                if (context.getString(type.value).equals(string))
+                if (context.getString(type.value) == string)
                     return type
             }
             return null

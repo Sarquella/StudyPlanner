@@ -60,7 +60,7 @@ class AddNewClassDialogViewModelTest {
         }
 
         @Test
-        fun `if empty all fields are empty then add button is disabled`() {
+        fun `if all fields are empty then add button is disabled`() {
             viewModel.onDayChanged("")
             viewModel.onStartTimeChanged("")
             viewModel.onEndTimeChanged("")
@@ -154,7 +154,7 @@ class AddNewClassDialogViewModelTest {
     inner class Add {
 
         @Test
-        fun `when add is called with class type then errorMessage is set and repo is not notified`() {
+        fun `when add is called with invalid class type then errorMessage is set and repo is not notified`() {
 
             viewModel.add("Invalid", INVALID_DAY, START_TIME, END_TIME)
 
