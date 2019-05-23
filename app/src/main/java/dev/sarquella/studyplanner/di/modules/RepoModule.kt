@@ -19,7 +19,7 @@ object RepoModule : KoinModule {
     override val module: Module = module {
         single { UserRepo(get(), get()) }
         single { SubjectRepo(get()) }
-        single { ClassRepo() }
+        single { ClassRepo(get()) }
         single { TaskRepo() }
     }
 

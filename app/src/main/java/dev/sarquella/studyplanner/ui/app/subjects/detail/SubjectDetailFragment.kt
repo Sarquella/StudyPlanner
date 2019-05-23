@@ -66,14 +66,16 @@ class SubjectDetailFragment : Fragment() {
     private fun bindShowAddNewClassDialog() {
         addSubjectItemViewModel.showAddNewClassDialog.observe(this, Observer { show ->
             if (show)
-                AddNewClassDialogFragment().show(childFragmentManager, "ADD_NEW_CLASS_DIALOG")
+                AddNewClassDialogFragment.newInstance(args.subjectId)
+                    .show(childFragmentManager, "ADD_NEW_CLASS_DIALOG")
         })
     }
 
     private fun bindShowAddNewTaskDialog() {
         addSubjectItemViewModel.showAddNewTaskDialog.observe(this, Observer { show ->
             if (show)
-                AddNewTaskDialogFragment().show(childFragmentManager, "ADD_NEW_TASK_DIALOG")
+                AddNewTaskDialogFragment.newInstance(args.subjectId)
+                    .show(childFragmentManager, "ADD_NEW_TASK_DIALOG")
         })
     }
 }

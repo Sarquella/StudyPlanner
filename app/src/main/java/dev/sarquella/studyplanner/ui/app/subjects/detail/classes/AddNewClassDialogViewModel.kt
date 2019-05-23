@@ -16,6 +16,7 @@ import dev.sarquella.studyplanner.repo.ClassRepo
 
 class AddNewClassDialogViewModel(
     application: Application,
+    private val subjectId: String,
     private val classRepo: ClassRepo
 ) : AndroidViewModel(application) {
 
@@ -93,7 +94,7 @@ class AddNewClassDialogViewModel(
             return
         }
 
-        classRepo.add(Class(classType, startDate, endDate))
+        classRepo.add(Class(classType, startDate, endDate), subjectId)
         cancel()
     }
 

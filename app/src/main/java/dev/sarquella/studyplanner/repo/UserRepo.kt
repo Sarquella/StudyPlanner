@@ -53,6 +53,6 @@ class UserRepo(
 
     fun isUserSigned() = authManager.currentUser != null
 
-    fun getCurrentUserReference(): DocumentReference =
-        db.collection(UserRepo.COLLECTION).document(authManager.currentUser?.uid ?: "")
+    fun getCurrentUserReference() =
+        db.collection(COLLECTION).document(authManager.currentUser?.uid ?: "")
 }

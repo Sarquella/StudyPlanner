@@ -43,7 +43,7 @@ class AddNewClassDialogViewModelTest {
         every { application.getString(R.string.Invalid_end_date) } returns INVALID_END_DATE_ERROR
         every { application.getString(R.string.End_time_must_be_later_than_start_time) } returns
                 END_TIME_MUST_BE_LATER_THAN_START_TIME_ERROR
-        viewModel = AddNewClassDialogViewModel(application, classRepo)
+        viewModel = AddNewClassDialogViewModel(application, SUBJECT_ID, classRepo)
     }
 
     @Nested
@@ -159,7 +159,7 @@ class AddNewClassDialogViewModelTest {
             viewModel.add("Invalid", INVALID_DAY, START_TIME, END_TIME)
 
             assertThat(viewModel.errorMessage.value).isEqualTo(INVALID_CLASS_TYPE)
-            verify(inverse = true) { classRepo.add(any()) }
+            verify(inverse = true) { classRepo.add(any(), any()) }
             assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
@@ -169,7 +169,7 @@ class AddNewClassDialogViewModelTest {
             viewModel.add(THEORY, INVALID_DAY, START_TIME, END_TIME)
 
             assertThat(viewModel.errorMessage.value).isEqualTo(INVALID_START_DATE_ERROR)
-            verify(inverse = true) { classRepo.add(any()) }
+            verify(inverse = true) { classRepo.add(any(), any()) }
             assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
@@ -179,7 +179,7 @@ class AddNewClassDialogViewModelTest {
             viewModel.add(THEORY, DAY, INVALID_TIME, END_TIME)
 
             assertThat(viewModel.errorMessage.value).isEqualTo(INVALID_START_DATE_ERROR)
-            verify(inverse = true) { classRepo.add(any()) }
+            verify(inverse = true) { classRepo.add(any(), any()) }
             assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
@@ -189,7 +189,7 @@ class AddNewClassDialogViewModelTest {
             viewModel.add(THEORY, DAY, START_TIME, INVALID_TIME)
 
             assertThat(viewModel.errorMessage.value).isEqualTo(INVALID_END_DATE_ERROR)
-            verify(inverse = true) { classRepo.add(any()) }
+            verify(inverse = true) { classRepo.add(any(), any()) }
             assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
@@ -199,7 +199,7 @@ class AddNewClassDialogViewModelTest {
             viewModel.add(THEORY, DAY, START_TIME, BEFORE_START_TIME)
 
             assertThat(viewModel.errorMessage.value).isEqualTo(END_TIME_MUST_BE_LATER_THAN_START_TIME_ERROR)
-            verify(inverse = true) { classRepo.add(any()) }
+            verify(inverse = true) { classRepo.add(any(), any()) }
             assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
@@ -214,7 +214,7 @@ class AddNewClassDialogViewModelTest {
                 DateUtils.parse("$DAY $END_TIME")!!
             )
 
-            verify { classRepo.add(expectedClass) }
+            verify { classRepo.add(expectedClass, SUBJECT_ID) }
             assertThat(viewModel.dismiss.value).isTrue()
         }
 

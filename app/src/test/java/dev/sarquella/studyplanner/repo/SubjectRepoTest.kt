@@ -96,6 +96,29 @@ class SubjectRepoTest {
     }
 
     @Nested
+    inner class GetSubjectReference {
+
+        private val subjectId = SUBJECT.id
+
+        @Test
+        fun `when called then userRef#collection#document is called`() {
+            subjectRepo.getSubjectReference(subjectId)
+
+            verify { userRef.collection(SubjectRepo.COLLECTION).document(subjectId) }
+        }
+
+        @Test
+        fun `returned document reference matches the one returned by firestore`() {
+            val expectedRef: DocumentReference = mockk()
+            every { userRef.collection(SubjectRepo.COLLECTION).document(any()) } returns expectedRef
+
+            val subjectRef = subjectRepo.getSubjectReference(subjectId)
+
+            assertThat(subjectRef).isEqualTo(expectedRef)
+        }
+    }
+
+    @Nested
     inner class GetSubject {
 
         private val subjectId = SUBJECT.id

@@ -11,10 +11,7 @@ import androidx.test.espresso.matcher.RootMatchers.isPlatformPopup
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import dev.sarquella.studyplanner.DAY
-import dev.sarquella.studyplanner.END_TIME
-import dev.sarquella.studyplanner.R
-import dev.sarquella.studyplanner.TASK_NAME
+import dev.sarquella.studyplanner.*
 import dev.sarquella.studyplanner.helpers.enums.TaskType
 import dev.sarquella.studyplanner.rules.DialogTestRule
 import io.mockk.every
@@ -60,7 +57,7 @@ class AddNewTaskDialogFragmentTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private val dialog = AddNewTaskDialogFragment()
+    private val dialog = AddNewTaskDialogFragment.newInstance(SUBJECT_ID)
 
     @Before
     fun beforeEach() {

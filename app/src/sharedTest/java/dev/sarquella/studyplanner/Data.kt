@@ -1,7 +1,10 @@
 package dev.sarquella.studyplanner
 
+import dev.sarquella.studyplanner.data.entities.Class
 import dev.sarquella.studyplanner.data.entities.Subject
 import dev.sarquella.studyplanner.helpers.enums.ClassType
+import dev.sarquella.studyplanner.helpers.utils.DateUtils
+import java.util.*
 
 
 /*
@@ -30,5 +33,10 @@ const val INVALID_TIME = "25:00"
 const val BEFORE_START_TIME = "12:30"
 
 val CLASS_TYPE = ClassType.THEORY
+val CLASS = Class(
+    CLASS_TYPE,
+    DateUtils.parse("$DAY $START_TIME") ?: Date(),
+    DateUtils.parse("$DAY $START_TIME") ?: Date()
+)
 
 const val TASK_NAME = "Task"

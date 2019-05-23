@@ -13,6 +13,7 @@ import dev.sarquella.studyplanner.helpers.extensions.afterTextChanged
 import dev.sarquella.studyplanner.ui.app.subjects.detail.abstractions.FullTransparentDialogFragment
 import kotlinx.android.synthetic.main.dialog_add_new_class.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 
 /*
@@ -20,9 +21,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * adria@sarquella.dev
  */
 
-class AddNewClassDialogFragment : FullTransparentDialogFragment() {
+class AddNewClassDialogFragment private constructor() : FullTransparentDialogFragment() {
 
-    private val viewModel: AddNewClassDialogViewModel by viewModel()
+    private val viewModel: AddNewClassDialogViewModel by viewModel {
+        parametersOf(arguments?.getString("subjectId") ?: "")
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding: DialogAddNewClassBinding =
@@ -59,6 +62,14 @@ class AddNewClassDialogFragment : FullTransparentDialogFragment() {
             if (dismiss)
                 this.dismiss()
         })
+    }
+
+    companion object {
+        fun newInstance(subjectId: String) = AddNewClassDialogFragment().apply {
+            arguments = Bundle().apply {
+                putString("subjectId", subjectId)
+            }
+        }
     }
 
 }

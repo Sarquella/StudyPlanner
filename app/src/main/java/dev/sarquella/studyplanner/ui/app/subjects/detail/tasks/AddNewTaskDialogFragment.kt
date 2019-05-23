@@ -13,6 +13,7 @@ import dev.sarquella.studyplanner.helpers.extensions.afterTextChanged
 import kotlinx.android.synthetic.main.dialog_add_new_class.etDay
 import kotlinx.android.synthetic.main.dialog_add_new_task.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 
 /*
@@ -20,9 +21,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  * adria@sarquella.dev
  */
 
-class AddNewTaskDialogFragment : FullTransparentDialogFragment() {
+class AddNewTaskDialogFragment private constructor() : FullTransparentDialogFragment() {
 
-    private val viewModel: AddNewTaskDialogViewModel by viewModel()
+    private val viewModel: AddNewTaskDialogViewModel by viewModel {
+        parametersOf(arguments?.getString("subjectId") ?: "")
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding: DialogAddNewTaskBinding =
@@ -59,4 +62,13 @@ class AddNewTaskDialogFragment : FullTransparentDialogFragment() {
                 this.dismiss()
         })
     }
+
+    companion object {
+        fun newInstance(subjectId: String) = AddNewTaskDialogFragment().apply {
+            arguments = Bundle().apply {
+                putString("subjectId", subjectId)
+            }
+        }
+    }
+
 }

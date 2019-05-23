@@ -2,6 +2,7 @@ package dev.sarquella.studyplanner.repo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
 import dev.sarquella.studyplanner.data.vo.ListBuilder
 import dev.sarquella.studyplanner.data.vo.Resource
@@ -35,11 +36,13 @@ class SubjectRepo(private val userRepo: UserRepo) {
         return response
     }
 
+    fun getSubjectReference(id: String): DocumentReference =
+            userRepo.getCurrentUserReference().collection(COLLECTION).document(id)
+
     fun getSubject(id: String): LiveData<Resource<Subject>> {
         val resource = MutableLiveData<Resource<Subject>>()
         resource.progress()
-        userRepo.getCurrentUserReference()
-            .collection(SubjectRepo.COLLECTION).document(id).get().addOnCompleteListener { result ->
+        getSubjectReference(id).get().addOnCompleteListener { result ->
                 if (result.isSuccessful)
                     resource.succeed(result.result?.toObject(Subject::class.java))
                 else

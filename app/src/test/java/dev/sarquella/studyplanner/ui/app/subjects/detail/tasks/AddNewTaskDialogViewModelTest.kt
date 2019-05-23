@@ -39,7 +39,7 @@ class AddNewTaskDialogViewModelTest {
         every { application.getString(R.string.Invalid_task_type) } returns INVALID_TASK_TYPE
         every { application.getString(R.string.Invalid_date) } returns INVALID_DATE_ERROR
 
-        viewModel = AddNewTaskDialogViewModel(application, taskRepo)
+        viewModel = AddNewTaskDialogViewModel(application, SUBJECT_ID, taskRepo)
     }
 
     @Nested
@@ -154,7 +154,7 @@ class AddNewTaskDialogViewModelTest {
             viewModel.add(TASK_NAME, "Invalid", DAY, START_TIME)
 
             assertThat(viewModel.errorMessage.value).isEqualTo(INVALID_TASK_TYPE)
-            verify(inverse = true) { taskRepo.add(any()) }
+            verify(inverse = true) { taskRepo.add(any(), any()) }
             assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
@@ -164,7 +164,7 @@ class AddNewTaskDialogViewModelTest {
             viewModel.add(TASK_NAME, PRACTICE, INVALID_DAY, START_TIME)
 
             assertThat(viewModel.errorMessage.value).isEqualTo(INVALID_DATE_ERROR)
-            verify(inverse = true) { taskRepo.add(any()) }
+            verify(inverse = true) { taskRepo.add(any(), any()) }
             assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
@@ -174,7 +174,7 @@ class AddNewTaskDialogViewModelTest {
             viewModel.add(TASK_NAME, PRACTICE, DAY, INVALID_TIME)
 
             assertThat(viewModel.errorMessage.value).isEqualTo(INVALID_DATE_ERROR)
-            verify(inverse = true) { taskRepo.add(any()) }
+            verify(inverse = true) { taskRepo.add(any(), any()) }
             assertThat(viewModel.dismiss.value).isIn(null, false)
         }
 
@@ -189,7 +189,7 @@ class AddNewTaskDialogViewModelTest {
                 DateUtils.parse("$DAY $START_TIME")!!
             )
 
-            verify { taskRepo.add(expectedTask) }
+            verify { taskRepo.add(expectedTask, SUBJECT_ID) }
             assertThat(viewModel.dismiss.value).isTrue()
         }
     }

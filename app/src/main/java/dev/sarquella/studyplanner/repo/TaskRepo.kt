@@ -10,7 +10,7 @@ import dev.sarquella.studyplanner.data.entities.Task
 
 class TaskRepo {
 
-    fun add(task: Task) {
+    fun add(task: Task, subjectId: String) {
 
     }
 

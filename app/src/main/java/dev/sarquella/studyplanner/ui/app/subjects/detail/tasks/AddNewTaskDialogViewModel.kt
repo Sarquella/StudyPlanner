@@ -19,6 +19,7 @@ import dev.sarquella.studyplanner.repo.TaskRepo
 
 class AddNewTaskDialogViewModel(
     application: Application,
+    private val subjectId: String,
     private val taskRepo: TaskRepo
 ) : AndroidViewModel(application) {
 
@@ -83,7 +84,7 @@ class AddNewTaskDialogViewModel(
                 return
             }
 
-        taskRepo.add(Task(name, taskType, deliveryDate))
+        taskRepo.add(Task(name, taskType, deliveryDate), subjectId)
         cancel()
     }
 
