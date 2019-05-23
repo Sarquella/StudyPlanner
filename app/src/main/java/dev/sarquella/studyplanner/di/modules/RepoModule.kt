@@ -20,7 +20,7 @@ object RepoModule : KoinModule {
         single { UserRepo(get(), get()) }
         single { SubjectRepo(get()) }
         single { ClassRepo(get()) }
-        single { TaskRepo() }
+        single { TaskRepo(get()) }
     }
 
 }

@@ -2,7 +2,9 @@ package dev.sarquella.studyplanner
 
 import dev.sarquella.studyplanner.data.entities.Class
 import dev.sarquella.studyplanner.data.entities.Subject
+import dev.sarquella.studyplanner.data.entities.Task
 import dev.sarquella.studyplanner.helpers.enums.ClassType
+import dev.sarquella.studyplanner.helpers.enums.TaskType
 import dev.sarquella.studyplanner.helpers.utils.DateUtils
 import java.util.*
 
@@ -36,7 +38,13 @@ val CLASS_TYPE = ClassType.THEORY
 val CLASS = Class(
     CLASS_TYPE,
     DateUtils.parse("$DAY $START_TIME") ?: Date(),
-    DateUtils.parse("$DAY $START_TIME") ?: Date()
+    DateUtils.parse("$DAY $END_TIME") ?: Date()
 )
 
 const val TASK_NAME = "Task"
+val TASK_TYPE = TaskType.PRACTICE
+val TASK = Task(
+    TASK_NAME,
+    TASK_TYPE,
+    DateUtils.parse("$DAY $START_TIME") ?: Date()
+)

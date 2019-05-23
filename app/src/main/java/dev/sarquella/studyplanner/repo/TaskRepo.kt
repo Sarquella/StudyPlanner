@@ -1,6 +1,12 @@
 package dev.sarquella.studyplanner.repo
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import dev.sarquella.studyplanner.data.entities.Task
+import dev.sarquella.studyplanner.data.vo.Response
+import dev.sarquella.studyplanner.helpers.extensions.failed
+import dev.sarquella.studyplanner.helpers.extensions.progress
+import dev.sarquella.studyplanner.helpers.extensions.succeed
 
 
 /*
@@ -8,10 +14,22 @@ import dev.sarquella.studyplanner.data.entities.Task
  * adria@sarquella.dev
  */
 
-class TaskRepo {
+class TaskRepo(private val subjectRepo: SubjectRepo) {
 
-    fun add(task: Task, subjectId: String) {
+    companion object {
+        const val COLLECTION = "tasks"
+    }
 
+    fun add(task: Task, subjectId: String): LiveData<Response> {
+        val response = MutableLiveData<Response>()
+        response.progress()
+        subjectRepo.getSubjectReference(subjectId).collection(COLLECTION).add(task).addOnCompleteListener { result ->
+            if (result.isSuccessful)
+                response.succeed()
+            else
+                response.failed(result.exception?.message)
+        }
+        return response
     }
 
 }
