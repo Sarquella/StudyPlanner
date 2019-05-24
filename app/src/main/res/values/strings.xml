@@ -26,4 +26,6 @@
     <string name="End_time_must_be_later_than_start_time">End time must be later than start time</string>
     <string name="Invalid_date">Invalid date</string>
     <string name="Invalid_task_type">Invalid task type</string>
+    <string name="Classes">Classes</string>
+    <string name="Tasks">Tasks</string>
 </resources>

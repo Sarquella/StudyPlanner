@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import dev.sarquella.studyplanner.R
 import dev.sarquella.studyplanner.databinding.FragmentSubjectDetailBinding
 import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.AddNewClassDialogFragment
+import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassListFragment
 import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.AddNewTaskDialogFragment
+import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.TaskListFragment
 import kotlinx.android.synthetic.main.fragment_subject_detail.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -43,7 +46,13 @@ class SubjectDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setPages()
         bindObservables()
+    }
+
+    private fun setPages() {
+        viewPager.adapter = SubjectDetailPagerAdapter(args.subjectId, context, fragmentManager)
+        tabLayout.setupWithViewPager(viewPager)
     }
 
     private fun bindObservables() {

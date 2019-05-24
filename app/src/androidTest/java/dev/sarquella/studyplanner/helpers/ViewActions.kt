@@ -6,6 +6,7 @@ import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.ViewMatchers
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.tabs.TabLayout
 import org.hamcrest.Matcher
 
 
@@ -47,3 +48,17 @@ fun checkButton(descendantId: Int): ViewAction =
             (view as? RadioGroup)?.check(descendantId)
         }
     }
+
+fun selectTabAtPosition(position: Int): ViewAction {
+    return object : ViewAction {
+        override fun getDescription() = "select tab at position $position"
+
+        override fun getConstraints() = ViewMatchers.isAssignableFrom(TabLayout::class.java)
+
+        override fun perform(uiController: UiController, view: View) {
+            (view as? TabLayout)?.getTabAt(position)?.let { tab ->
+                tab.select()
+            }
+        }
+    }
+}

@@ -21,13 +21,12 @@
 
         <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="@dimen/size_app_bar_height"
                 android:background="@android:color/white">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:titleEnabled="true"
                     app:expandedTitleGravity="center_vertical"
                     app:title="@string/Subjects"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed">

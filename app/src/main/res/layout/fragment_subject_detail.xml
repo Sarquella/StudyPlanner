@@ -12,51 +12,79 @@
                 type="dev.sarquella.studyplanner.ui.app.subjects.detail.AddSubjectItemViewModel"/>
 
     </data>
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <RelativeLayout
             android:id="@+id/fragment_subject_detail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:onTouch="@{() -> subjectDetailViewModel.dismissAddItemDialog()}">
-
-        <com.google.android.material.appbar.AppBarLayout
+            android:layout_height="match_parent">
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_expanded_app_bar_height"
-                android:background="@android:color/white">
+                android:layout_height="match_parent">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                    android:id="@+id/collapsingToolbar"
+            <com.google.android.material.appbar.AppBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                        android:id="@+id/collapsingToolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_app_bar_height"
+                        app:expandedTitleGravity="center_vertical"
+                        app:title="@{subjectDetailViewModel.subjectName}"
+                        tools:title="Subject"
+                        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <androidx.appcompat.widget.Toolbar
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize"/>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_tab_layout_height"
+                        style="@style/Widget.MaterialComponents.TabLayout">
+
+                    <com.google.android.material.tabs.TabItem
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/Classes"/>
+
+                    <com.google.android.material.tabs.TabItem
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/Tasks"/>
+
+                </com.google.android.material.tabs.TabLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                    app:toolbarId="@+id/toolbar"
-                    app:title="@{subjectDetailViewModel.subjectName}"
-                    tools:title="Subject">
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-                <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        app:layout_collapseMode="pin"
-                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+            <include layout="@layout/dialog_add_subject_item"
+                     app:viewModel="@{addSubjectItemViewModel}"
+                     android:visibility="invisible"/>
 
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="@dimen/space_s"
+                    android:layout_marginEnd="@dimen/space_s"
+                    android:src="@drawable/ic_plus"
+                    android:tint="@android:color/white"
+                    android:onClick="@{() -> subjectDetailViewModel.showAddItemDialog()}"/>
 
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <include layout="@layout/dialog_add_subject_item"
-                 app:viewModel="@{addSubjectItemViewModel}"
-                 android:visibility="invisible"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btAdd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginBottom="@dimen/space_s"
-                android:layout_marginEnd="@dimen/space_s"
-                android:src="@drawable/ic_plus"
-                android:tint="@android:color/white"
-                android:onClick="@{() -> subjectDetailViewModel.showAddItemDialog()}"/>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:onTouch="@{() -> subjectDetailViewModel.dismissAddItemDialog()}"/>
+    </RelativeLayout>
 </layout>

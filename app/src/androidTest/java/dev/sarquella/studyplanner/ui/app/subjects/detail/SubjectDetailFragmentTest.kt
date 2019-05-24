@@ -8,10 +8,12 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.sarquella.studyplanner.R
 import dev.sarquella.studyplanner.SUBJECT
+import dev.sarquella.studyplanner.helpers.selectTabAtPosition
 import dev.sarquella.studyplanner.helpers.withTitle
 import dev.sarquella.studyplanner.rules.DataBindingTestRule
 import dev.sarquella.studyplanner.rules.FragmentTestRule
@@ -93,6 +95,20 @@ class SubjectDetailFragmentTest {
         subjectName.postValue(title)
 
         onView(withId(R.id.collapsingToolbar)).check(matches(withTitle(title)))
+    }
+
+    @Test
+    fun whenFirstTabIsSelected_thenClassListFragmentIsDisplayed() {
+        onView(withId(R.id.tabLayout)).perform(selectTabAtPosition(0))
+
+        onView(withId(R.id.fragment_class_list)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun whenSecondTabIsSelected_thenTaskListFragmentIsDisplayed() {
+        onView(withId(R.id.tabLayout)).perform(selectTabAtPosition(1))
+
+        onView(withId(R.id.fragment_task_list)).check(matches(isDisplayed()))
     }
 
     @Test

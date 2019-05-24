@@ -16,11 +16,7 @@ import org.koin.dsl.module
 object AdapterModule : KoinModule {
 
     override val module: Module = module {
-        factory { (options: FirestoreRecyclerOptions<Subject>) ->
-            SubjectListAdapter(
-                options
-            )
-        }
+        factory { (options: FirestoreRecyclerOptions<Subject>) -> SubjectListAdapter(options) }
     }
 
 }
