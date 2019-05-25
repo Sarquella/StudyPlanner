@@ -1,5 +1,6 @@
 package dev.sarquella.studyplanner.data.entities
 
+import com.firebase.ui.firestore.ClassSnapshotParser
 import dev.sarquella.studyplanner.helpers.enums.TaskType
 import java.util.*
 
@@ -13,4 +14,10 @@ data class Task(
     val name: String = "",
     val type: TaskType = TaskType.PRACTICE,
     val deliveryDate: Date = Date()
-)
+) {
+
+    companion object {
+        val parser = ClassSnapshotParser(Task::class.java)
+    }
+
+}

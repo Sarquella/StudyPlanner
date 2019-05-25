@@ -31,7 +31,7 @@ class ClassesViewModelTest {
     }
 
     @Nested
-    inner class ClassList {
+    inner class ClassesList {
 
         @Test
         fun `check classesViewModel#classesList matches the one provided by classRepo#getClasses`() {

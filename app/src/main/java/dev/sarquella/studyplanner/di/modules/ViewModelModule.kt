@@ -8,6 +8,7 @@ import dev.sarquella.studyplanner.ui.app.subjects.detail.SubjectDetailViewModel
 import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.AddNewClassDialogViewModel
 import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassesViewModel
 import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.AddNewTaskDialogViewModel
+import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.TasksViewModel
 import dev.sarquella.studyplanner.ui.launch.LaunchViewModel
 import dev.sarquella.studyplanner.ui.sign.signIn.SignInViewModel
 import dev.sarquella.studyplanner.ui.sign.signUp.SignUpViewModel
@@ -39,6 +40,7 @@ object ViewModelModule : KoinModule {
         viewModel { (subjectId: String) -> AddNewTaskDialogViewModel(androidApplication(), subjectId, get()) }
 
         viewModel { (subjectId: String) -> ClassesViewModel(subjectId, get()) }
+        viewModel { (subjectId: String) -> TasksViewModel(subjectId, get()) }
     }
 
 }

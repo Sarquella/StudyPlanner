@@ -54,3 +54,9 @@ val TASK = Task(
     TASK_TYPE,
     DateUtils.parse("$DAY $START_TIME") ?: Date()
 )
+
+val TASK_2 = Task(
+    TASK_NAME + "_2",
+    TaskType.EXAM,
+    DateUtils.parse("$DAY $END_TIME") ?: Date()
+)

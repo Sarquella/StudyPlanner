@@ -20,6 +20,8 @@ import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.AddNewClassDial
 import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassListAdapter
 import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassesViewModel
 import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.AddNewTaskDialogViewModel
+import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.TaskListAdapter
+import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.TasksViewModel
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -65,6 +67,9 @@ class AddSubjectItemDialogTest {
             val classesViewModel: ClassesViewModel = mockk(relaxed = true)
             val classListAdapter: ClassListAdapter = mockk(relaxed = true)
 
+            val tasksViewModel: TasksViewModel = mockk(relaxed = true)
+            val taskListAdapter: TaskListAdapter = mockk(relaxed = true)
+
             loadKoinModules(
                 module {
                     viewModel { viewModel }
@@ -72,7 +77,9 @@ class AddSubjectItemDialogTest {
                     viewModel { addNewClassDialogViewModel }
                     viewModel { addNewTaskDialogViewModel }
                     viewModel { classesViewModel }
+                    viewModel { tasksViewModel }
                     factory { classListAdapter }
+                    factory { taskListAdapter }
                 }
             )
         }

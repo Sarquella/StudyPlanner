@@ -19,6 +19,8 @@ import dev.sarquella.studyplanner.rules.DataBindingTestRule
 import dev.sarquella.studyplanner.rules.FragmentTestRule
 import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassListAdapter
 import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassesViewModel
+import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.TaskListAdapter
+import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.TasksViewModel
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -53,12 +55,17 @@ class SubjectDetailFragmentTest {
             val classesViewModel: ClassesViewModel = mockk(relaxed = true)
             val classListAdapter: ClassListAdapter = mockk(relaxed = true)
 
+            val tasksViewModel: TasksViewModel = mockk(relaxed = true)
+            val taskListAdapter: TaskListAdapter = mockk(relaxed = true)
+
             loadKoinModules(
                 module {
                     viewModel { viewModel }
                     viewModel { addSubjectItemViewModel }
                     viewModel { classesViewModel }
+                    viewModel { tasksViewModel }
                     factory { classListAdapter }
+                    factory { taskListAdapter }
                 }
             )
         }
@@ -109,14 +116,14 @@ class SubjectDetailFragmentTest {
     fun whenFirstTabIsSelected_thenClassListFragmentIsDisplayed() {
         onView(withId(R.id.tabLayout)).perform(selectTabAtPosition(0))
 
-        onView(withId(R.id.fragment_class_list)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment_classes)).check(matches(isDisplayed()))
     }
 
     @Test
     fun whenSecondTabIsSelected_thenTaskListFragmentIsDisplayed() {
         onView(withId(R.id.tabLayout)).perform(selectTabAtPosition(1))
 
-        onView(withId(R.id.fragment_task_list)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment_tasks)).check(matches(isDisplayed()))
     }
 
     @Test

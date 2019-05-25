@@ -1,10 +1,13 @@
 package dev.sarquella.studyplanner.repo
 
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Query
 import dev.sarquella.studyplanner.SUBJECT_ID
 import dev.sarquella.studyplanner.TASK
+import dev.sarquella.studyplanner.data.entities.Task
+import dev.sarquella.studyplanner.data.vo.ListBuilder
 import dev.sarquella.studyplanner.data.vo.Response
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
 import io.mockk.every
@@ -46,7 +49,7 @@ class TaskRepoTest {
 
     @Nested
     inner class Add {
-        private val docTask: Task<DocumentReference> = mockk()
+        private val docTask: com.google.android.gms.tasks.Task<DocumentReference> = mockk()
         private val onCompleteListener = slot<OnCompleteListener<DocumentReference>>()
 
         init {
@@ -63,7 +66,7 @@ class TaskRepoTest {
 
         @Test
         fun `initial response state is progress`() {
-            val response =  taskRepo.add(TASK, SUBJECT_ID)
+            val response = taskRepo.add(TASK, SUBJECT_ID)
 
             assertThat(response.value).isEqualTo(Response(Response.ResponseState.PROGRESS))
         }
@@ -82,7 +85,7 @@ class TaskRepoTest {
             val errorMessage = "Error message"
             every { docTask.isSuccessful } returns false
             every { docTask.exception } returns Exception(errorMessage)
-            val response =  taskRepo.add(TASK, SUBJECT_ID)
+            val response = taskRepo.add(TASK, SUBJECT_ID)
             onCompleteListener.captured.onComplete(docTask)
 
             assertThat(response.value).isEqualTo(
@@ -92,5 +95,28 @@ class TaskRepoTest {
                 )
             )
         }
+    }
+
+    @Nested
+    inner class GetTasks {
+
+        private val collectionRef: CollectionReference = mockk(relaxed = true)
+
+        init {
+            every { subjectRef.collection(TaskRepo.COLLECTION) } returns collectionRef
+        }
+
+        @Test
+        fun `when called returns ListBuilder with sorted subjects query`() {
+            val listBuilder = taskRepo.getTasks(SUBJECT_ID)
+
+            val expected = ListBuilder(
+                collectionRef.orderBy("deliveryDate", Query.Direction.ASCENDING),
+                Task.parser
+            )
+
+            assertThat(listBuilder).isEqualTo(expected)
+        }
+
     }
 }

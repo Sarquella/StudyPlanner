@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import dev.sarquella.studyplanner.R
 import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassesFragment
-import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.TaskListFragment
+import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.TasksFragment
 
 
 /*
@@ -24,7 +24,7 @@ class SubjectDetailPagerAdapter(
 
     private val pages = listOf(
         Page(context?.getString(R.string.Classes), ClassesFragment.newInstance(subjectId)),
-        Page(context?.getString(R.string.Tasks), TaskListFragment())
+        Page(context?.getString(R.string.Tasks), TasksFragment.newInstance(subjectId))
     )
 
     override fun getItem(position: Int): Fragment = pages[position].fragment
