@@ -53,7 +53,7 @@ class SubjectsViewModelTest {
         }
 
         @Test
-        fun `check subjectsViewModel#subjectList matches the one provided by subjectRepo#getSubjects`() {
+        fun `check subjectsViewModel#subjectsList matches the one provided by subjectRepo#getSubjects`() {
             assertThat(viewModel.subjectsList).isEqualTo(subjectsList)
         }
 

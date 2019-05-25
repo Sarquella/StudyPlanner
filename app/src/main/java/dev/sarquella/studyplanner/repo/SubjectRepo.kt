@@ -55,7 +55,7 @@ class SubjectRepo(private val userRepo: UserRepo) {
         ListBuilder(
             userRepo.getCurrentUserReference()
                 .collection(COLLECTION).orderBy("creationDate", Query.Direction.DESCENDING),
-            Subject.parser()
+            Subject.parser
         )
 
 }

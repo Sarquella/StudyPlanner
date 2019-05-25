@@ -2,6 +2,7 @@ package dev.sarquella.studyplanner.repo
 
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
@@ -191,10 +192,10 @@ class SubjectRepoTest {
     @Nested
     inner class GetSubjects {
 
-        private val query: Query = mockk()
+        private val collectionRef: CollectionReference = mockk(relaxed = true)
 
         init {
-            every { userRef.collection(SubjectRepo.COLLECTION).orderBy(any<String>(), any()) } returns query
+            every { userRef.collection(SubjectRepo.COLLECTION) } returns collectionRef
         }
 
         @Test
@@ -202,8 +203,8 @@ class SubjectRepoTest {
             val listBuilder = subjectRepo.getSubjects()
 
             val expected = ListBuilder(
-                userRef.collection(SubjectRepo.COLLECTION).orderBy("creationDate", Query.Direction.DESCENDING),
-                Subject.parser()
+                collectionRef.orderBy("creationDate", Query.Direction.DESCENDING),
+                Subject.parser
             )
 
             assertThat(listBuilder).isEqualTo(expected)

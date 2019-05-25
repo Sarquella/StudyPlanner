@@ -17,6 +17,8 @@ import dev.sarquella.studyplanner.helpers.selectTabAtPosition
 import dev.sarquella.studyplanner.helpers.withTitle
 import dev.sarquella.studyplanner.rules.DataBindingTestRule
 import dev.sarquella.studyplanner.rules.FragmentTestRule
+import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassListAdapter
+import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassesViewModel
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -47,10 +49,16 @@ class SubjectDetailFragmentTest {
         @JvmStatic
         fun beforeClass() {
             val addSubjectItemViewModel: AddSubjectItemViewModel = mockk(relaxed = true)
+
+            val classesViewModel: ClassesViewModel = mockk(relaxed = true)
+            val classListAdapter: ClassListAdapter = mockk(relaxed = true)
+
             loadKoinModules(
                 module {
                     viewModel { viewModel }
                     viewModel { addSubjectItemViewModel }
+                    viewModel { classesViewModel }
+                    factory { classListAdapter }
                 }
             )
         }

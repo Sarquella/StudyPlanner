@@ -17,6 +17,8 @@ import dev.sarquella.studyplanner.SUBJECT
 import dev.sarquella.studyplanner.helpers.setExpanded
 import dev.sarquella.studyplanner.rules.FragmentTestRule
 import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.AddNewClassDialogViewModel
+import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassListAdapter
+import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassesViewModel
 import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.AddNewTaskDialogViewModel
 import io.mockk.every
 import io.mockk.mockk
@@ -60,12 +62,17 @@ class AddSubjectItemDialogTest {
             every { addNewTaskDialogViewModel.errorMessage.value } returns null
             every { addNewTaskDialogViewModel.isAddButtonEnabled.value } returns false
 
+            val classesViewModel: ClassesViewModel = mockk(relaxed = true)
+            val classListAdapter: ClassListAdapter = mockk(relaxed = true)
+
             loadKoinModules(
                 module {
                     viewModel { viewModel }
                     viewModel { subjectDetailViewModel }
                     viewModel { addNewClassDialogViewModel }
                     viewModel { addNewTaskDialogViewModel }
+                    viewModel { classesViewModel }
+                    factory { classListAdapter }
                 }
             )
         }

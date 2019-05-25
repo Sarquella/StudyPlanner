@@ -2,7 +2,10 @@ package dev.sarquella.studyplanner.repo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.firebase.ui.firestore.ClassSnapshotParser
+import com.google.firebase.firestore.Query
 import dev.sarquella.studyplanner.data.entities.Class
+import dev.sarquella.studyplanner.data.vo.ListBuilder
 import dev.sarquella.studyplanner.data.vo.Response
 import dev.sarquella.studyplanner.helpers.extensions.failed
 import dev.sarquella.studyplanner.helpers.extensions.progress
@@ -31,5 +34,12 @@ class ClassRepo(private val subjectRepo: SubjectRepo) {
         }
         return response
     }
+
+    fun getClasses(subjectId: String): ListBuilder<Class> =
+        ListBuilder(
+            subjectRepo.getSubjectReference(subjectId)
+                .collection(COLLECTION).orderBy("startDate", Query.Direction.ASCENDING),
+            Class.parser
+        )
 
 }

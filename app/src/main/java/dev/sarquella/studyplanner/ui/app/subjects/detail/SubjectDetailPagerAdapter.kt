@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import dev.sarquella.studyplanner.R
-import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassListFragment
+import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassesFragment
 import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.TaskListFragment
 
 
@@ -15,7 +15,7 @@ import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.TaskListFragment
  */
 
 class SubjectDetailPagerAdapter(
-    private val subjectId: String,
+    subjectId: String,
     context: Context?,
     fragmentManager: FragmentManager?
 ) : FragmentPagerAdapter(fragmentManager) {
@@ -23,7 +23,7 @@ class SubjectDetailPagerAdapter(
     private inner class Page(val title: String?, val fragment: Fragment)
 
     private val pages = listOf(
-        Page(context?.getString(R.string.Classes), ClassListFragment()),
+        Page(context?.getString(R.string.Classes), ClassesFragment.newInstance(subjectId)),
         Page(context?.getString(R.string.Tasks), TaskListFragment())
     )
 

@@ -1,10 +1,15 @@
 package dev.sarquella.studyplanner.repo
 
+import com.firebase.ui.firestore.ClassSnapshotParser
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Query
 import dev.sarquella.studyplanner.CLASS
 import dev.sarquella.studyplanner.SUBJECT_ID
+import dev.sarquella.studyplanner.data.entities.Class
+import dev.sarquella.studyplanner.data.vo.ListBuilder
 import dev.sarquella.studyplanner.data.vo.Response
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
 import io.mockk.every
@@ -63,7 +68,7 @@ class ClassRepoTest {
 
         @Test
         fun `initial response state is progress`() {
-            val response =  classRepo.add(CLASS, SUBJECT_ID)
+            val response = classRepo.add(CLASS, SUBJECT_ID)
 
             assertThat(response.value).isEqualTo(Response(Response.ResponseState.PROGRESS))
         }
@@ -82,7 +87,7 @@ class ClassRepoTest {
             val errorMessage = "Error message"
             every { docTask.isSuccessful } returns false
             every { docTask.exception } returns Exception(errorMessage)
-            val response =  classRepo.add(CLASS, SUBJECT_ID)
+            val response = classRepo.add(CLASS, SUBJECT_ID)
             onCompleteListener.captured.onComplete(docTask)
 
             assertThat(response.value).isEqualTo(
@@ -92,5 +97,28 @@ class ClassRepoTest {
                 )
             )
         }
+    }
+
+    @Nested
+    inner class GetClasses {
+
+        private val collectionRef: CollectionReference = mockk(relaxed = true)
+
+        init {
+            every { subjectRef.collection(ClassRepo.COLLECTION) } returns collectionRef
+        }
+
+        @Test
+        fun `when called returns ListBuilder with sorted subjects query`() {
+            val listBuilder = classRepo.getClasses(SUBJECT_ID)
+
+            val expected = ListBuilder(
+                collectionRef.orderBy("startDate", Query.Direction.ASCENDING),
+                Class.parser
+            )
+
+            assertThat(listBuilder).isEqualTo(expected)
+        }
+
     }
 }

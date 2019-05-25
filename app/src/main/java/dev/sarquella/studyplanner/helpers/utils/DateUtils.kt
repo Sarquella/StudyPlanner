@@ -24,4 +24,6 @@ object DateUtils {
         } catch (e: ParseException) {
             null
         }
+
+    fun serialize(date: Date): String = dateFormat.format(date)
 }

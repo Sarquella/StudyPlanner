@@ -22,7 +22,7 @@ data class Subject(
     var creationDate: Date? = null
 
     companion object {
-        fun parser() = SnapshotParser { snapshot ->
+        val parser = SnapshotParser { snapshot ->
             fromSnapshot(
                 snapshot
             )

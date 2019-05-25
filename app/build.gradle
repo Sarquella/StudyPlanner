@@ -17,6 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "dev.sarquella.studyplanner.helpers.AndroidTestRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
     buildTypes {
         release {
@@ -34,6 +35,7 @@ android {
     }
 
     testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
         unitTests {
             returnDefaultValues = true
             all {
@@ -114,6 +116,7 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$android_test_junit_version"
     androidTestImplementation "androidx.test:rules:$android_test_junit_version"
     androidTestImplementation "androidx.test.ext:junit:$android_test_ext_version"
+    androidTestUtil "androidx.test:orchestrator:$android_test_junit_version"
     androidTestImplementation "androidx.arch.core:core-testing:$lifecycle_version"
     androidTestImplementation "io.mockk:mockk-android:$mockk_version"
 }

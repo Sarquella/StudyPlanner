@@ -41,6 +41,12 @@ val CLASS = Class(
     DateUtils.parse("$DAY $END_TIME") ?: Date()
 )
 
+val CLASS_2 = Class(
+    ClassType.PRACTICE,
+    DateUtils.parse("$DAY $BEFORE_START_TIME") ?: Date(),
+    DateUtils.parse("$DAY $START_TIME") ?: Date()
+)
+
 const val TASK_NAME = "Task"
 val TASK_TYPE = TaskType.PRACTICE
 val TASK = Task(
