@@ -101,7 +101,7 @@ class ClassRepoTest {
     }
 
     @Nested
-    inner class GetClasses {
+    inner class GetClassesBySubject {
 
         private val collectionRef: CollectionReference = mockk(relaxed = true)
 
@@ -111,7 +111,7 @@ class ClassRepoTest {
 
         @Test
         fun `when called returns ListBuilder with sorted subjects query`() {
-            val listBuilder = classRepo.getClasses(SUBJECT_ID)
+            val listBuilder = classRepo.getClassesBySubject(SUBJECT_ID)
 
             val expected = ListBuilder(
                 collectionRef.orderBy("startDate", Query.Direction.ASCENDING),

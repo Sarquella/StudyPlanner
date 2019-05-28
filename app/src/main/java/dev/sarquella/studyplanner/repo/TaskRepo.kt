@@ -38,7 +38,7 @@ class TaskRepo(
         return response
     }
 
-    fun getTasks(subjectId: String): ListBuilder<Task> =
+    fun getTasksBySubject(subjectId: String): ListBuilder<Task> =
         ListBuilder(
             subjectRepo.getSubjectReference(subjectId)
                 .collection(COLLECTION).orderBy("deliveryDate", Query.Direction.ASCENDING),

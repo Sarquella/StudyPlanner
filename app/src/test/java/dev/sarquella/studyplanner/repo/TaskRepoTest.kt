@@ -99,7 +99,7 @@ class TaskRepoTest {
     }
 
     @Nested
-    inner class GetTasks {
+    inner class GetTasksBySubject {
 
         private val collectionRef: CollectionReference = mockk(relaxed = true)
 
@@ -109,7 +109,7 @@ class TaskRepoTest {
 
         @Test
         fun `when called returns ListBuilder with sorted subjects query`() {
-            val listBuilder = taskRepo.getTasks(SUBJECT_ID)
+            val listBuilder = taskRepo.getTasksBySubject(SUBJECT_ID)
 
             val expected = ListBuilder(
                 collectionRef.orderBy("deliveryDate", Query.Direction.ASCENDING),

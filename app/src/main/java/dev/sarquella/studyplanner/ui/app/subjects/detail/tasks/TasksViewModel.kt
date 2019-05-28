@@ -14,6 +14,6 @@ class TasksViewModel(
     taskRepo: TaskRepo
 ) : ViewModel() {
 
-    val tasksList = taskRepo.getTasks(subjectId)
+    val tasksList = taskRepo.getTasksBySubject(subjectId)
 
 }

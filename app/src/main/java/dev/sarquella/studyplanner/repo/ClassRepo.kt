@@ -38,7 +38,7 @@ class ClassRepo(
         return response
     }
 
-    fun getClasses(subjectId: String): ListBuilder<Class> =
+    fun getClassesBySubject(subjectId: String): ListBuilder<Class> =
         ListBuilder(
             subjectRepo.getSubjectReference(subjectId)
                 .collection(COLLECTION).orderBy("startDate", Query.Direction.ASCENDING),

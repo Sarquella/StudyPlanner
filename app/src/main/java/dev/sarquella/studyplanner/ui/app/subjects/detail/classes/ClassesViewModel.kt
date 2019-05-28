@@ -14,6 +14,6 @@ class ClassesViewModel(
     classRepo: ClassRepo
 ) : ViewModel() {
 
-    val classesList = classRepo.getClasses(subjectId)
+    val classesList = classRepo.getClassesBySubject(subjectId)
 
 }

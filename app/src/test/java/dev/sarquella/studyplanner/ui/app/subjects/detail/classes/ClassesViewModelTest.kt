@@ -26,7 +26,7 @@ class ClassesViewModelTest {
     private val viewModel: ClassesViewModel
 
     init {
-        every { classRepo.getClasses(SUBJECT_ID) } returns classesList
+        every { classRepo.getClassesBySubject(SUBJECT_ID) } returns classesList
         viewModel = ClassesViewModel(SUBJECT_ID, classRepo)
     }
 
@@ -34,7 +34,7 @@ class ClassesViewModelTest {
     inner class ClassesList {
 
         @Test
-        fun `check classesViewModel#classesList matches the one provided by classRepo#getClasses`() {
+        fun `check classesViewModel#classesList matches the one provided by classRepo#getClassesBySubject`() {
             assertThat(viewModel.classesList).isEqualTo(classesList)
         }
 

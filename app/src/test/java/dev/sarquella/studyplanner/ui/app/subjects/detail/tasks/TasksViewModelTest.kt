@@ -26,7 +26,7 @@ class TasksViewModelTest {
     private val viewModel: TasksViewModel
 
     init {
-        every { taskRepo.getTasks(SUBJECT_ID) } returns tasksList
+        every { taskRepo.getTasksBySubject(SUBJECT_ID) } returns tasksList
         viewModel = TasksViewModel(SUBJECT_ID, taskRepo)
     }
 
@@ -34,7 +34,7 @@ class TasksViewModelTest {
     inner class TasksList {
 
         @Test
-        fun `check tasksViewModel#tasksList matches the one provided by taskRepo#getTasks`() {
+        fun `check tasksViewModel#tasksList matches the one provided by taskRepo#getTasksBySubject`() {
             assertThat(viewModel.tasksList).isEqualTo(tasksList)
         }
 
