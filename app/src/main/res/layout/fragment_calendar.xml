@@ -1,13 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/fragment_calendar"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fragment_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
 
-    <TextView android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:text="@string/Calendar"/>
+    <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_tab_layout_height"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/colorPrimaryDark"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@color/white_translucent"
+            app:tabIndicatorColor="@android:color/white"
+            android:elevation="8dp">
 
-</LinearLayout>
+        <com.google.android.material.tabs.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/Classes"/>
+
+        <com.google.android.material.tabs.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/Tasks"/>
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xs"
+            android:layout_marginEnd="@dimen/space_m"
+            android:layout_marginStart="@dimen/space_m"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            app:mcv_showOtherDates="other_months"
+            app:mcv_showWeekDays="false"
+            app:mcv_headerTextAppearance="@style/CalendarHeaderTextAppearance"
+            app:mcv_dateTextAppearance="@style/CalendarDateTextAppearance"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

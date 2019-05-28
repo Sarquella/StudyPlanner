@@ -35,7 +35,7 @@ android {
     }
 
     testOptions {
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        //execution 'ANDROIDX_TEST_ORCHESTRATOR'
         unitTests {
             returnDefaultValues = true
             all {
@@ -92,6 +92,9 @@ dependencies {
 
     def mask_edittext_version = "1.0.5"
     implementation "ru.egslava:MaskedEditText:$mask_edittext_version"
+    implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
+    implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
+    implementation "com.github.marcohc:robotocalendarview:3.3.0"
 
     //Unit testing
     def junit_version = "5.1.1"

@@ -12,4 +12,6 @@ class DatabaseManager(private val db: FirebaseFirestore) {
 
     fun collection(collectionPath: String) = db.collection(collectionPath)
 
+    fun collectionGroup(collectionId: String) = db.collectionGroup(collectionId)
+
 }

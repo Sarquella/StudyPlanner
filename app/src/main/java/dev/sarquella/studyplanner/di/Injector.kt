@@ -17,6 +17,7 @@ object Injector {
             androidContext(context)
             modules(
                 AdapterModule.module,
+                FactoryModule.module,
                 RepoModule.module,
                 SingletonModule.module,
                 ViewModelModule.module

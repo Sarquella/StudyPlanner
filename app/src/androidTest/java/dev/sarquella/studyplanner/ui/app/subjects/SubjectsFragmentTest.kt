@@ -91,7 +91,7 @@ class SubjectsFragmentTest {
         fragmentTestRule.activity.runOnUiThread(block)
     }
 
-   /* @Test
+    @Test
     fun whenAddButtonIsClicked_thenViewModelIsNotified() {
         onView(withId(R.id.btAdd)).perform(click())
 
@@ -110,7 +110,7 @@ class SubjectsFragmentTest {
         runOnUiThread { showAddSubjectDialog.postValue(false) }
 
         onView(withId(R.id.dialog_add_subject)).check(matches(not(isDisplayed())))
-    }*/
+    }
 
     @Test
     fun whenListWithSingleItemIsProvided_thenShowsCorrespondingItem() {
@@ -141,7 +141,7 @@ class SubjectsFragmentTest {
             .check(matches(hasBackgroundColor(subject2.color)))
     }
 
-    /*@Test
+    @Test
     fun whenListItemSelected_thenNavigatesToDetail() {
         every { viewModel.subjectsList.build(any()) } returns recyclerOptions.withItems(mutableListOf(SUBJECT))
 
@@ -149,5 +149,5 @@ class SubjectsFragmentTest {
             .perform(RecyclerViewActions.actionOnItemAtPosition<SubjectViewHolder>(0, click()))
 
         verify { navController.navigate(SubjectsFragmentDirections.actionNavToSubjectDetail(SUBJECT.id)) }
-    }*/
+    }
 }

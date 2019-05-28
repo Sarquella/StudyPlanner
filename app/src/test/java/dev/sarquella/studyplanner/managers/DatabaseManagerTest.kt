@@ -2,6 +2,7 @@ package dev.sarquella.studyplanner.managers
 
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -23,11 +24,10 @@ class DatabaseManagerTest {
     @Nested
     inner class Collection {
 
-        private val collection: CollectionReference = mockk()
+        private val collectionPath = "collectionPath"
 
         @Test
         fun `when called then firestore#collection is called`() {
-            val collectionPath = "collectionPath"
 
             dbManager.collection(collectionPath)
 
@@ -36,11 +36,37 @@ class DatabaseManagerTest {
 
         @Test
         fun `returned collection matches firestore one`() {
+            val collection: CollectionReference = mockk()
             every { firestore.collection(any()) } returns collection
 
-            val returnedCollection = dbManager.collection("collectionPath")
+            val returnedCollection = dbManager.collection(collectionPath)
 
             assertThat(returnedCollection).isEqualTo(collection)
+        }
+
+    }
+
+    @Nested
+    inner class CollectionGroup {
+
+        private val collectionId = "collectionId"
+
+        @Test
+        fun `when called then firestore#collectionGroup is called`() {
+
+            dbManager.collectionGroup(collectionId)
+
+            verify { firestore.collectionGroup(collectionId) }
+        }
+
+        @Test
+        fun `returned query matches firestore one`() {
+            val query: Query = mockk()
+            every { firestore.collectionGroup(any()) } returns query
+
+            val returnedQuery = dbManager.collectionGroup(collectionId)
+
+            assertThat(returnedQuery).isEqualTo(query)
         }
 
     }

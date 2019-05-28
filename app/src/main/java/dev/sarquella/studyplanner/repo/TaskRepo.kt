@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.Query
 import dev.sarquella.studyplanner.data.entities.Task
+import dev.sarquella.studyplanner.data.vo.Event
 import dev.sarquella.studyplanner.data.vo.ListBuilder
+import dev.sarquella.studyplanner.data.vo.Resource
 import dev.sarquella.studyplanner.data.vo.Response
-import dev.sarquella.studyplanner.helpers.extensions.failed
-import dev.sarquella.studyplanner.helpers.extensions.progress
-import dev.sarquella.studyplanner.helpers.extensions.succeed
+import dev.sarquella.studyplanner.helpers.extensions.*
+import dev.sarquella.studyplanner.managers.DatabaseManager
 
 
 /*
@@ -16,7 +17,10 @@ import dev.sarquella.studyplanner.helpers.extensions.succeed
  * adria@sarquella.dev
  */
 
-class TaskRepo(private val subjectRepo: SubjectRepo) {
+class TaskRepo(
+    private val db: DatabaseManager,
+    private val subjectRepo: SubjectRepo
+) {
 
     companion object {
         const val COLLECTION = "tasks"
@@ -41,4 +45,17 @@ class TaskRepo(private val subjectRepo: SubjectRepo) {
             Task.parser
         )
 
+    fun getTasksEvents(): LiveData<Resource<List<Event>>> {
+        val resource = MutableLiveData<Resource<List<Event>>>()
+        resource.progress()
+        db.collectionGroup(COLLECTION).addSnapshotListener { snapshot, exception ->
+            if (exception == null) {
+                val tasks = snapshot?.toTaskList() ?: listOf()
+                resource.succeed(tasks.retrieveEventList())
+            } else {
+                resource.failed(exception.message)
+            }
+        }
+        return resource
+    }
 }

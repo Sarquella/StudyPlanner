@@ -57,5 +57,4 @@ class SubjectRepo(private val userRepo: UserRepo) {
                 .collection(COLLECTION).orderBy("creationDate", Query.Direction.DESCENDING),
             Subject.parser
         )
-
 }

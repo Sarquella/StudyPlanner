@@ -1,6 +1,7 @@
 package dev.sarquella.studyplanner.di.modules
 
 import dev.sarquella.studyplanner.di.modules.abstractions.KoinModule
+import dev.sarquella.studyplanner.ui.app.calendar.CalendarViewModel
 import dev.sarquella.studyplanner.ui.app.subjects.AddSubjectViewModel
 import dev.sarquella.studyplanner.ui.app.subjects.SubjectsViewModel
 import dev.sarquella.studyplanner.ui.app.subjects.detail.AddSubjectItemViewModel
@@ -29,6 +30,8 @@ object ViewModelModule : KoinModule {
         viewModel { LaunchViewModel(get()) }
         viewModel { SignUpViewModel(get()) }
         viewModel { SignInViewModel(get()) }
+
+        viewModel { CalendarViewModel(get(), get()) }
 
         viewModel { SubjectsViewModel(get()) }
         viewModel { AddSubjectViewModel(get()) }

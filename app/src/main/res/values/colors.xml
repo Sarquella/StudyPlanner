@@ -7,6 +7,8 @@
     <color name="greenGradient">#64b3f4</color>
     <color name="blueGradient">#c2e59c</color>
 
+    <color name="white_translucent">#90FFFFFF</color>
+
     <color name="blue">#3398DB</color>
     <color name="green">#2FCC71</color>
     <color name="yellow">#FFCD00</color>

@@ -13,7 +13,9 @@ import java.util.*
 data class Task(
     val name: String = "",
     val type: TaskType = TaskType.PRACTICE,
-    val deliveryDate: Date = Date()
+    val deliveryDate: Date = Date(),
+    val subjectName: String = "",
+    val subjectColor: String = ""
 ) {
 
     companion object {
