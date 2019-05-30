@@ -10,6 +10,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import dev.sarquella.studyplanner.R
 import dev.sarquella.studyplanner.rules.FragmentTestRule
+import dev.sarquella.studyplanner.ui.app.calendar.CalendarViewModel
+import dev.sarquella.studyplanner.ui.app.listing.classes.ClassListAdapter
+import dev.sarquella.studyplanner.ui.app.listing.tasks.TaskListAdapter
+import dev.sarquella.studyplanner.ui.app.profile.ProfileViewModel
 import dev.sarquella.studyplanner.ui.app.subjects.AddSubjectViewModel
 import dev.sarquella.studyplanner.ui.app.subjects.SubjectListAdapter
 import dev.sarquella.studyplanner.ui.app.subjects.SubjectsViewModel
@@ -40,17 +44,27 @@ class AppFragmentTest {
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
+            val calendarViewModel: CalendarViewModel = mockk(relaxed = true)
+            val classListAdapter: ClassListAdapter = mockk(relaxed = true)
+            val taskListAdapter: TaskListAdapter = mockk(relaxed = true)
+
             val subjectsViewModel: SubjectsViewModel = mockk(relaxed = true)
             val subjectListAdapter: SubjectListAdapter = mockk(relaxed = true)
             val addSubjectViewModel: AddSubjectViewModel = mockk(relaxed = true)
             every { addSubjectViewModel.isAddButtonEnabled } returns
                     MutableLiveData<Boolean>().apply { postValue(false) }
 
+            val profileViewModel: ProfileViewModel = mockk(relaxed = true)
+
             loadKoinModules(
                 module {
+                    viewModel { calendarViewModel }
                     viewModel { addSubjectViewModel }
                     viewModel { subjectsViewModel }
+                    viewModel { profileViewModel }
                     factory { subjectListAdapter }
+                    factory { classListAdapter }
+                    factory { taskListAdapter }
                 }
             )
         }

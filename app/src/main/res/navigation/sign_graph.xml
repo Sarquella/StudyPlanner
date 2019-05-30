@@ -19,7 +19,7 @@
         <action
                 android:id="@+id/action_nav_to_app_graph"
                 app:destination="@id/app_graph"
-                app:popUpTo="@id/sign_in_fragment"
+                app:popUpTo="@id/sign_up_fragment"
                 app:popUpToInclusive="true"/>
 
     </fragment>

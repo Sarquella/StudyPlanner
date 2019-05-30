@@ -3,6 +3,7 @@ package dev.sarquella.studyplanner
 import dev.sarquella.studyplanner.data.entities.Class
 import dev.sarquella.studyplanner.data.entities.Subject
 import dev.sarquella.studyplanner.data.entities.Task
+import dev.sarquella.studyplanner.data.entities.User
 import dev.sarquella.studyplanner.helpers.enums.ClassType
 import dev.sarquella.studyplanner.helpers.enums.TaskType
 import dev.sarquella.studyplanner.helpers.utils.DateUtils
@@ -14,10 +15,11 @@ import java.util.*
  * adria@sarquella.dev
  */
 
+const val USER_ID = "user_id"
 const val EMAIL = "email@example.com"
-
 const val PASSWORD = "password"
 
+val USER = User(USER_ID, EMAIL)
 
 const val SUBJECT_NAME = "Subject"
 const val SUBJECT_COLOR = "#3398DB"

@@ -3,6 +3,7 @@ package dev.sarquella.studyplanner.repo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentReference
+import dev.sarquella.studyplanner.data.entities.User
 import dev.sarquella.studyplanner.data.vo.Response
 import dev.sarquella.studyplanner.helpers.extensions.failed
 import dev.sarquella.studyplanner.helpers.extensions.progress
@@ -51,7 +52,17 @@ class UserRepo(
         return response
     }
 
+    fun signOut() {
+        authManager.signOut()
+    }
+
     fun isUserSigned() = authManager.currentUser != null
+
+    fun getCurrentUser() = authManager.currentUser?.let {
+        User.fromFirebaseUser(it)
+    } ?: run {
+        null
+    }
 
     fun getCurrentUserReference() =
         db.collection(COLLECTION).document(authManager.currentUser?.uid ?: "")

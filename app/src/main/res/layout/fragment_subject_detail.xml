@@ -23,7 +23,8 @@
             <com.google.android.material.appbar.AppBarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white">
+                    android:background="@color/colorPrimaryDark"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
                 <com.google.android.material.appbar.CollapsingToolbarLayout
                         android:id="@+id/collapsingToolbar"
@@ -44,7 +45,10 @@
                         android:id="@+id/tabLayout"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_tab_layout_height"
-                        style="@style/Widget.MaterialComponents.TabLayout">
+                        android:background="@color/colorPrimaryDark"
+                        app:tabSelectedTextColor="@android:color/white"
+                        app:tabTextColor="@color/white_translucent"
+                        app:tabIndicatorColor="@android:color/white">
 
                     <com.google.android.material.tabs.TabItem
                             android:layout_width="match_parent"

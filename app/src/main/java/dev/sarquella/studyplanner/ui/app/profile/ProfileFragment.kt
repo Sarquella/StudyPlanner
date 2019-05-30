@@ -1,21 +1,51 @@
 package dev.sarquella.studyplanner.ui.app.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import dev.sarquella.studyplanner.R
+import dev.sarquella.studyplanner.databinding.FragmentProfileBinding
+import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 /*
  * Created by Adrià Sarquella Farrés
  * adria@sarquella.dev
  */
- 
-class ProfileFragment: Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_profile, container, false)
+class ProfileFragment : Fragment() {
 
+    private val viewModel: ProfileViewModel by viewModel()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val binding: FragmentProfileBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
+        binding.viewModel = viewModel
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        bindReturnToSign()
+    }
+
+    private fun bindReturnToSign() {
+
+        viewModel.returnToSign.observe(this, Observer { returnToSign ->
+            if (returnToSign)
+                activity?.supportFragmentManager?.fragments?.last()
+                    ?.findNavController()?.navigate(R.id.action_nav_to_sign_graph)
+        })
+    }
 }

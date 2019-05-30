@@ -28,4 +28,5 @@
     <string name="Invalid_task_type">Invalid task type</string>
     <string name="Classes">Classes</string>
     <string name="Tasks">Tasks</string>
+    <string name="Sign_Out">Sign Out</string>
 </resources>

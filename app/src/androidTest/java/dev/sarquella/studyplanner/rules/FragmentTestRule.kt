@@ -18,6 +18,7 @@ import dev.sarquella.studyplanner.R
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 /*

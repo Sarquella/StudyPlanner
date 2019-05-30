@@ -33,6 +33,11 @@ class SignInViewModelTest {
     inner class NavToNext {
 
         @Test
+        fun `check navToNext is not true initially`() {
+            assertThat(viewModel.navToNext.value).isIn(null, false)
+        }
+
+        @Test
         fun `calling navToNext changes navToNext to true`() {
             viewModel.navToNext()
 

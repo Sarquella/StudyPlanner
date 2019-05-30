@@ -58,4 +58,16 @@ class AuthManagerTest {
         }
 
     }
+
+    @Nested
+    inner class SignOut {
+
+        @Test
+        fun `check authManager call matches firebaseAuth call`() {
+            authManager.signOut()
+
+            verify { firebaseAuth.signOut() }
+        }
+
+    }
 }

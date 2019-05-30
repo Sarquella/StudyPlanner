@@ -12,27 +12,59 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white">
 
-        <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_tab_layout_height"
+                android:layout_height="1dp"
                 android:background="@color/colorPrimaryDark"
-                app:tabSelectedTextColor="@android:color/white"
-                app:tabTextColor="@color/white_translucent"
-                app:tabIndicatorColor="@android:color/white"
-                android:elevation="8dp"/>
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                android:id="@+id/calendarView"
+            <androidx.appcompat.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"/>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_xs"
-                android:layout_marginEnd="@dimen/space_m"
-                android:layout_marginStart="@dimen/space_m"
-                app:mcv_showOtherDates="other_months"
-                app:mcv_showWeekDays="false"
-                app:mcv_headerTextAppearance="@style/CalendarHeaderTextAppearance"
-                app:mcv_dateTextAppearance="@style/CalendarDateTextAppearance"/>
+                android:orientation="vertical">
+
+            <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_tab_layout_height"
+                    android:background="@color/colorPrimaryDark"
+                    app:tabSelectedTextColor="@android:color/white"
+                    app:tabTextColor="@color/white_translucent"
+                    app:tabIndicatorColor="@android:color/white"
+                    android:elevation="8dp">
+
+                <com.google.android.material.tabs.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/Classes"/>
+
+                <com.google.android.material.tabs.TabItem
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/Tasks"/>
+
+            </com.google.android.material.tabs.TabLayout>
+
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_xs"
+                    android:layout_marginEnd="@dimen/space_m"
+                    android:layout_marginStart="@dimen/space_m"
+                    app:mcv_showOtherDates="other_months"
+                    app:mcv_showWeekDays="false"
+                    app:mcv_headerTextAppearance="@style/CalendarHeaderTextAppearance"
+                    app:mcv_dateTextAppearance="@style/CalendarDateTextAppearance"/>
+
+        </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 

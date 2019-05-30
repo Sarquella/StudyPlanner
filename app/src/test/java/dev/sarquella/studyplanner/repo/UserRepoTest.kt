@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import dev.sarquella.studyplanner.EMAIL
 import dev.sarquella.studyplanner.PASSWORD
+import dev.sarquella.studyplanner.data.entities.User
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
 import dev.sarquella.studyplanner.data.vo.Response
 import dev.sarquella.studyplanner.managers.AuthManager
@@ -143,6 +144,18 @@ class UserRepoTest {
     }
 
     @Nested
+    inner class SignOut {
+
+        @Test
+        fun `when called then authManager#signOut is called`() {
+            userRepo.signOut()
+
+            verify { authManager.signOut() }
+        }
+
+    }
+
+    @Nested
     inner class IsUserSigned {
 
         private val user: FirebaseUser = mockk()
@@ -174,6 +187,31 @@ class UserRepoTest {
     }
 
     @Nested
+    inner class GetCurrentUser {
+
+        private val user: FirebaseUser = mockk(relaxed = true)
+
+        @Test
+        fun `if user is null then returns null`() {
+            every { authManager.currentUser } returns null
+
+            val currentUser = userRepo.getCurrentUser()
+
+            assertThat(currentUser).isNull()
+        }
+
+        @Test
+        fun `if user is not null then returns corresponding user`() {
+            every { authManager.currentUser } returns user
+
+            val currentUser = userRepo.getCurrentUser()
+
+            assertThat(currentUser).isEqualTo(User.fromFirebaseUser(user))
+        }
+
+    }
+
+    @Nested
     inner class GetCurrentUserReference {
 
         @Test
@@ -186,16 +224,16 @@ class UserRepoTest {
             verify { dbManager.collection(UserRepo.COLLECTION).document(userId) }
         }
 
-       @Test
-       fun `returns matching db collection document`() {
-           val userRef: DocumentReference = mockk()
-           every { authManager.currentUser?.uid } returns "userId"
-           every { dbManager.collection(any()).document(any()) } returns userRef
+        @Test
+        fun `returns matching db collection document`() {
+            val userRef: DocumentReference = mockk()
+            every { authManager.currentUser?.uid } returns "userId"
+            every { dbManager.collection(any()).document(any()) } returns userRef
 
-           val expected = userRepo.getCurrentUserReference()
+            val expected = userRepo.getCurrentUserReference()
 
-           assertThat(expected).isEqualTo(userRef)
-       }
+            assertThat(expected).isEqualTo(userRef)
+        }
 
     }
 

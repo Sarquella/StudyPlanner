@@ -19,4 +19,6 @@ class AuthManager(private val auth: FirebaseAuth) {
     fun signInWithEmailAndPassword(email: String, password: String) =
         auth.signInWithEmailAndPassword(email, password)
 
+    fun signOut() = auth.signOut()
+
 }

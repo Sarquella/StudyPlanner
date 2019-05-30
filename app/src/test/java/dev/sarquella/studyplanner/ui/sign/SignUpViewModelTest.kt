@@ -12,6 +12,7 @@ import dev.sarquella.studyplanner.data.vo.Response
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -33,10 +34,15 @@ class SignUpViewModelTest {
     inner class NavToNext {
 
         @Test
+        fun `check navToNext is not true initially`() {
+            assertThat(viewModel.navToNext.value).isIn(null, false)
+        }
+
+        @Test
         fun `calling navToNext changes navToNext to true`() {
             viewModel.navToNext()
 
-            Assertions.assertThat(viewModel.navToNext.value).isTrue()
+            assertThat(viewModel.navToNext.value).isTrue()
         }
 
     }
@@ -61,7 +67,7 @@ class SignUpViewModelTest {
         fun `if userRepo returns progress state then authState is AUTHENTICATING`() {
             viewModel.sign(EMAIL, PASSWORD)
 
-            Assertions.assertThat(viewModel.authState.value)
+            assertThat(viewModel.authState.value)
                 .isEqualTo(SignViewModel.AuthState(SignViewModel.AuthState.Status.AUTHENTICATING))
         }
 
@@ -70,7 +76,7 @@ class SignUpViewModelTest {
             viewModel.sign(EMAIL, PASSWORD)
             response.postValue(Response(Response.ResponseState.SUCCEED))
 
-            Assertions.assertThat(viewModel.authState.value)
+            assertThat(viewModel.authState.value)
                 .isEqualTo(SignViewModel.AuthState(SignViewModel.AuthState.Status.AUTHENTICATED))
 
         }
@@ -87,7 +93,7 @@ class SignUpViewModelTest {
                 )
             )
 
-            Assertions.assertThat(viewModel.authState.value)
+            assertThat(viewModel.authState.value)
                 .isEqualTo(SignViewModel.AuthState(SignViewModel.AuthState.Status.INVALID_AUTHENTICATION, errorMessage))
 
         }
@@ -104,7 +110,7 @@ class SignUpViewModelTest {
 
         @Test
         fun `initial state is not true`() {
-            Assertions.assertThat(viewModel.isButtonEnabled.value).isIn(null, false)
+            assertThat(viewModel.isButtonEnabled.value).isIn(null, false)
         }
 
         @Test
@@ -112,7 +118,7 @@ class SignUpViewModelTest {
             viewModel.onEmailChanged("")
             viewModel.onPasswordChanged("")
 
-            Assertions.assertThat(viewModel.isButtonEnabled.value).isFalse()
+            assertThat(viewModel.isButtonEnabled.value).isFalse()
         }
 
         @Test
@@ -120,7 +126,7 @@ class SignUpViewModelTest {
             viewModel.onEmailChanged(EMAIL)
             viewModel.onPasswordChanged("")
 
-            Assertions.assertThat(viewModel.isButtonEnabled.value).isFalse()
+            assertThat(viewModel.isButtonEnabled.value).isFalse()
         }
 
         @Test
@@ -128,7 +134,7 @@ class SignUpViewModelTest {
             viewModel.onEmailChanged("")
             viewModel.onPasswordChanged(PASSWORD)
 
-            Assertions.assertThat(viewModel.isButtonEnabled.value).isFalse()
+            assertThat(viewModel.isButtonEnabled.value).isFalse()
         }
 
         @Test
@@ -136,7 +142,7 @@ class SignUpViewModelTest {
             viewModel.onEmailChanged(EMAIL)
             viewModel.onPasswordChanged(PASSWORD)
 
-            Assertions.assertThat(viewModel.isButtonEnabled.value).isTrue()
+            assertThat(viewModel.isButtonEnabled.value).isTrue()
         }
 
         @Test
@@ -145,7 +151,7 @@ class SignUpViewModelTest {
             viewModel.onPasswordChanged(PASSWORD)
 
             viewModel.onEmailChanged("")
-            Assertions.assertThat(viewModel.isButtonEnabled.value).isFalse()
+            assertThat(viewModel.isButtonEnabled.value).isFalse()
         }
 
         @Test
@@ -154,7 +160,7 @@ class SignUpViewModelTest {
             viewModel.onPasswordChanged(PASSWORD)
 
             viewModel.onPasswordChanged("")
-            Assertions.assertThat(viewModel.isButtonEnabled.value).isFalse()
+            assertThat(viewModel.isButtonEnabled.value).isFalse()
         }
 
     }
