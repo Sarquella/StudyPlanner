@@ -13,10 +13,12 @@ import dev.sarquella.studyplanner.data.entities.Task
 import dev.sarquella.studyplanner.data.entities.Class
 import dev.sarquella.studyplanner.data.vo.EventGroup
 import dev.sarquella.studyplanner.data.vo.ListBuilder
+import dev.sarquella.studyplanner.helpers.extensions.toCalendarDay
 import dev.sarquella.studyplanner.helpers.extensions.toDate
 import dev.sarquella.studyplanner.helpers.selectDay
 import dev.sarquella.studyplanner.helpers.selectTabAtPosition
 import dev.sarquella.studyplanner.helpers.withDecorators
+import dev.sarquella.studyplanner.helpers.withSelectedDay
 import dev.sarquella.studyplanner.rules.FragmentTestRule
 import dev.sarquella.studyplanner.ui.app.listing.classes.ClassListAdapter
 import dev.sarquella.studyplanner.ui.app.listing.tasks.TaskListAdapter
@@ -31,6 +33,7 @@ import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
+import java.util.*
 
 
 /*
@@ -86,6 +89,11 @@ class CalendarFragmentTest {
         every { viewModel.groupedEvents } returns groupedEvents
         every { viewModel.classesList } returns classesList
         every { viewModel.tasksList } returns tasksList
+    }
+
+    @Test
+    fun checkCurrentDateIsSelectedInCalendarInitially() {
+        onView(withId(R.id.calendarView)).check(matches(withSelectedDay(Date().toCalendarDay())))
     }
 
     @Test

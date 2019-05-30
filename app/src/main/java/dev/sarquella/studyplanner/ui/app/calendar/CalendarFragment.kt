@@ -36,6 +36,7 @@ class CalendarFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setPages()
+        setCalendarInitialDate()
         setListeners()
         bindObservables()
     }
@@ -43,6 +44,10 @@ class CalendarFragment : Fragment() {
     private fun setPages() {
         viewPager.adapter = CalendarPagerAdapter(context, childFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
+    }
+
+    private fun setCalendarInitialDate() {
+        calendarView.selectedDate = Date().toCalendarDay()
     }
 
     private fun setListeners() {
