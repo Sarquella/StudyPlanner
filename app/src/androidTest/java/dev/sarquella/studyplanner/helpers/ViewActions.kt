@@ -7,7 +7,10 @@ import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.ViewMatchers
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import org.hamcrest.Matcher
+import java.util.*
 
 
 /*
@@ -59,6 +62,26 @@ fun selectTabAtPosition(position: Int): ViewAction {
             (view as? TabLayout)?.getTabAt(position)?.let { tab ->
                 tab.select()
             }
+        }
+    }
+}
+
+fun selectDay(calendarDay: CalendarDay): ViewAction {
+    return object : ViewAction {
+        override fun getDescription() = "select day $calendarDay"
+
+        override fun getConstraints() = ViewMatchers.isAssignableFrom(MaterialCalendarView::class.java)
+
+        override fun perform(uiController: UiController, view: View) {
+            (view as? MaterialCalendarView)?.javaClass
+                ?.getDeclaredMethod(
+                    "onDateClicked",
+                    CalendarDay::class.java,
+                    Boolean::class.java
+                )?.let { method ->
+                    method.isAccessible = true
+                    method.invoke(view, calendarDay, true)
+                }
         }
     }
 }

@@ -1,40 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_row_three_line_height"
-        android:layout_marginStart="@dimen/space_s">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/space_xxs"
+        android:paddingBottom="@dimen/space_xxs">
 
-    <TextView
-            android:id="@+id/tvType"
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginEnd="@dimen/space_s"
-            android:layout_marginTop="@dimen/space_xs"
-            android:textStyle="bold"
-            tools:text="Practice"/>
+            android:orientation="horizontal">
 
-    <TextView
-            android:id="@+id/tvName"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="@dimen/space_s"
-            tools:text="Task"/>
+        <com.google.android.material.card.MaterialCardView
+                android:id="@+id/colorIndicator"
+                android:layout_width="@dimen/space_xs"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/space_xxs"
+                android:layout_marginBottom="@dimen/space_xxs"
+                app:cardCornerRadius="@dimen/space_xxs"
+                app:cardElevation="0dp"
+                tools:cardBackgroundColor="@color/blue"
+                android:layout_marginStart="@dimen/space_xxs_negative"/>
 
-    <TextView
-            android:id="@+id/tvDeliveryTime"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="@dimen/space_s"
-            tools:text="dd/mm/yyyy hh:mm"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/space_s"
+                android:layout_marginEnd="@dimen/space_m"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:id="@+id/firstLineContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tvName">
+
+                <TextView
+                        android:id="@+id/tvType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        tools:text="Theory"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="|"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:layout_marginStart="@dimen/space_xs"
+                        android:layout_marginEnd="@dimen/space_xs"
+                        tools:ignore="HardcodedText"/>
+
+                <TextView
+                        android:id="@+id/tvSubject"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:text="Subject"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"/>
+
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    tools:text="Task"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    app:layout_constraintTop_toBottomOf="@id/firstLineContainer"
+                    app:layout_constraintBottom_toTopOf="@id/tvDate"/>
+
+            <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    tools:text="dd/mm/yyyy HH:mm"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    app:layout_constraintTop_toBottomOf="@id/tvName"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 
     <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginStart="@dimen/space_m"
             android:alpha="0.3"
             android:background="@android:color/black"/>
 

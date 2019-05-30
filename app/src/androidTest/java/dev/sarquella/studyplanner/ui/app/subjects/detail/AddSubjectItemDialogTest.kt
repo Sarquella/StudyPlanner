@@ -3,12 +3,10 @@ package dev.sarquella.studyplanner.ui.app.subjects.detail
 import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -17,10 +15,10 @@ import dev.sarquella.studyplanner.SUBJECT
 import dev.sarquella.studyplanner.helpers.setExpanded
 import dev.sarquella.studyplanner.rules.FragmentTestRule
 import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.AddNewClassDialogViewModel
-import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassListAdapter
+import dev.sarquella.studyplanner.ui.app.listing.classes.ClassListAdapter
 import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassesViewModel
 import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.AddNewTaskDialogViewModel
-import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.TaskListAdapter
+import dev.sarquella.studyplanner.ui.app.listing.tasks.TaskListAdapter
 import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.TasksViewModel
 import io.mockk.every
 import io.mockk.mockk

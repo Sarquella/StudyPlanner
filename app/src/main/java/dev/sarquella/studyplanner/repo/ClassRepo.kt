@@ -10,6 +10,7 @@ import dev.sarquella.studyplanner.data.vo.Resource
 import dev.sarquella.studyplanner.data.vo.Response
 import dev.sarquella.studyplanner.helpers.extensions.*
 import dev.sarquella.studyplanner.managers.DatabaseManager
+import java.util.*
 
 
 /*
@@ -42,6 +43,14 @@ class ClassRepo(
         ListBuilder(
             subjectRepo.getSubjectReference(subjectId)
                 .collection(COLLECTION).orderBy("startDate", Query.Direction.ASCENDING),
+            Class.parser
+        )
+
+    fun getClassesByDate(selectedDate: Date): ListBuilder<Class> =
+        ListBuilder(
+            db.collectionGroup(COLLECTION)
+                .whereGreaterThanOrEqualTo("startDate", selectedDate)
+                .whereLessThan("startDate", selectedDate.plusDays(1)),
             Class.parser
         )
 

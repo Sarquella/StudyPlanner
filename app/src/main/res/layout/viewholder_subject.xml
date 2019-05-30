@@ -9,10 +9,11 @@
             android:id="@+id/colorIndicator"
             android:layout_width="@dimen/space_xs"
             android:layout_height="match_parent"
-            tools:cardBackgroundColor="@color/blue"
             android:layout_marginTop="@dimen/space_xxs"
             android:layout_marginBottom="@dimen/space_xxs"
+            app:cardElevation="0dp"
             app:cardCornerRadius="@dimen/space_xxs"
+            tools:cardBackgroundColor="@color/blue"
             android:layout_marginStart="@dimen/space_xxs_negative"/>
 
     <TextView

@@ -15,7 +15,7 @@ data class Task(
     val type: TaskType = TaskType.PRACTICE,
     val deliveryDate: Date = Date(),
     val subjectName: String = "",
-    val subjectColor: String = ""
+    val subjectColor: String = "#FFFFFF"
 ) {
 
     companion object {

@@ -4,6 +4,7 @@ import com.firebase.ui.firestore.ClassSnapshotParser
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
 import dev.sarquella.studyplanner.CLASS
 import dev.sarquella.studyplanner.SUBJECT_ID
 import dev.sarquella.studyplanner.data.entities.Class
@@ -11,6 +12,7 @@ import dev.sarquella.studyplanner.data.vo.Event
 import dev.sarquella.studyplanner.data.vo.ListBuilder
 import dev.sarquella.studyplanner.data.vo.Resource
 import dev.sarquella.studyplanner.data.vo.Response
+import dev.sarquella.studyplanner.helpers.extensions.plusDays
 import dev.sarquella.studyplanner.helpers.extensions.retrieveEventList
 import dev.sarquella.studyplanner.helpers.extensions.toClassList
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
@@ -20,6 +22,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import java.util.*
 
 
 /*
@@ -110,11 +113,31 @@ class ClassRepoTest {
         }
 
         @Test
-        fun `when called returns ListBuilder with sorted subjects query`() {
+        fun `when called returns ListBuilder with sorted classes query`() {
             val listBuilder = classRepo.getClassesBySubject(SUBJECT_ID)
 
             val expected = ListBuilder(
                 collectionRef.orderBy("startDate", Query.Direction.ASCENDING),
+                Class.parser
+            )
+
+            assertThat(listBuilder).isEqualTo(expected)
+        }
+
+    }
+
+    @Nested
+    inner class GetTasksByDate {
+
+        @Test
+        fun `when called returns ListBuilder with filtered classes query`() {
+            val date = Date()
+            val listBuilder = classRepo.getClassesByDate(date)
+
+            val expected = ListBuilder(
+                db.collectionGroup(ClassRepo.COLLECTION)
+                    .whereGreaterThanOrEqualTo("startDate", date)
+                    .whereLessThan("startDate", date.plusDays(1)),
                 Class.parser
             )
 

@@ -2,6 +2,7 @@ package dev.sarquella.studyplanner.repo
 
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
 import dev.sarquella.studyplanner.SUBJECT_ID
 import dev.sarquella.studyplanner.TASK
 import dev.sarquella.studyplanner.data.entities.Task
@@ -9,6 +10,7 @@ import dev.sarquella.studyplanner.data.vo.Event
 import dev.sarquella.studyplanner.data.vo.ListBuilder
 import dev.sarquella.studyplanner.data.vo.Resource
 import dev.sarquella.studyplanner.data.vo.Response
+import dev.sarquella.studyplanner.helpers.extensions.plusDays
 import dev.sarquella.studyplanner.helpers.extensions.retrieveEventList
 import dev.sarquella.studyplanner.helpers.extensions.toTaskList
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
@@ -18,6 +20,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import java.util.*
 
 
 /*
@@ -108,11 +111,31 @@ class TaskRepoTest {
         }
 
         @Test
-        fun `when called returns ListBuilder with sorted subjects query`() {
+        fun `when called returns ListBuilder with sorted tasks query`() {
             val listBuilder = taskRepo.getTasksBySubject(SUBJECT_ID)
 
             val expected = ListBuilder(
                 collectionRef.orderBy("deliveryDate", Query.Direction.ASCENDING),
+                Task.parser
+            )
+
+            assertThat(listBuilder).isEqualTo(expected)
+        }
+
+    }
+
+    @Nested
+    inner class GetTasksByDate {
+
+        @Test
+        fun `when called returns ListBuilder with filtered tasks query`() {
+            val date = Date()
+            val listBuilder = taskRepo.getTasksByDate(date)
+
+            val expected = ListBuilder(
+                db.collectionGroup(TaskRepo.COLLECTION)
+                    .whereGreaterThanOrEqualTo("deliveryDate", date)
+                    .whereLessThan("deliveryDate", date.plusDays(1)),
                 Task.parser
             )
 

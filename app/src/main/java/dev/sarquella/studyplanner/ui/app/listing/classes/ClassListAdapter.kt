@@ -1,4 +1,4 @@
-package dev.sarquella.studyplanner.ui.app.subjects.detail.classes
+package dev.sarquella.studyplanner.ui.app.listing.classes
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

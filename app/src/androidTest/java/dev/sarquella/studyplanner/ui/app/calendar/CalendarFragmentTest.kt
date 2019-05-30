@@ -4,13 +4,22 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import dev.sarquella.studyplanner.R
+import dev.sarquella.studyplanner.data.entities.Task
+import dev.sarquella.studyplanner.data.entities.Class
 import dev.sarquella.studyplanner.data.vo.EventGroup
+import dev.sarquella.studyplanner.data.vo.ListBuilder
+import dev.sarquella.studyplanner.helpers.extensions.toDate
+import dev.sarquella.studyplanner.helpers.selectDay
 import dev.sarquella.studyplanner.helpers.selectTabAtPosition
 import dev.sarquella.studyplanner.helpers.withDecorators
 import dev.sarquella.studyplanner.rules.FragmentTestRule
+import dev.sarquella.studyplanner.ui.app.listing.classes.ClassListAdapter
+import dev.sarquella.studyplanner.ui.app.listing.tasks.TaskListAdapter
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -40,10 +49,16 @@ class CalendarFragmentTest {
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
+
+            val classListAdapter: ClassListAdapter = mockk(relaxed = true)
+            val taskListAdapter: TaskListAdapter = mockk(relaxed = true)
+
             loadKoinModules(
                 module {
                     viewModel { viewModel }
                     factory { eventDecorator }
+                    factory { classListAdapter }
+                    factory { taskListAdapter }
                 }
             )
         }
@@ -64,9 +79,13 @@ class CalendarFragmentTest {
     }
 
     private val groupedEvents = MutableLiveData<List<EventGroup>>()
+    private val classesList = MutableLiveData<ListBuilder<Class>>()
+    private val tasksList = MutableLiveData<ListBuilder<Task>>()
 
     private fun mockViewModel() {
         every { viewModel.groupedEvents } returns groupedEvents
+        every { viewModel.classesList } returns classesList
+        every { viewModel.tasksList } returns tasksList
     }
 
     @Test
@@ -79,6 +98,20 @@ class CalendarFragmentTest {
 
         onView(withId(R.id.tabLayout)).perform(selectTabAtPosition(firstTab))
         verify { viewModel.onTabSelected(firstTab) }
+    }
+
+    @Test
+    fun whenFirstTabIsSelected_thenDailyClassesFragmentIsDisplayed() {
+        onView(withId(R.id.tabLayout)).perform(selectTabAtPosition(0))
+
+        onView(withId(R.id.fragment_daily_classes)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun whenSecondTabIsSelected_thenDailyTasksFragmentIsDisplayed() {
+        onView(withId(R.id.tabLayout)).perform(selectTabAtPosition(1))
+
+        onView(withId(R.id.fragment_daily_tasks)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -100,5 +133,13 @@ class CalendarFragmentTest {
         val expected = eventGroups.map { eventDecorator }
 
         onView(withId(R.id.calendarView)).check(matches(withDecorators(expected)))
+    }
+
+    @Test
+    fun whenDateIsSelected_thenViewModelIsNotified() {
+        val selectedDay = CalendarDay.from(2019, 6, 10)
+        onView(withId(R.id.calendarView)).perform(selectDay(selectedDay))
+
+        verify { viewModel.onDateSelected(selectedDay.toDate()) }
     }
 }

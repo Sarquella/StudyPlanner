@@ -10,6 +10,7 @@ import dev.sarquella.studyplanner.data.vo.Resource
 import dev.sarquella.studyplanner.data.vo.Response
 import dev.sarquella.studyplanner.helpers.extensions.*
 import dev.sarquella.studyplanner.managers.DatabaseManager
+import java.util.*
 
 
 /*
@@ -44,6 +45,14 @@ class TaskRepo(
                 .collection(COLLECTION).orderBy("deliveryDate", Query.Direction.ASCENDING),
             Task.parser
         )
+
+    fun getTasksByDate(selectedDate: Date): ListBuilder<Task> =
+            ListBuilder(
+                db.collectionGroup(COLLECTION)
+                    .whereGreaterThanOrEqualTo("deliveryDate", selectedDate)
+                    .whereLessThan("deliveryDate", selectedDate.plusDays(1)),
+                Task.parser
+            )
 
     fun getTasksEvents(): LiveData<Resource<List<Event>>> {
         val resource = MutableLiveData<Resource<List<Event>>>()

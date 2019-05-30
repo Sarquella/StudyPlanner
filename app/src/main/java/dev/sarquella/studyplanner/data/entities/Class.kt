@@ -15,7 +15,7 @@ data class Class(
     val startDate: Date = Date(),
     val endDate: Date = Date(),
     val subjectName: String = "",
-    val subjectColor: String = ""
+    val subjectColor: String = "#FFFFFF"
 ) {
 
     companion object {

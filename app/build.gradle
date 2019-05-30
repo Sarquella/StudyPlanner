@@ -35,7 +35,7 @@ android {
     }
 
     testOptions {
-        //execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
         unitTests {
             returnDefaultValues = true
             all {
@@ -64,7 +64,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$android_x_version"
     implementation "androidx.legacy:legacy-support-v4:$android_x_version"
 
-    def ktx_version = "1.0.1"
+    def ktx_version = "1.0.2"
     implementation "androidx.core:core-ktx:$ktx_version"
 
     def constraint_layout_version = "1.1.3"
@@ -75,8 +75,8 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
-    def viewmodel_version = "2.0.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_version"
+    def lifecycle_version = "2.1.0-beta01"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
 
     def koin_version = "2.0.0-rc-2"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
@@ -112,7 +112,6 @@ dependencies {
     def espresso_version = "3.1.1"
     def android_test_junit_version = "1.1.1"
     def android_test_ext_version = "1.1.0"
-    def lifecycle_version = "2.0.0"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
     androidTestImplementation "androidx.test:core:$android_test_core_version"

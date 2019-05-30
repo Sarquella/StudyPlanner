@@ -12,6 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import dev.sarquella.studyplanner.R
 import dev.sarquella.studyplanner.SUBJECT
+import dev.sarquella.studyplanner.SUBJECT_2
 import dev.sarquella.studyplanner.data.entities.Subject
 import dev.sarquella.studyplanner.helpers.RecyclerOptions
 import dev.sarquella.studyplanner.helpers.hasBackgroundColor
@@ -125,20 +126,18 @@ class SubjectsFragmentTest {
 
     @Test
     fun whenListWithMultipleItemsIsProvided_thenShowsCorrespondingItems() {
-        val subject1 = Subject("Subject1", "#FFFFFF")
-        val subject2 = Subject("Subject2", "#000000")
         every { viewModel.subjectsList.build(any()) } returns
-                recyclerOptions.withItems(mutableListOf(subject1, subject2))
+                recyclerOptions.withItems(mutableListOf(SUBJECT, SUBJECT_2))
 
         onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.tvName))
-            .check(matches(withText(subject1.name)))
+            .check(matches(withText(SUBJECT.name)))
         onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.colorIndicator))
-            .check(matches(hasBackgroundColor(subject1.color)))
+            .check(matches(hasBackgroundColor(SUBJECT.color)))
 
         onView(withRecyclerView(R.id.recyclerView).atPositionOnView(1, R.id.tvName))
-            .check(matches(withText(subject2.name)))
+            .check(matches(withText(SUBJECT_2.name)))
         onView(withRecyclerView(R.id.recyclerView).atPositionOnView(1, R.id.colorIndicator))
-            .check(matches(hasBackgroundColor(subject2.color)))
+            .check(matches(hasBackgroundColor(SUBJECT_2.color)))
     }
 
     @Test

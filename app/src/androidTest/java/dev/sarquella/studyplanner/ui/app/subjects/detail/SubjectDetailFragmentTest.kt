@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
@@ -17,9 +16,9 @@ import dev.sarquella.studyplanner.helpers.selectTabAtPosition
 import dev.sarquella.studyplanner.helpers.withTitle
 import dev.sarquella.studyplanner.rules.DataBindingTestRule
 import dev.sarquella.studyplanner.rules.FragmentTestRule
-import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassListAdapter
+import dev.sarquella.studyplanner.ui.app.listing.classes.ClassListAdapter
 import dev.sarquella.studyplanner.ui.app.subjects.detail.classes.ClassesViewModel
-import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.TaskListAdapter
+import dev.sarquella.studyplanner.ui.app.listing.tasks.TaskListAdapter
 import dev.sarquella.studyplanner.ui.app.subjects.detail.tasks.TasksViewModel
 import io.mockk.every
 import io.mockk.mockk
@@ -113,14 +112,14 @@ class SubjectDetailFragmentTest {
     }
 
     @Test
-    fun whenFirstTabIsSelected_thenClassListFragmentIsDisplayed() {
+    fun whenFirstTabIsSelected_thenClassesFragmentIsDisplayed() {
         onView(withId(R.id.tabLayout)).perform(selectTabAtPosition(0))
 
         onView(withId(R.id.fragment_classes)).check(matches(isDisplayed()))
     }
 
     @Test
-    fun whenSecondTabIsSelected_thenTaskListFragmentIsDisplayed() {
+    fun whenSecondTabIsSelected_thenTasksFragmentIsDisplayed() {
         onView(withId(R.id.tabLayout)).perform(selectTabAtPosition(1))
 
         onView(withId(R.id.fragment_tasks)).check(matches(isDisplayed()))

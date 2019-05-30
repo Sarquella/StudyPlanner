@@ -1,10 +1,14 @@
 package dev.sarquella.studyplanner.ui.app.calendar
 
 import androidx.lifecycle.MutableLiveData
+import dev.sarquella.studyplanner.data.entities.Class
+import dev.sarquella.studyplanner.data.entities.Task
 import dev.sarquella.studyplanner.data.vo.Event
 import dev.sarquella.studyplanner.data.vo.EventGroup
+import dev.sarquella.studyplanner.data.vo.ListBuilder
 import dev.sarquella.studyplanner.data.vo.Resource
 import dev.sarquella.studyplanner.helpers.extensions.addObserver
+import dev.sarquella.studyplanner.helpers.extensions.plusDays
 import dev.sarquella.studyplanner.helpers.extensions.toGroupList
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
 import dev.sarquella.studyplanner.repo.ClassRepo
@@ -18,6 +22,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import java.util.*
 
 
 /*
@@ -35,9 +40,16 @@ class CalendarViewModelTest {
     private val classesEvents = MutableLiveData<Resource<List<Event>>>()
     private val tasksEvents = MutableLiveData<Resource<List<Event>>>()
 
+    private val classList: ListBuilder<Class> = mockk()
+    private val taskList: ListBuilder<Task> = mockk()
+
     init {
         every { classRepo.getClassesEvents() } returns classesEvents
         every { taskRepo.getTasksEvents() } returns tasksEvents
+
+        every { classRepo.getClassesByDate(any()) } returns classList
+        every { taskRepo.getTasksByDate(any()) } returns taskList
+
         viewModel = CalendarViewModel(classRepo, taskRepo)
     }
 
@@ -81,6 +93,17 @@ class CalendarViewModelTest {
 
     @Nested
     inner class GroupedEvents {
+
+        @Test
+        fun `check initial groupedEvents corresponds to classEvents`() {
+            val newClassesEventsGroupList: List<EventGroup> = mockk(relaxed = true)
+            val newClassesEventsList: List<Event> = mockk(relaxed = true)
+            every { newClassesEventsList.toGroupList() } returns newClassesEventsGroupList
+
+            classesEvents.postValue(Resource(newClassesEventsList, mockk()))
+
+            assertThat(viewModel.groupedEvents.value).isEqualTo(newClassesEventsGroupList)
+        }
 
         @Test
         fun `when classesEvents is updated and first tab is selected then groupedEvents equals to classesEvents`() {
@@ -136,5 +159,51 @@ class CalendarViewModelTest {
 
     }
 
+    @Nested
+    inner class ClassesList {
 
+        private val selectedDate = Date().plusDays(5)
+        private val selectedClassList: ListBuilder<Class> = mockk()
+
+        init {
+           every { classRepo.getClassesByDate(selectedDate) }  returns selectedClassList
+        }
+
+        @Test
+        fun `check initial classList corresponds to default list`() {
+            assertThat(viewModel.classesList.value).isEqualTo(classList)
+        }
+
+        @Test
+        fun `when date selected is provided then classList is updated with corresponding date`() {
+            viewModel.onDateSelected(selectedDate)
+
+            assertThat(viewModel.classesList.value).isEqualTo(selectedClassList)
+        }
+
+    }
+
+    @Nested
+    inner class TasksList {
+
+        private val selectedDate = Date().plusDays(5)
+        private val selectedTaskList: ListBuilder<Task> = mockk()
+
+        init {
+            every { taskRepo.getTasksByDate(selectedDate) }  returns selectedTaskList
+        }
+
+        @Test
+        fun `check initial taskList corresponds to default list`() {
+            assertThat(viewModel.tasksList.value).isEqualTo(taskList)
+        }
+
+        @Test
+        fun `when date selected is provided then taskList is updated with corresponding date`() {
+            viewModel.onDateSelected(selectedDate)
+
+            assertThat(viewModel.tasksList.value).isEqualTo(selectedTaskList)
+        }
+
+    }
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dev.sarquella.studyplanner.R
+import dev.sarquella.studyplanner.ui.app.listing.tasks.TaskListAdapter
 import kotlinx.android.synthetic.main.fragment_tasks.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel

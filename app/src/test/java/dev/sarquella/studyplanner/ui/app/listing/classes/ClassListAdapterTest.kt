@@ -1,9 +1,11 @@
-package dev.sarquella.studyplanner.ui.app.subjects.detail.classes
+package dev.sarquella.studyplanner.ui.app.listing.classes
 
 import androidx.lifecycle.LifecycleOwner
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.firebase.ui.firestore.ObservableSnapshotArray
 import dev.sarquella.studyplanner.data.entities.Class
+import dev.sarquella.studyplanner.ui.app.listing.classes.ClassListAdapter
+import dev.sarquella.studyplanner.ui.app.listing.classes.ClassViewHolder
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

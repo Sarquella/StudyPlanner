@@ -11,10 +11,18 @@ import java.util.*
  * adria@sarquella.dev
  */
 
+@SuppressLint("SimpleDateFormat")
 object DateUtils {
 
-    @SuppressLint("SimpleDateFormat")
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm").apply {
+        isLenient = false
+    }
+
+    private val dayFormat = SimpleDateFormat("dd/MM/yyyy").apply {
+        isLenient = false
+    }
+
+    private val timeFormat = SimpleDateFormat("HH:mm").apply {
         isLenient = false
     }
 
@@ -25,5 +33,7 @@ object DateUtils {
             null
         }
 
-    fun serialize(date: Date): String = dateFormat.format(date)
+    fun serializeDate(date: Date): String = dateFormat.format(date)
+    fun serializeDay(date: Date): String = dayFormat.format(date)
+    fun serializeTime(date: Date): String = timeFormat.format(date)
 }
