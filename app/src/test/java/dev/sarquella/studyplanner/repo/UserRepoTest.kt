@@ -10,8 +10,8 @@ import dev.sarquella.studyplanner.PASSWORD
 import dev.sarquella.studyplanner.data.entities.User
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
 import dev.sarquella.studyplanner.data.vo.Response
-import dev.sarquella.studyplanner.managers.AuthManager
-import dev.sarquella.studyplanner.managers.DatabaseManager
+import dev.sarquella.studyplanner.services.AuthService
+import dev.sarquella.studyplanner.services.ApiService
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
@@ -30,9 +30,9 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(InstantTaskExecutorExtension::class)
 class UserRepoTest {
 
-    private val authManager: AuthManager = mockk(relaxed = true)
-    private val dbManager: DatabaseManager = mockk(relaxed = true)
-    private val userRepo = UserRepo(authManager, dbManager)
+    private val authService: AuthService = mockk(relaxed = true)
+    private val apiService: ApiService = mockk(relaxed = true)
+    private val userRepo = UserRepo(authService, apiService)
 
     private val authTask: Task<AuthResult> = mockk()
     private val onCompleteListener = slot<OnCompleteListener<AuthResult>>()
@@ -51,15 +51,15 @@ class UserRepoTest {
     inner class SignUp {
 
         init {
-            every { authManager.createUserWithEmailAndPassword(any(), any()) } returns authTask
+            every { authService.createUserWithEmailAndPassword(any(), any()) } returns authTask
             every { authTask.addOnCompleteListener(capture(onCompleteListener)) } returns authTask
         }
 
         @Test
-        fun `when called then authManager#createUserWithEmailAndPassword is called`() {
+        fun `when called then authService#createUserWithEmailAndPassword is called`() {
             userRepo.signUp(EMAIL, PASSWORD)
 
-            verify { authManager.createUserWithEmailAndPassword(EMAIL, PASSWORD) }
+            verify { authService.createUserWithEmailAndPassword(EMAIL, PASSWORD) }
         }
 
         @Test
@@ -99,15 +99,15 @@ class UserRepoTest {
     inner class SignIn {
 
         init {
-            every { authManager.signInWithEmailAndPassword(any(), any()) } returns authTask
+            every { authService.signInWithEmailAndPassword(any(), any()) } returns authTask
             every { authTask.addOnCompleteListener(capture(onCompleteListener)) } returns authTask
         }
 
         @Test
-        fun `when called then authManager#signInWithEmailAndPassword is called`() {
+        fun `when called then authService#signInWithEmailAndPassword is called`() {
             userRepo.signIn(EMAIL, PASSWORD)
 
-            verify { authManager.signInWithEmailAndPassword(EMAIL, PASSWORD) }
+            verify { authService.signInWithEmailAndPassword(EMAIL, PASSWORD) }
         }
 
         @Test
@@ -147,10 +147,10 @@ class UserRepoTest {
     inner class SignOut {
 
         @Test
-        fun `when called then authManager#signOut is called`() {
+        fun `when called then authService#signOut is called`() {
             userRepo.signOut()
 
-            verify { authManager.signOut() }
+            verify { authService.signOut() }
         }
 
     }
@@ -161,15 +161,15 @@ class UserRepoTest {
         private val user: FirebaseUser = mockk()
 
         @Test
-        fun `when called then authManager#currentUser is called`() {
+        fun `when called then authService#currentUser is called`() {
             userRepo.isUserSigned()
 
-            verify { authManager.currentUser }
+            verify { authService.currentUser }
         }
 
         @Test
         fun `if user is null then returns false`() {
-            every { authManager.currentUser } returns null
+            every { authService.currentUser } returns null
 
             val isUserSigned = userRepo.isUserSigned()
 
@@ -178,7 +178,7 @@ class UserRepoTest {
 
         @Test
         fun `if user is not null then returns true`() {
-            every { authManager.currentUser } returns user
+            every { authService.currentUser } returns user
 
             val isUserSigned = userRepo.isUserSigned()
 
@@ -193,7 +193,7 @@ class UserRepoTest {
 
         @Test
         fun `if user is null then returns null`() {
-            every { authManager.currentUser } returns null
+            every { authService.currentUser } returns null
 
             val currentUser = userRepo.getCurrentUser()
 
@@ -202,7 +202,7 @@ class UserRepoTest {
 
         @Test
         fun `if user is not null then returns corresponding user`() {
-            every { authManager.currentUser } returns user
+            every { authService.currentUser } returns user
 
             val currentUser = userRepo.getCurrentUser()
 
@@ -215,20 +215,20 @@ class UserRepoTest {
     inner class GetCurrentUserReference {
 
         @Test
-        fun `when called asks db for collection document with authManager#currentUser#uid`() {
+        fun `when called asks apiService for collection document with authService#currentUser#uid`() {
             val userId = "userId"
-            every { authManager.currentUser?.uid } returns userId
+            every { authService.currentUser?.uid } returns userId
 
             userRepo.getCurrentUserReference()
 
-            verify { dbManager.collection(UserRepo.COLLECTION).document(userId) }
+            verify { apiService.collection(UserRepo.COLLECTION).document(userId) }
         }
 
         @Test
-        fun `returns matching db collection document`() {
+        fun `returns matching apiService collection document`() {
             val userRef: DocumentReference = mockk()
-            every { authManager.currentUser?.uid } returns "userId"
-            every { dbManager.collection(any()).document(any()) } returns userRef
+            every { authService.currentUser?.uid } returns "userId"
+            every { apiService.collection(any()).document(any()) } returns userRef
 
             val expected = userRepo.getCurrentUserReference()
 

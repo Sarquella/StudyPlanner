@@ -1,6 +1,5 @@
 package dev.sarquella.studyplanner.repo
 
-import com.firebase.ui.firestore.ClassSnapshotParser
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
@@ -16,7 +15,7 @@ import dev.sarquella.studyplanner.helpers.extensions.plusDays
 import dev.sarquella.studyplanner.helpers.extensions.retrieveEventList
 import dev.sarquella.studyplanner.helpers.extensions.toClassList
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
-import dev.sarquella.studyplanner.managers.DatabaseManager
+import dev.sarquella.studyplanner.services.ApiService
 import io.mockk.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
@@ -33,9 +32,9 @@ import java.util.*
 @ExtendWith(InstantTaskExecutorExtension::class)
 class ClassRepoTest {
 
-    private val db: DatabaseManager = mockk(relaxed = true)
+    private val apiService: ApiService = mockk(relaxed = true)
     private val subjectRepo: SubjectRepo = mockk()
-    private val classRepo = ClassRepo(db, subjectRepo)
+    private val classRepo = ClassRepo(apiService, subjectRepo)
 
     private val subjectRef: DocumentReference = mockk(relaxed = true)
 
@@ -135,7 +134,7 @@ class ClassRepoTest {
             val listBuilder = classRepo.getClassesByDate(date)
 
             val expected = ListBuilder(
-                db.collectionGroup(ClassRepo.COLLECTION)
+                apiService.collectionGroup(ClassRepo.COLLECTION)
                     .whereGreaterThanOrEqualTo("startDate", date)
                     .whereLessThan("startDate", date.plusDays(1)),
                 Class.parser
@@ -156,16 +155,16 @@ class ClassRepoTest {
             mockkStatic("dev.sarquella.studyplanner.helpers.extensions.QuerySnapshotKt")
             mockkStatic("dev.sarquella.studyplanner.helpers.extensions.ListClassKt")
 
-            every { db.collectionGroup(ClassRepo.COLLECTION) } returns query
+            every { apiService.collectionGroup(ClassRepo.COLLECTION) } returns query
             every { query.addSnapshotListener(capture(eventListener))} returns mockk()
         }
 
 
         @Test
-        fun `when called then db#collectionGroup is called`() {
+        fun `when called then apiService#collectionGroup is called`() {
             classRepo.getClassesEvents()
 
-            verify { db.collectionGroup(ClassRepo.COLLECTION) }
+            verify { apiService.collectionGroup(ClassRepo.COLLECTION) }
         }
 
         @Test

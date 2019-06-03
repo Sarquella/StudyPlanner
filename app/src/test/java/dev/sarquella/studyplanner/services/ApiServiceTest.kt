@@ -1,4 +1,4 @@
-package dev.sarquella.studyplanner.managers
+package dev.sarquella.studyplanner.services
 
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test
  * adria@sarquella.dev
  */
 
-class DatabaseManagerTest {
+class ApiServiceTest {
 
     private val firestore: FirebaseFirestore = mockk(relaxed = true)
-    private val dbManager = DatabaseManager(firestore)
+    private val apiService = ApiService(firestore)
 
     @Nested
     inner class Collection {
@@ -29,7 +29,7 @@ class DatabaseManagerTest {
         @Test
         fun `when called then firestore#collection is called`() {
 
-            dbManager.collection(collectionPath)
+            apiService.collection(collectionPath)
 
             verify { firestore.collection(collectionPath) }
         }
@@ -39,7 +39,7 @@ class DatabaseManagerTest {
             val collection: CollectionReference = mockk()
             every { firestore.collection(any()) } returns collection
 
-            val returnedCollection = dbManager.collection(collectionPath)
+            val returnedCollection = apiService.collection(collectionPath)
 
             assertThat(returnedCollection).isEqualTo(collection)
         }
@@ -54,7 +54,7 @@ class DatabaseManagerTest {
         @Test
         fun `when called then firestore#collectionGroup is called`() {
 
-            dbManager.collectionGroup(collectionId)
+            apiService.collectionGroup(collectionId)
 
             verify { firestore.collectionGroup(collectionId) }
         }
@@ -64,7 +64,7 @@ class DatabaseManagerTest {
             val query: Query = mockk()
             every { firestore.collectionGroup(any()) } returns query
 
-            val returnedQuery = dbManager.collectionGroup(collectionId)
+            val returnedQuery = apiService.collectionGroup(collectionId)
 
             assertThat(returnedQuery).isEqualTo(query)
         }

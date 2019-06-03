@@ -2,14 +2,13 @@ package dev.sarquella.studyplanner.repo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.firestore.DocumentReference
 import dev.sarquella.studyplanner.data.entities.User
 import dev.sarquella.studyplanner.data.vo.Response
 import dev.sarquella.studyplanner.helpers.extensions.failed
 import dev.sarquella.studyplanner.helpers.extensions.progress
 import dev.sarquella.studyplanner.helpers.extensions.succeed
-import dev.sarquella.studyplanner.managers.AuthManager
-import dev.sarquella.studyplanner.managers.DatabaseManager
+import dev.sarquella.studyplanner.services.AuthService
+import dev.sarquella.studyplanner.services.ApiService
 
 
 /*
@@ -18,8 +17,8 @@ import dev.sarquella.studyplanner.managers.DatabaseManager
  */
 
 class UserRepo(
-    private val authManager: AuthManager,
-    private val db: DatabaseManager
+    private val authService: AuthService,
+    private val apiService: ApiService
 ) {
 
     companion object {
@@ -29,7 +28,7 @@ class UserRepo(
     fun signUp(email: String, password: String): LiveData<Response> {
         val response = MutableLiveData<Response>()
         response.progress()
-        authManager.createUserWithEmailAndPassword(email, password)
+        authService.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { result ->
                 if (result.isSuccessful)
                     response.succeed()
@@ -42,7 +41,7 @@ class UserRepo(
     fun signIn(email: String, password: String): LiveData<Response> {
         val response = MutableLiveData<Response>()
         response.progress()
-        authManager.signInWithEmailAndPassword(email, password)
+        authService.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { result ->
                 if (result.isSuccessful)
                     response.succeed()
@@ -53,17 +52,17 @@ class UserRepo(
     }
 
     fun signOut() {
-        authManager.signOut()
+        authService.signOut()
     }
 
-    fun isUserSigned() = authManager.currentUser != null
+    fun isUserSigned() = authService.currentUser != null
 
-    fun getCurrentUser() = authManager.currentUser?.let {
+    fun getCurrentUser() = authService.currentUser?.let {
         User.fromFirebaseUser(it)
     } ?: run {
         null
     }
 
     fun getCurrentUserReference() =
-        db.collection(COLLECTION).document(authManager.currentUser?.uid ?: "")
+        apiService.collection(COLLECTION).document(authService.currentUser?.uid ?: "")
 }

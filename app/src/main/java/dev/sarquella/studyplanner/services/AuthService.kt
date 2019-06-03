@@ -1,4 +1,4 @@
-package dev.sarquella.studyplanner.managers
+package dev.sarquella.studyplanner.services
 
 import com.google.firebase.auth.FirebaseAuth
 
@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
  * adria@sarquella.dev
  */
 
-class AuthManager(private val auth: FirebaseAuth) {
+class AuthService(private val auth: FirebaseAuth) {
 
     val currentUser
         get() = auth.currentUser

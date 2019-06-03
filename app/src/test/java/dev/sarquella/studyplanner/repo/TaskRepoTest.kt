@@ -14,7 +14,7 @@ import dev.sarquella.studyplanner.helpers.extensions.plusDays
 import dev.sarquella.studyplanner.helpers.extensions.retrieveEventList
 import dev.sarquella.studyplanner.helpers.extensions.toTaskList
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
-import dev.sarquella.studyplanner.managers.DatabaseManager
+import dev.sarquella.studyplanner.services.ApiService
 import io.mockk.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
@@ -31,9 +31,9 @@ import java.util.*
 @ExtendWith(InstantTaskExecutorExtension::class)
 class TaskRepoTest {
 
-    private val db: DatabaseManager = mockk(relaxed = true)
+    private val apiService: ApiService = mockk(relaxed = true)
     private val subjectRepo: SubjectRepo = mockk()
-    private val taskRepo = TaskRepo(db, subjectRepo)
+    private val taskRepo = TaskRepo(apiService, subjectRepo)
 
     private val subjectRef: DocumentReference = mockk(relaxed = true)
 
@@ -133,7 +133,7 @@ class TaskRepoTest {
             val listBuilder = taskRepo.getTasksByDate(date)
 
             val expected = ListBuilder(
-                db.collectionGroup(TaskRepo.COLLECTION)
+                apiService.collectionGroup(TaskRepo.COLLECTION)
                     .whereGreaterThanOrEqualTo("deliveryDate", date)
                     .whereLessThan("deliveryDate", date.plusDays(1)),
                 Task.parser
@@ -154,16 +154,16 @@ class TaskRepoTest {
             mockkStatic("dev.sarquella.studyplanner.helpers.extensions.QuerySnapshotKt")
             mockkStatic("dev.sarquella.studyplanner.helpers.extensions.ListTaskKt")
 
-            every { db.collectionGroup(TaskRepo.COLLECTION) } returns query
+            every { apiService.collectionGroup(TaskRepo.COLLECTION) } returns query
             every { query.addSnapshotListener(capture(eventListener))} returns mockk()
         }
 
 
         @Test
-        fun `when called then db#collectionGroup is called`() {
+        fun `when called then apiService#collectionGroup is called`() {
             taskRepo.getTasksEvents()
 
-            verify { db.collectionGroup(TaskRepo.COLLECTION) }
+            verify { apiService.collectionGroup(TaskRepo.COLLECTION) }
         }
 
         @Test

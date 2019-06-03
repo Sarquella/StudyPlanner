@@ -9,7 +9,7 @@ import dev.sarquella.studyplanner.data.vo.ListBuilder
 import dev.sarquella.studyplanner.data.vo.Resource
 import dev.sarquella.studyplanner.data.vo.Response
 import dev.sarquella.studyplanner.helpers.extensions.*
-import dev.sarquella.studyplanner.managers.DatabaseManager
+import dev.sarquella.studyplanner.services.ApiService
 import java.util.*
 
 
@@ -19,7 +19,7 @@ import java.util.*
  */
 
 class TaskRepo(
-    private val db: DatabaseManager,
+    private val apiService: ApiService,
     private val subjectRepo: SubjectRepo
 ) {
 
@@ -48,7 +48,7 @@ class TaskRepo(
 
     fun getTasksByDate(selectedDate: Date): ListBuilder<Task> =
             ListBuilder(
-                db.collectionGroup(COLLECTION)
+                apiService.collectionGroup(COLLECTION)
                     .whereGreaterThanOrEqualTo("deliveryDate", selectedDate)
                     .whereLessThan("deliveryDate", selectedDate.plusDays(1)),
                 Task.parser
@@ -57,7 +57,7 @@ class TaskRepo(
     fun getTasksEvents(): LiveData<Resource<List<Event>>> {
         val resource = MutableLiveData<Resource<List<Event>>>()
         resource.progress()
-        db.collectionGroup(COLLECTION).addSnapshotListener { snapshot, exception ->
+        apiService.collectionGroup(COLLECTION).addSnapshotListener { snapshot, exception ->
             if (exception == null) {
                 val tasks = snapshot?.toTaskList() ?: listOf()
                 resource.succeed(tasks.retrieveEventList())

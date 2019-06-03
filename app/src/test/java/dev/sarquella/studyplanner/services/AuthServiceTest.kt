@@ -1,4 +1,4 @@
-package dev.sarquella.studyplanner.managers
+package dev.sarquella.studyplanner.services
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -17,20 +17,20 @@ import org.junit.jupiter.api.Test
  * adria@sarquella.dev
  */
 
-class AuthManagerTest {
+class AuthServiceTest {
 
     private val firebaseAuth: FirebaseAuth = mockk(relaxed = true)
-    private val authManager = AuthManager(firebaseAuth)
+    private val authService = AuthService(firebaseAuth)
 
     @Nested
     inner class CurrentUser {
 
         @Test
-        fun `check authManager current user matches firebaseAuth current user`() {
+        fun `check authService current user matches firebaseAuth current user`() {
             val currentUser: FirebaseUser? = mockk()
             every { firebaseAuth.currentUser } returns currentUser
 
-            assertThat(authManager.currentUser).isEqualTo(currentUser)
+            assertThat(authService.currentUser).isEqualTo(currentUser)
         }
 
     }
@@ -39,8 +39,8 @@ class AuthManagerTest {
     inner class CreateUserWithEmailAndPassword {
 
         @Test
-        fun `check authManager call matches firebaseAuth call`() {
-            authManager.createUserWithEmailAndPassword(EMAIL, PASSWORD)
+        fun `check authService call matches firebaseAuth call`() {
+            authService.createUserWithEmailAndPassword(EMAIL, PASSWORD)
 
             verify { firebaseAuth.createUserWithEmailAndPassword(EMAIL, PASSWORD) }
         }
@@ -51,8 +51,8 @@ class AuthManagerTest {
     inner class SignInWithEmailAndPassword {
 
         @Test
-        fun `check authManager call matches firebaseAuth call`() {
-            authManager.signInWithEmailAndPassword(EMAIL, PASSWORD)
+        fun `check authService call matches firebaseAuth call`() {
+            authService.signInWithEmailAndPassword(EMAIL, PASSWORD)
 
             verify { firebaseAuth.signInWithEmailAndPassword(EMAIL, PASSWORD) }
         }
@@ -63,8 +63,8 @@ class AuthManagerTest {
     inner class SignOut {
 
         @Test
-        fun `check authManager call matches firebaseAuth call`() {
-            authManager.signOut()
+        fun `check authService call matches firebaseAuth call`() {
+            authService.signOut()
 
             verify { firebaseAuth.signOut() }
         }
