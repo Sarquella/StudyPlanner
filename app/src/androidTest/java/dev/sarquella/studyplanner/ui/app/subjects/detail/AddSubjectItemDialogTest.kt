@@ -24,13 +24,11 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.hamcrest.Matchers.not
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 
 
@@ -46,40 +44,46 @@ class AddSubjectItemDialogTest {
 
         private val viewModel: AddSubjectItemViewModel = mockk(relaxUnitFun = true)
 
+
+        private val subjectDetailViewModel: SubjectDetailViewModel = mockk(relaxed = true)
+        private val addNewClassDialogViewModel: AddNewClassDialogViewModel = mockk(relaxed = true)
+        private val addNewTaskDialogViewModel: AddNewTaskDialogViewModel = mockk(relaxed = true)
+        private val classesViewModel: ClassesViewModel = mockk(relaxed = true)
+        private val classListAdapter: ClassListAdapter = mockk(relaxed = true)
+        private val tasksViewModel: TasksViewModel = mockk(relaxed = true)
+        private val taskListAdapter: TaskListAdapter = mockk(relaxed = true)
+        private val koinModule = module {
+            viewModel { viewModel }
+            viewModel { subjectDetailViewModel }
+            viewModel { addNewClassDialogViewModel }
+            viewModel { addNewTaskDialogViewModel }
+            viewModel { classesViewModel }
+            viewModel { tasksViewModel }
+            factory { classListAdapter }
+            factory { taskListAdapter }
+        }
+
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
-            val subjectDetailViewModel: SubjectDetailViewModel = mockk(relaxed = true)
+
             every { subjectDetailViewModel.subjectName.value } returns SUBJECT.name
 
-            val addNewClassDialogViewModel: AddNewClassDialogViewModel = mockk(relaxed = true)
             every { addNewClassDialogViewModel.classTypes } returns listOf("Class")
             every { addNewClassDialogViewModel.errorMessage.value } returns null
             every { addNewClassDialogViewModel.isAddButtonEnabled.value } returns false
 
-            val addNewTaskDialogViewModel: AddNewTaskDialogViewModel = mockk(relaxed = true)
             every { addNewTaskDialogViewModel.taskTypes } returns listOf("Task")
             every { addNewTaskDialogViewModel.errorMessage.value } returns null
             every { addNewTaskDialogViewModel.isAddButtonEnabled.value } returns false
 
-            val classesViewModel: ClassesViewModel = mockk(relaxed = true)
-            val classListAdapter: ClassListAdapter = mockk(relaxed = true)
+            loadKoinModules(koinModule)
+        }
 
-            val tasksViewModel: TasksViewModel = mockk(relaxed = true)
-            val taskListAdapter: TaskListAdapter = mockk(relaxed = true)
-
-            loadKoinModules(
-                module {
-                    viewModel { viewModel }
-                    viewModel { subjectDetailViewModel }
-                    viewModel { addNewClassDialogViewModel }
-                    viewModel { addNewTaskDialogViewModel }
-                    viewModel { classesViewModel }
-                    viewModel { tasksViewModel }
-                    factory { classListAdapter }
-                    factory { taskListAdapter }
-                }
-            )
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            unloadKoinModules(koinModule)
         }
     }
 

@@ -24,13 +24,11 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.hamcrest.Matchers
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 
 
@@ -46,27 +44,30 @@ class SubjectDetailFragmentTest {
 
         private val viewModel: SubjectDetailViewModel = mockk(relaxUnitFun = true)
 
+        private val addSubjectItemViewModel: AddSubjectItemViewModel = mockk(relaxed = true)
+        private val classesViewModel: ClassesViewModel = mockk(relaxed = true)
+        private val classListAdapter: ClassListAdapter = mockk(relaxed = true)
+        private val tasksViewModel: TasksViewModel = mockk(relaxed = true)
+        private val taskListAdapter: TaskListAdapter = mockk(relaxed = true)
+        private val koinModule = module {
+            viewModel { viewModel }
+            viewModel { addSubjectItemViewModel }
+            viewModel { classesViewModel }
+            viewModel { tasksViewModel }
+            factory { classListAdapter }
+            factory { taskListAdapter }
+        }
+
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
-            val addSubjectItemViewModel: AddSubjectItemViewModel = mockk(relaxed = true)
+            loadKoinModules(koinModule)
+        }
 
-            val classesViewModel: ClassesViewModel = mockk(relaxed = true)
-            val classListAdapter: ClassListAdapter = mockk(relaxed = true)
-
-            val tasksViewModel: TasksViewModel = mockk(relaxed = true)
-            val taskListAdapter: TaskListAdapter = mockk(relaxed = true)
-
-            loadKoinModules(
-                module {
-                    viewModel { viewModel }
-                    viewModel { addSubjectItemViewModel }
-                    viewModel { classesViewModel }
-                    viewModel { tasksViewModel }
-                    factory { classListAdapter }
-                    factory { taskListAdapter }
-                }
-            )
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            unloadKoinModules(koinModule)
         }
     }
 

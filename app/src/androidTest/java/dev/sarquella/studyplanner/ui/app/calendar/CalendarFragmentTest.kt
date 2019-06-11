@@ -1,7 +1,9 @@
 package dev.sarquella.studyplanner.ui.app.calendar
 
+import androidx.annotation.UiThread
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
+import androidx.test.annotation.UiThreadTest
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -25,13 +27,11 @@ import dev.sarquella.studyplanner.ui.app.listing.tasks.TaskListAdapter
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 import java.util.*
 
@@ -49,21 +49,25 @@ class CalendarFragmentTest {
         private val viewModel: CalendarViewModel = mockk(relaxUnitFun = true)
         private val eventDecorator: EventDecorator = mockk(relaxed = true)
 
+        private val classListAdapter: ClassListAdapter = mockk(relaxed = true)
+        private val taskListAdapter: TaskListAdapter = mockk(relaxed = true)
+        private val koinModule = module {
+            viewModel { viewModel }
+            factory { eventDecorator }
+            factory { classListAdapter }
+            factory { taskListAdapter }
+        }
+
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
+            loadKoinModules(koinModule)
+        }
 
-            val classListAdapter: ClassListAdapter = mockk(relaxed = true)
-            val taskListAdapter: TaskListAdapter = mockk(relaxed = true)
-
-            loadKoinModules(
-                module {
-                    viewModel { viewModel }
-                    factory { eventDecorator }
-                    factory { classListAdapter }
-                    factory { taskListAdapter }
-                }
-            )
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            unloadKoinModules(koinModule)
         }
     }
 

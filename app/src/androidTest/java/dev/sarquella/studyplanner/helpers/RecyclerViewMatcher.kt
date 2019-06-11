@@ -3,7 +3,6 @@ package dev.sarquella.studyplanner.helpers
 import android.content.res.Resources
 import androidx.recyclerview.widget.RecyclerView
 import android.content.res.Resources.NotFoundException
-import android.util.Log
 import android.view.View
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -30,7 +29,7 @@ class RecyclerViewMatcher(private val recyclerViewId: Int) {
                 val idDescription = resources?.let { res ->
                     try {
                         res.getResourceName(recyclerViewId)
-                    } catch (exception: Resources.NotFoundException) {
+                    } catch (exception: NotFoundException) {
                         "$recyclerViewId not found"
                     }
                 } ?: run {
@@ -49,7 +48,7 @@ class RecyclerViewMatcher(private val recyclerViewId: Int) {
                     childView = recyclerView.findViewHolderForAdapterPosition(position)?.itemView
                 }
 
-                return view === if(targetViewId == -1) childView else childView?.findViewById(targetViewId)
+                return view == childView?.findViewById(targetViewId)
             }
         }
 }

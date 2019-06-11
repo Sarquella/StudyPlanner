@@ -1,6 +1,5 @@
 package dev.sarquella.studyplanner.ui.app.calendar.tasks
 
-import android.media.CamcorderProfile.get
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

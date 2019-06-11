@@ -18,13 +18,11 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.hamcrest.Matchers.*
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 
 
@@ -40,14 +38,20 @@ class AddNewClassDialogFragmentTest {
 
         private val viewModel: AddNewClassDialogViewModel = mockk(relaxUnitFun = true)
 
+        private val koinModule = module {
+            viewModel { viewModel }
+        }
+
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
-            loadKoinModules(
-                module {
-                    viewModel { viewModel }
-                }
-            )
+            loadKoinModules(koinModule)
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            unloadKoinModules(koinModule)
         }
     }
 

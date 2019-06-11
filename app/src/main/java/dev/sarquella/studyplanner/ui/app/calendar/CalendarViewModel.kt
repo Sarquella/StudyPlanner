@@ -1,14 +1,11 @@
 package dev.sarquella.studyplanner.ui.app.calendar
 
-import android.graphics.Color
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.sarquella.studyplanner.data.entities.Class
 import dev.sarquella.studyplanner.data.entities.Task
-import dev.sarquella.studyplanner.data.vo.Event
 import dev.sarquella.studyplanner.data.vo.EventGroup
 import dev.sarquella.studyplanner.data.vo.ListBuilder
 import dev.sarquella.studyplanner.helpers.extensions.toGroupList

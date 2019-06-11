@@ -16,11 +16,13 @@ object Injector {
         startKoin {
             androidContext(context)
             modules(
-                AdapterModule.module,
-                FactoryModule.module,
-                RepoModule.module,
-                SingletonModule.module,
-                ViewModelModule.module
+                listOf(
+                    AdapterModule.module,
+                    FactoryModule.module,
+                    RepoModule.module,
+                    SingletonModule.module,
+                    ViewModelModule.module
+                )
             )
         }
     }

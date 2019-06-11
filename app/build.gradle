@@ -8,6 +8,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
+apply from: "testCoverage.gradle"
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -35,9 +37,11 @@ android {
     }
 
     testOptions {
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        //execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        animationsDisabled true
         unitTests {
             returnDefaultValues = true
+            includeAndroidResources = true
             all {
                 useJUnitPlatform()
             }
@@ -78,7 +82,7 @@ dependencies {
     def lifecycle_version = "2.1.0-beta01"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
 
-    def koin_version = "2.0.0-rc-2"
+    def koin_version = "2.0.1"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
     def firebase_core_version = "16.0.9"

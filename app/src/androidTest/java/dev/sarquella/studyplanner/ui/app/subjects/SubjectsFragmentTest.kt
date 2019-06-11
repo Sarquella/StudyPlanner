@@ -23,13 +23,11 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.hamcrest.Matchers.not
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 
 
@@ -45,19 +43,25 @@ class SubjectsFragmentTest {
 
         private val viewModel: SubjectsViewModel = mockk(relaxUnitFun = true)
 
+        private val addSubjectsViewModel: AddSubjectViewModel = mockk(relaxed = true)
+        private val koinModule = module {
+            viewModel { viewModel }
+            viewModel { addSubjectsViewModel }
+            factory { (options: FirestoreRecyclerOptions<Subject>) -> SubjectListAdapter(options) }
+        }
+
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
-            val addSubjectsViewModel: AddSubjectViewModel = mockk(relaxed = true)
             every { addSubjectsViewModel.isAddButtonEnabled.value } returns false
 
-            loadKoinModules(
-                module {
-                    viewModel { viewModel }
-                    viewModel { addSubjectsViewModel }
-                    factory { (options: FirestoreRecyclerOptions<Subject>) -> SubjectListAdapter(options) }
-                }
-            )
+            loadKoinModules(koinModule)
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            unloadKoinModules(koinModule)
         }
     }
 
@@ -77,7 +81,6 @@ class SubjectsFragmentTest {
     @Before
     fun beforeEach() {
         mockViewModel()
-        fragmentTestRule.setFragment(fragment, navController)
     }
 
     private val showAddSubjectDialog = MutableLiveData<Boolean>()
@@ -85,7 +88,6 @@ class SubjectsFragmentTest {
 
     private fun mockViewModel() {
         every { viewModel.showAddSubjectDialog } returns showAddSubjectDialog
-        every { viewModel.subjectsList.build(any()) } returns recyclerOptions.withNoItems()
     }
 
     private fun runOnUiThread(block: () -> Unit) {
@@ -94,6 +96,8 @@ class SubjectsFragmentTest {
 
     @Test
     fun whenAddButtonIsClicked_thenViewModelIsNotified() {
+        every { viewModel.subjectsList.build(any()) } returns recyclerOptions.withNoItems()
+        fragmentTestRule.setFragment(fragment, navController)
         onView(withId(R.id.btAdd)).perform(click())
 
         verify { viewModel.showAddSubjectDialog() }
@@ -101,6 +105,9 @@ class SubjectsFragmentTest {
 
     @Test
     fun whenShowAddSubjectDialogIsTrue_thenAddSubjectDialogIsDisplayed() {
+        every { viewModel.subjectsList.build(any()) } returns recyclerOptions.withNoItems()
+        fragmentTestRule.setFragment(fragment, navController)
+
         runOnUiThread { showAddSubjectDialog.postValue(true) }
 
         onView(withId(R.id.dialog_add_subject)).check(matches(isDisplayed()))
@@ -108,6 +115,9 @@ class SubjectsFragmentTest {
 
     @Test
     fun whenShowAddSubjectDialogIsFalse_thenAddSubjectDialogIsNotDisplayed() {
+        every { viewModel.subjectsList.build(any()) } returns recyclerOptions.withNoItems()
+        fragmentTestRule.setFragment(fragment, navController)
+
         runOnUiThread { showAddSubjectDialog.postValue(false) }
 
         onView(withId(R.id.dialog_add_subject)).check(matches(not(isDisplayed())))
@@ -116,6 +126,7 @@ class SubjectsFragmentTest {
     @Test
     fun whenListWithSingleItemIsProvided_thenShowsCorrespondingItem() {
         every { viewModel.subjectsList.build(any()) } returns recyclerOptions.withItems(mutableListOf(SUBJECT))
+        fragmentTestRule.setFragment(fragment, navController)
 
         onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.tvName))
             .check(matches(withText(SUBJECT.name)))
@@ -128,6 +139,7 @@ class SubjectsFragmentTest {
     fun whenListWithMultipleItemsIsProvided_thenShowsCorrespondingItems() {
         every { viewModel.subjectsList.build(any()) } returns
                 recyclerOptions.withItems(mutableListOf(SUBJECT, SUBJECT_2))
+        fragmentTestRule.setFragment(fragment, navController)
 
         onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.tvName))
             .check(matches(withText(SUBJECT.name)))
@@ -143,6 +155,7 @@ class SubjectsFragmentTest {
     @Test
     fun whenListItemSelected_thenNavigatesToDetail() {
         every { viewModel.subjectsList.build(any()) } returns recyclerOptions.withItems(mutableListOf(SUBJECT))
+        fragmentTestRule.setFragment(fragment, navController)
 
         onView(withId(R.id.recyclerView))
             .perform(RecyclerViewActions.actionOnItemAtPosition<SubjectViewHolder>(0, click()))

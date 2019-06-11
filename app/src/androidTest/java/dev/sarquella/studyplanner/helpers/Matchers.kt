@@ -2,10 +2,7 @@ package dev.sarquella.studyplanner.helpers
 
 import android.graphics.Color
 import android.view.View
-import androidx.annotation.IdRes
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.matcher.BoundedMatcher
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.card.MaterialCardView
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -16,6 +13,8 @@ import org.hamcrest.Description
 import org.hamcrest.Matcher
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
+import androidx.recyclerview.widget.RecyclerView
+import androidx.annotation.NonNull
 
 
 /*

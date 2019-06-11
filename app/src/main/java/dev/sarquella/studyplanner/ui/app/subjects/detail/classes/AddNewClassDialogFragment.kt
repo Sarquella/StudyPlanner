@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import dev.sarquella.studyplanner.R
 import dev.sarquella.studyplanner.databinding.DialogAddNewClassBinding

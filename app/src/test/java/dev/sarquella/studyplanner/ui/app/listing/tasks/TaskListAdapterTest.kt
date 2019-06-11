@@ -4,8 +4,6 @@ import androidx.lifecycle.LifecycleOwner
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.firebase.ui.firestore.ObservableSnapshotArray
 import dev.sarquella.studyplanner.data.entities.Task
-import dev.sarquella.studyplanner.ui.app.listing.tasks.TaskListAdapter
-import dev.sarquella.studyplanner.ui.app.listing.tasks.TaskViewHolder
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

@@ -21,13 +21,11 @@ import io.mockk.every
 import io.mockk.mockk
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.endsWith
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 
 
@@ -41,32 +39,40 @@ class AppFragmentTest {
 
     companion object {
 
+        private val calendarViewModel: CalendarViewModel = mockk(relaxed = true)
+        private val classListAdapter: ClassListAdapter = mockk(relaxed = true)
+        private val taskListAdapter: TaskListAdapter = mockk(relaxed = true)
+
+        private val subjectsViewModel: SubjectsViewModel = mockk(relaxed = true)
+        private val subjectListAdapter: SubjectListAdapter = mockk(relaxed = true)
+        private val addSubjectViewModel: AddSubjectViewModel = mockk(relaxed = true)
+
+        private val profileViewModel: ProfileViewModel = mockk(relaxed = true)
+
+        private val koinModule = module {
+            viewModel { calendarViewModel }
+            viewModel { addSubjectViewModel }
+            viewModel { subjectsViewModel }
+            viewModel { profileViewModel }
+            factory { subjectListAdapter }
+            factory { classListAdapter }
+            factory { taskListAdapter }
+        }
+
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
-            val calendarViewModel: CalendarViewModel = mockk(relaxed = true)
-            val classListAdapter: ClassListAdapter = mockk(relaxed = true)
-            val taskListAdapter: TaskListAdapter = mockk(relaxed = true)
 
-            val subjectsViewModel: SubjectsViewModel = mockk(relaxed = true)
-            val subjectListAdapter: SubjectListAdapter = mockk(relaxed = true)
-            val addSubjectViewModel: AddSubjectViewModel = mockk(relaxed = true)
             every { addSubjectViewModel.isAddButtonEnabled } returns
                     MutableLiveData<Boolean>().apply { postValue(false) }
 
-            val profileViewModel: ProfileViewModel = mockk(relaxed = true)
+            loadKoinModules(koinModule)
+        }
 
-            loadKoinModules(
-                module {
-                    viewModel { calendarViewModel }
-                    viewModel { addSubjectViewModel }
-                    viewModel { subjectsViewModel }
-                    viewModel { profileViewModel }
-                    factory { subjectListAdapter }
-                    factory { classListAdapter }
-                    factory { taskListAdapter }
-                }
-            )
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            unloadKoinModules(koinModule)
         }
     }
 

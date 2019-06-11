@@ -11,6 +11,12 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import org.hamcrest.Matcher
 import java.util.*
+import androidx.test.espresso.util.HumanReadables
+import androidx.test.espresso.PerformException
+import androidx.test.espresso.util.TreeIterables
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import java.util.concurrent.TimeoutException
 
 
 /*
@@ -62,6 +68,7 @@ fun selectTabAtPosition(position: Int): ViewAction {
             (view as? TabLayout)?.getTabAt(position)?.let { tab ->
                 tab.select()
             }
+            uiController.loopMainThreadUntilIdle()
         }
     }
 }

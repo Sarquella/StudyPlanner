@@ -1,8 +1,10 @@
 package dev.sarquella.studyplanner.ui.app.calendar.tasks
 
+import androidx.annotation.UiThread
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -11,23 +13,20 @@ import dev.sarquella.studyplanner.TASK
 import dev.sarquella.studyplanner.TASK_2
 import dev.sarquella.studyplanner.data.entities.Task
 import dev.sarquella.studyplanner.data.vo.ListBuilder
-import dev.sarquella.studyplanner.helpers.RecyclerOptions
-import dev.sarquella.studyplanner.helpers.hasBackgroundColor
+import dev.sarquella.studyplanner.helpers.*
 import dev.sarquella.studyplanner.helpers.utils.DateUtils
-import dev.sarquella.studyplanner.helpers.withRecyclerView
 import dev.sarquella.studyplanner.rules.FragmentTestRule
 import dev.sarquella.studyplanner.ui.app.calendar.CalendarViewModel
 import dev.sarquella.studyplanner.ui.app.listing.tasks.TaskListAdapter
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
+import java.util.concurrent.TimeUnit
 
 
 /*
@@ -42,19 +41,25 @@ class DailyTasksFragmentTest {
 
         private val viewModel: CalendarViewModel = mockk(relaxUnitFun = true)
 
+        private val koinModule = module {
+            viewModel { viewModel }
+            factory { (options: FirestoreRecyclerOptions<Task>) ->
+                TaskListAdapter(
+                    options
+                )
+            }
+        }
+
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
-            loadKoinModules(
-                module {
-                    viewModel { viewModel }
-                    factory { (options: FirestoreRecyclerOptions<Task>) ->
-                        TaskListAdapter(
-                            options
-                        )
-                    }
-                }
-            )
+            loadKoinModules(koinModule)
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            unloadKoinModules(koinModule)
         }
     }
 
@@ -76,14 +81,12 @@ class DailyTasksFragmentTest {
 
     private fun mockViewModel() {
         every { viewModel.tasksList } returns tasksList
-        every { listBuilder.build(any()) } returns recyclerOptions.withNoItems()
-
-        tasksList.postValue(listBuilder)
     }
 
     @Test
     fun whenListWithSingleItemIsProvided_thenShowsCorrespondingItem() {
         every { listBuilder.build(any()) } returns recyclerOptions.withItems(mutableListOf(TASK))
+        tasksList.postValue(listBuilder)
 
         onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.tvType))
             .check(matches(withText(TASK.type.value)))
@@ -103,9 +106,10 @@ class DailyTasksFragmentTest {
 
     @Test
     fun whenListWithMultipleItemsIsProvided_thenShowsCorrespondingItems() {
-
         every { listBuilder.build(any()) } returns
                 recyclerOptions.withItems(mutableListOf(TASK, TASK_2))
+        tasksList.postValue(listBuilder)
+
 
         onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.tvType))
             .check(matches(withText(TASK.type.value)))

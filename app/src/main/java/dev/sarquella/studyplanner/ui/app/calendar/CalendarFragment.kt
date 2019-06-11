@@ -1,13 +1,11 @@
 package dev.sarquella.studyplanner.ui.app.calendar
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.prolificinteractive.materialcalendarview.CalendarDay
 import dev.sarquella.studyplanner.R
 import dev.sarquella.studyplanner.helpers.extensions.onTabSelected
 import dev.sarquella.studyplanner.helpers.extensions.toCalendarDay
@@ -15,7 +13,6 @@ import dev.sarquella.studyplanner.helpers.extensions.toDate
 import kotlinx.android.synthetic.main.fragment_calendar.*
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.util.*
 

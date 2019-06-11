@@ -18,13 +18,11 @@ import dev.sarquella.studyplanner.rules.FragmentTestRule
 import dev.sarquella.studyplanner.ui.app.listing.tasks.TaskListAdapter
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 
 
@@ -40,19 +38,25 @@ class TasksFragmentTest {
 
         private val viewModel: TasksViewModel = mockk(relaxUnitFun = true)
 
+        private val koinModule = module {
+            viewModel { viewModel }
+            factory { (options: FirestoreRecyclerOptions<Task>) ->
+                TaskListAdapter(
+                    options
+                )
+            }
+        }
+
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
-            loadKoinModules(
-                module {
-                    viewModel { viewModel }
-                    factory { (options: FirestoreRecyclerOptions<Task>) ->
-                        TaskListAdapter(
-                            options
-                        )
-                    }
-                }
-            )
+            loadKoinModules(koinModule)
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            unloadKoinModules(koinModule)
         }
     }
 
@@ -61,22 +65,12 @@ class TasksFragmentTest {
 
     private val fragment = TasksFragment.newInstance(SUBJECT_ID)
 
-
-    @Before
-    fun beforeEach() {
-        mockViewModel()
-        fragmentTestRule.setFragment(fragment)
-    }
-
     private val recyclerOptions = RecyclerOptions(fragment, Task::class.java)
-
-    private fun mockViewModel() {
-        every { viewModel.tasksList.build(any()) } returns recyclerOptions.withNoItems()
-    }
 
     @Test
     fun whenListWithSingleItemIsProvided_thenShowsCorrespondingItem() {
         every { viewModel.tasksList.build(any()) } returns recyclerOptions.withItems(mutableListOf(TASK))
+        fragmentTestRule.setFragment(fragment)
 
         onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.tvType))
             .check(matches(withText(TASK.type.value)))
@@ -96,9 +90,9 @@ class TasksFragmentTest {
 
     @Test
     fun whenListWithMultipleItemsIsProvided_thenShowsCorrespondingItems() {
-
         every { viewModel.tasksList.build(any()) } returns
                 recyclerOptions.withItems(mutableListOf(TASK, TASK_2))
+        fragmentTestRule.setFragment(fragment)
 
         onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.tvType))
             .check(matches(withText(TASK.type.value)))

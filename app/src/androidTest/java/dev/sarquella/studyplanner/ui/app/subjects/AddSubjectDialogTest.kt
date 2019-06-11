@@ -20,13 +20,11 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.hamcrest.Matchers.not
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 
 
@@ -42,18 +40,24 @@ class AddSubjectDialogTest {
 
         private val viewModel: AddSubjectViewModel = mockk(relaxUnitFun = true)
 
+        private val subjectsViewModel: SubjectsViewModel = mockk(relaxed = true)
+        private val subjectListAdapter: SubjectListAdapter = mockk(relaxed = true)
+        private val koinModule = module {
+            viewModel { viewModel }
+            viewModel { subjectsViewModel }
+            factory { subjectListAdapter }
+        }
+
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
-            val subjectsViewModel: SubjectsViewModel = mockk(relaxed = true)
-            val subjectListAdapter: SubjectListAdapter = mockk(relaxed = true)
-            loadKoinModules(
-                module {
-                    viewModel { viewModel }
-                    viewModel { subjectsViewModel }
-                    factory { subjectListAdapter }
-                }
-            )
+            loadKoinModules(koinModule)
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            unloadKoinModules(koinModule)
         }
     }
 

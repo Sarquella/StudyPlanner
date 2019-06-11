@@ -1,6 +1,5 @@
 package dev.sarquella.studyplanner.ui.app.profile
 
-import dev.sarquella.studyplanner.data.entities.User
 import dev.sarquella.studyplanner.junit.extensions.InstantTaskExecutorExtension
 import dev.sarquella.studyplanner.repo.UserRepo
 import io.mockk.every

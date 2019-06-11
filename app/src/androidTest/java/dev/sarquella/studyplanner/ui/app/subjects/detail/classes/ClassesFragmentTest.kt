@@ -18,13 +18,11 @@ import dev.sarquella.studyplanner.rules.FragmentTestRule
 import dev.sarquella.studyplanner.ui.app.listing.classes.ClassListAdapter
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 
 
@@ -40,19 +38,25 @@ class ClassesFragmentTest {
 
         private val viewModel: ClassesViewModel = mockk(relaxUnitFun = true)
 
+        private val koinModule = module {
+            viewModel { viewModel }
+            factory { (options: FirestoreRecyclerOptions<Class>) ->
+                ClassListAdapter(
+                    options
+                )
+            }
+        }
+
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
-            loadKoinModules(
-                module {
-                    viewModel { viewModel }
-                    factory { (options: FirestoreRecyclerOptions<Class>) ->
-                        ClassListAdapter(
-                            options
-                        )
-                    }
-                }
-            )
+            loadKoinModules(koinModule)
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun afterClass() {
+            unloadKoinModules(koinModule)
         }
     }
 
@@ -61,22 +65,12 @@ class ClassesFragmentTest {
 
     private val fragment = ClassesFragment.newInstance(SUBJECT_ID)
 
-
-    @Before
-    fun beforeEach() {
-        mockViewModel()
-        fragmentTestRule.setFragment(fragment)
-    }
-
     private val recyclerOptions = RecyclerOptions(fragment, Class::class.java)
-
-    private fun mockViewModel() {
-        every { viewModel.classesList.build(any()) } returns recyclerOptions.withNoItems()
-    }
 
     @Test
     fun whenListWithSingleItemIsProvided_thenShowsCorrespondingItem() {
         every { viewModel.classesList.build(any()) } returns recyclerOptions.withItems(mutableListOf(CLASS))
+        fragmentTestRule.setFragment(fragment)
 
         onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.tvType))
             .check(matches(withText(CLASS.type.value)))
@@ -101,6 +95,7 @@ class ClassesFragmentTest {
     fun whenListWithMultipleItemsIsProvided_thenShowsCorrespondingItems() {
         every { viewModel.classesList.build(any()) } returns
                 recyclerOptions.withItems(mutableListOf(CLASS, CLASS_2))
+        fragmentTestRule.setFragment(fragment)
 
 
         onView(withRecyclerView(R.id.recyclerView).atPositionOnView(0, R.id.tvType))
